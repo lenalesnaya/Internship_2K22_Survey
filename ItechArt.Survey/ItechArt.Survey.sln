@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Survey.WebApp", "ItechArt.Survey.WebApp\ItechArt.Survey.WebApp.csproj", "{7CF1C5E9-AE08-49A4-9E18-8760BF24F16E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Survey.Foundation", "ItechArt.Survey.Foundation\ItechArt.Survey.Foundation.csproj", "{0FAFA076-D635-4DA9-BBD2-1A3CE2FDE0D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Survey.Repositories", "ItechArt.Survey.Repositories\ItechArt.Survey.Repositories.csproj", "{83993AA9-B0B2-42FE-9616-6217CD459458}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Survey.DomainModel", "ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj", "{738807D9-9BDE-46A6-AFC4-38615B0A2BA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Repositories", "ItechArt.Repositories\ItechArt.Repositories.csproj", "{5153CBFD-18A6-43E0-9E74-C3877669A137}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Common", "ItechArt.Common\ItechArt.Common.csproj", "{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CF1C5E9-AE08-49A4-9E18-8760BF24F16E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CF1C5E9-AE08-49A4-9E18-8760BF24F16E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CF1C5E9-AE08-49A4-9E18-8760BF24F16E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CF1C5E9-AE08-49A4-9E18-8760BF24F16E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FAFA076-D635-4DA9-BBD2-1A3CE2FDE0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FAFA076-D635-4DA9-BBD2-1A3CE2FDE0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FAFA076-D635-4DA9-BBD2-1A3CE2FDE0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FAFA076-D635-4DA9-BBD2-1A3CE2FDE0D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83993AA9-B0B2-42FE-9616-6217CD459458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83993AA9-B0B2-42FE-9616-6217CD459458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83993AA9-B0B2-42FE-9616-6217CD459458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83993AA9-B0B2-42FE-9616-6217CD459458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{738807D9-9BDE-46A6-AFC4-38615B0A2BA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{738807D9-9BDE-46A6-AFC4-38615B0A2BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{738807D9-9BDE-46A6-AFC4-38615B0A2BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{738807D9-9BDE-46A6-AFC4-38615B0A2BA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5153CBFD-18A6-43E0-9E74-C3877669A137}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5153CBFD-18A6-43E0-9E74-C3877669A137}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5153CBFD-18A6-43E0-9E74-C3877669A137}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5153CBFD-18A6-43E0-9E74-C3877669A137}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FFA1C0F3-7C4C-4CF9-9D50-D3C8112DD94D}
+	EndGlobalSection
+EndGlobal
