@@ -1,10 +1,8 @@
-﻿@section Script
-{
-     <script src="~/js/ClickCounter.js"></script>  
-}
+﻿@model ItechArt.Survey.WebApp.Models.CounterVm
 
 <div class="text-center">
-    <button class='clickButton' onclick="clickButtonFunction()">Click to increment</button>
-    <div id='clickCounter'></div>
-    <button class='clickButton' onclick="clickReset()">Reset count</button>
+    <form action="/Home/IncrementCounter" method="post">
+        <button class='clickButton' >Click to increment</button>
+        @Model.Counter
+    </form>
 </div>
