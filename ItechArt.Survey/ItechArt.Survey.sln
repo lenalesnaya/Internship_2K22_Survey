@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Survey.WebApp", "ItechArt.Survey.WebApp\ItechArt.Survey.WebApp.csproj", "{7CF1C5E9-AE08-49A4-9E18-8760BF24F16E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItechArt.Survey.WebApp", "ItechArt.Survey.WebApp\ItechArt.Survey.WebApp.csproj", "{7CF1C5E9-AE08-49A4-9E18-8760BF24F16E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Survey.Foundation", "ItechArt.Survey.Foundation\ItechArt.Survey.Foundation.csproj", "{0FAFA076-D635-4DA9-BBD2-1A3CE2FDE0D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItechArt.Survey.Foundation", "ItechArt.Survey.Foundation\ItechArt.Survey.Foundation.csproj", "{0FAFA076-D635-4DA9-BBD2-1A3CE2FDE0D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Survey.Repositories", "ItechArt.Survey.Repositories\ItechArt.Survey.Repositories.csproj", "{83993AA9-B0B2-42FE-9616-6217CD459458}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItechArt.Survey.Repositories", "ItechArt.Survey.Repositories\ItechArt.Survey.Repositories.csproj", "{83993AA9-B0B2-42FE-9616-6217CD459458}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Survey.DomainModel", "ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj", "{738807D9-9BDE-46A6-AFC4-38615B0A2BA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItechArt.Survey.DomainModel", "ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj", "{738807D9-9BDE-46A6-AFC4-38615B0A2BA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Repositories", "ItechArt.Repositories\ItechArt.Repositories.csproj", "{5153CBFD-18A6-43E0-9E74-C3877669A137}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItechArt.Repositories", "ItechArt.Repositories\ItechArt.Repositories.csproj", "{5153CBFD-18A6-43E0-9E74-C3877669A137}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Common", "ItechArt.Common\ItechArt.Common.csproj", "{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItechArt.Common", "ItechArt.Common\ItechArt.Common.csproj", "{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
