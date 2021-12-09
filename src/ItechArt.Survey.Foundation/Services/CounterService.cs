@@ -11,7 +11,7 @@ namespace ItechArt.Survey.Foundation.Services
             {
                 Counter = ++counter
             };
-            
+
             return model;
         }
 
@@ -21,7 +21,7 @@ namespace ItechArt.Survey.Foundation.Services
             {
                 Counter = counter
             };
-            
+
             return model;
         }
     }

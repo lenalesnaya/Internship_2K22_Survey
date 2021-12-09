@@ -7,18 +7,18 @@ namespace ItechArt.Survey.WebApp.Controllers
     {
         private static int _counter;
         private ICounterService _counterService;
-        
-        
+
+
         public HomeController(ICounterService counterService)
         {
             _counterService = counterService;
         }
-        
-        
+
+
         [HttpGet]
         public IActionResult HomePage()
             => View(_counterService.CounterStatus(_counter));
-        
+
         [HttpPost]
         public IActionResult IncrementCounter()
         {
