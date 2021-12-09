@@ -1,6 +1,8 @@
-﻿<form method="get" action="@Url.Action("clickButtonFunction")">
-    <div class="text-center">
+﻿@model ItechArt.Survey.WebApp.Models.CounterVm
+
+<div class="text-center">
+    <form action="/Home/IncrementCounter" method="post">
         <button class='clickButton'>Click to increment</button>
-        <input value="@ViewData["clickCounter"]" name="clickCounter" />
-    </div>
-</form>
+        @Model.Counter
+    </form>
+</div>
