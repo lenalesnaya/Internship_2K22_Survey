@@ -1,8 +1,8 @@
-﻿@model ItechArt.Survey.WebApp.Models.CounterVm
+﻿@model ItechArt.Survey.DomainModel.Models.IncrementCounter
 
-<div class="text-center">
-    <form action="/Home/IncrementCounter" method="post">
-        <button class='clickButton' >Click to increment</button>
+<div>
+    <form action="@Url.Action("IncrementCounter")" method="post">
+        <button type="submit">Click to increment</button>
         @Model.Counter
     </form>
 </div>

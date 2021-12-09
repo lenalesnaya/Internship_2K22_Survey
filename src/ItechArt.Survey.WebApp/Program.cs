@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-
 namespace ItechArt.Survey.WebApp
 {
     public class Program
@@ -10,8 +9,7 @@ namespace ItechArt.Survey.WebApp
         {
             CreateHostBuilder(args).Build().Run();
         }
-
-
+        
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
                 {

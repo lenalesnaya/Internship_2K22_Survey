@@ -1,31 +1,29 @@
-﻿using ItechArt.Survey.WebApp.Models;
+﻿using ItechArt.Survey.Foundation.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace ItechArt.Survey.WebApp.Controllers
 {
     public sealed class HomeController : Controller
     {
-        private static int Counter = 0; 
-
-
-        [HttpGet]
-        public IActionResult HomePage()
+        private static int _counter;
+        private ICounterService _counterService;
+        
+        
+        public HomeController(ICounterService counterService)
         {
-            var model = new CounterVm();
-            model.Counter = Counter;
-
-            return View(model);
+            _counterService = counterService;
         }
         
-
+        
+        [HttpGet]
+        public IActionResult HomePage()
+            => View(_counterService.CounterStatus(_counter));
+        
         [HttpPost]
-        public IActionResult IncrementCounter(CounterVm model)
+        public IActionResult IncrementCounter()
         {
-            Counter++;
-
-            model.Counter = Counter;
-
+            _counterService.IncrementCounter(ref _counter);
+            
             return RedirectToAction("HomePage");
         }
     }
