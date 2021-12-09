@@ -1,10 +1,6 @@
-﻿@section Script
-{
-     <script src="~/js/ClickCounter.js"></script>  
-}
-
-<div class="text-center">
-    <button class='clickButton' onclick="clickButtonFunction()">Click to increment</button>
-    <div id='clickCounter'></div>
-    <button class='clickButton' onclick="clickReset()">Reset count</button>
-</div>
+﻿<form method="get" action="@Url.Action("clickButtonFunction")">
+    <div class="text-center">
+        <button class='clickButton'>Click to increment</button>
+        <input value="@ViewData["clickCounter"]" name="clickCounter" />
+    </div>
+</form>

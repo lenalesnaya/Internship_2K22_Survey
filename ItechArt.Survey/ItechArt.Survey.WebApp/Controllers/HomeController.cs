@@ -23,6 +23,14 @@ namespace ItechArt.Survey.WebApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult clickButtonFunction(int? clickCounter)
+        {
+            ViewData["clickCounter"] = clickCounter == null ? 0 : clickCounter + 1;
+
+            return View("HomePage");
+        }
+
         public IActionResult Privacy()
         {
             return View();

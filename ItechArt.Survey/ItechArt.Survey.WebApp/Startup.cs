@@ -50,7 +50,9 @@ namespace ItechArt.Survey.WebApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=HomePage}/{id?}");
+                    pattern: "{controller}/{action}/{id?}",
+                    defaults : new { controller = "Home", action = "HomePage" });
+
             });
         }
     }
