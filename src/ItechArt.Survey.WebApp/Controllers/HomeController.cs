@@ -1,11 +1,11 @@
-﻿using ItechArt.Survey.Foundation.Abstractions.Services;
+﻿using ItechArt.Survey.Foundation.CounterServices.Abstractions;
+using ItechArt.Survey.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItechArt.Survey.WebApp.Controllers
 {
     public sealed class HomeController : Controller
     {
-        private static int _counter;
         private ICounterService _counterService;
 
 
@@ -17,12 +17,20 @@ namespace ItechArt.Survey.WebApp.Controllers
 
         [HttpGet]
         public IActionResult HomePage()
-            => View(_counterService.CounterStatus(_counter));
+        {
+            var counter = _counterService.GetCounter();
+            var model = new CounterViewModel()
+            {
+                Value = counter.Value
+            };
+            
+            return View(model);
+        }
 
         [HttpPost]
         public IActionResult IncrementCounter()
         {
-            _counterService.IncrementCounter(ref _counter);
+            _counterService.IncrementCounter();
 
             return RedirectToAction("HomePage");
         }

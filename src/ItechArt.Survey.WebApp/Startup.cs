@@ -20,7 +20,7 @@ namespace ItechArt.Survey.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddService();
+            services.AddCounter();
             services.AddControllersWithViews();
         }
 

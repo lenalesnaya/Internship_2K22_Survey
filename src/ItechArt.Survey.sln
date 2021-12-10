@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{7EB648
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Survey", "Survey", "{C940AB76-F83C-4EBD-B2AF-5C6B6C0798B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItechArt.Survey.Foundation.Abstractions", "ItechArt.Survey.Foundation.Abstractions\ItechArt.Survey.Foundation.Abstractions.csproj", "{4FA00AEC-8402-423F-99CF-579829EA374F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,10 +49,6 @@ Global
 		{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1754E71A-2C8B-40C8-89C2-B0C7AF1EE411}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4FA00AEC-8402-423F-99CF-579829EA374F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4FA00AEC-8402-423F-99CF-579829EA374F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4FA00AEC-8402-423F-99CF-579829EA374F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4FA00AEC-8402-423F-99CF-579829EA374F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +63,5 @@ Global
 		{0FAFA076-D635-4DA9-BBD2-1A3CE2FDE0D5} = {C940AB76-F83C-4EBD-B2AF-5C6B6C0798B5}
 		{83993AA9-B0B2-42FE-9616-6217CD459458} = {C940AB76-F83C-4EBD-B2AF-5C6B6C0798B5}
 		{7CF1C5E9-AE08-49A4-9E18-8760BF24F16E} = {C940AB76-F83C-4EBD-B2AF-5C6B6C0798B5}
-		{4FA00AEC-8402-423F-99CF-579829EA374F} = {C940AB76-F83C-4EBD-B2AF-5C6B6C0798B5}
 	EndGlobalSection
 EndGlobal

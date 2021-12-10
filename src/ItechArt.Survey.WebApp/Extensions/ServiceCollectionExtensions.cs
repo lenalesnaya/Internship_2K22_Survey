@@ -1,12 +1,12 @@
-using ItechArt.Survey.Foundation.Abstractions.Services;
-using ItechArt.Survey.Foundation.Services;
+using ItechArt.Survey.Foundation.CounterServices;
+using ItechArt.Survey.Foundation.CounterServices.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ItechArt.Survey.WebApp.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddService(this IServiceCollection services)
+        public static IServiceCollection AddCounter(this IServiceCollection services)
             => services
                 .AddScoped<ICounterService, CounterService>();
     }
