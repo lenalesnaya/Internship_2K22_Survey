@@ -23,7 +23,7 @@ namespace ItechArt.Survey.WebApp.Controllers
         public IActionResult IncrementCounter()
         {
             _counterService.IncrementCounter(ref _counter);
-            
+
             return RedirectToAction("HomePage");
         }
     }
