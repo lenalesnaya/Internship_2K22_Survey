@@ -9,11 +9,4 @@
     <ProjectReference Include="..\ItechArt.Survey.Foundation\ItechArt.Survey.Foundation.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\css" />
-    <Folder Include="wwwroot\css\" />
-    <Folder Include="wwwroot\js" />
-    <Folder Include="wwwroot\js\" />
-  </ItemGroup>
-
 </Project>
