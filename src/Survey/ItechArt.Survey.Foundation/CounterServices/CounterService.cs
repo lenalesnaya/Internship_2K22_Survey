@@ -3,28 +3,31 @@ using ItechArt.Survey.Foundation.CounterServices.Abstractions;
 
 namespace ItechArt.Survey.Foundation.CounterServices
 {
-    public class CounterService : ICounterService
+    public sealed class CounterService : ICounterService
     {
         private static int _counter;
+
+
         public Counter IncrementCounter()
         {
-            _counter = _counter + 1;
-            var model = new Counter
+            _counter += 1;
+
+            var counter = new Counter
             {
                 Value = _counter
             };
 
-            return model;
+            return counter;
         }
 
         public Counter GetCounter()
         {
-            var model = new Counter
+            var counter = new Counter
             {
                 Value = _counter
             };
 
-            return model;
+            return counter;
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace ItechArt.Survey.DomainModel
 {
-    public class Counter
+    public sealed class Counter
     {
         public int Value { get; set; }
     }

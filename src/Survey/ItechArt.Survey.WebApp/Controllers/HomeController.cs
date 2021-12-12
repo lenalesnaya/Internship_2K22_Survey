@@ -6,7 +6,7 @@ namespace ItechArt.Survey.WebApp.Controllers
 {
     public sealed class HomeController : Controller
     {
-        private ICounterService _counterService;
+        private readonly ICounterService _counterService;
 
 
         public HomeController(ICounterService counterService)
@@ -19,12 +19,12 @@ namespace ItechArt.Survey.WebApp.Controllers
         public IActionResult HomePage()
         {
             var counter = _counterService.GetCounter();
-            var model = new CounterViewModel()
+            var counterValue = new CounterViewModel
             {
                 Value = counter.Value
             };
-            
-            return View(model);
+
+            return View(counterValue);
         }
 
         [HttpPost]

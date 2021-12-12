@@ -1,6 +1,6 @@
 namespace ItechArt.Survey.WebApp.ViewModels
 {
-    public class CounterViewModel
+    public sealed class CounterViewModel
     {
         public int Value { get; set; }
     }
