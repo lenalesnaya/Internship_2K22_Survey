@@ -1,17 +1,15 @@
 using ItechArt.Survey.DomainModel;
-using ItechArt.Survey.Foundation.CounterServices.Abstractions;
+using ItechArt.Survey.Foundation.Counters.Abstractions;
 
-namespace ItechArt.Survey.Foundation.CounterServices
+namespace ItechArt.Survey.Foundation.Counters
 {
-    public sealed class CounterService : ICounterService
+    public class CounterService : ICounterService
     {
-        private static int _counter;
+        private int _counter;
 
 
-        public Counter IncrementCounter()
+        public Counter GetCounter()
         {
-            _counter += 1;
-
             var counter = new Counter
             {
                 Value = _counter
@@ -20,8 +18,10 @@ namespace ItechArt.Survey.Foundation.CounterServices
             return counter;
         }
 
-        public Counter GetCounter()
+        public Counter IncrementCounter()
         {
+            _counter += 1;
+
             var counter = new Counter
             {
                 Value = _counter

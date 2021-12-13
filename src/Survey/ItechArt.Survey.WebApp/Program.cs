@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace ItechArt.Survey.WebApp
 {
-    public sealed class Program
+    public class Program
     {
         public static void Main(string[] args)
         {

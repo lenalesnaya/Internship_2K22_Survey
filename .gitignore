@@ -289,6 +289,12 @@ FakesAssemblies/
 */.idea/**/vcs.xml
 */.idea/**/workspace.xml
 */.idea/**/name
+*/.idea/**/*.name
+*/.idea/**/Project_Default.xml
+*/.idea/**/sqldialects.xml
+*/.idea/**/encodings.xml
+*/.idea/**/dataSources.local.xml
+
 
 *.suo
 *.user
@@ -301,13 +307,4 @@ _UpgradeReport_Files/
 Thumbs.db
 Desktop.ini
 .DS_Store
-/src/.idea/.idea.ItechArt.Survey/.idea/.name
-/src/.idea/.idea.ItechArt.Survey/.idea/inspectionProfiles/Project_Default.xml
-/src/.idea/.idea.ItechArt.Survey/.idea/sqldialects.xml
-/src/.idea/.idea.ItechArt.Survey/.idea/.gitignore
-/src/.idea/.idea.ItechArt.Survey/.idea/encodings.xml
-/src/.idea/.idea.ItechArt.Survey/.idea/indexLayout.xml
-/src/.idea/.idea.ItechArt.Survey/.idea/vcs.xml
-/src/.idea/.idea.ItechArt.Survey/.idea/workspace.xml
-/src/.idea/.idea.ItechArt.Survey/.idea/dataSources.local.xml
-/src/.idea/.idea.ItechArt.Survey/.idea/projectSettingsUpdater.xml
+

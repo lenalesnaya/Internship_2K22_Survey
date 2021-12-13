@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace ItechArt.Survey.WebApp
 {
-    public sealed class Startup
+    public class Startup
     {
         public IConfiguration Configuration { get; }
 
