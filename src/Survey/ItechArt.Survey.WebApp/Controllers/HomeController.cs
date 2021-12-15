@@ -27,7 +27,7 @@ namespace ItechArt.Survey.WebApp.Controllers
             return View(counterViewModel);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult IncrementCounter()
         {
             var counter = _counterService.IncrementCounter();
