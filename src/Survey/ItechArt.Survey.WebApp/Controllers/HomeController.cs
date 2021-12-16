@@ -19,24 +19,28 @@ namespace ItechArt.Survey.WebApp.Controllers
         public IActionResult HomePage()
         {
             var counter = _counterService.GetCounter();
-            var counterViewModel = new CounterViewModel
-            {
-                Value = counter.Value
-            };
 
-            return View(counterViewModel);
+            return View(GetCounterViewModel(counter.Value));
         }
 
+        [Route("Home/HomePage")]
         [HttpPost]
         public IActionResult IncrementCounter()
         {
             var counter = _counterService.IncrementCounter();
+
+            return View("HomePage", GetCounterViewModel(counter.Value));
+        }
+
+
+        private CounterViewModel GetCounterViewModel(int counterValue)
+        {
             var counterViewModel = new CounterViewModel
             {
-                Value = counter.Value
+                Value = counterValue
             };
 
-            return View("HomePage", counterViewModel);
+            return counterViewModel;
         }
     }
 }
