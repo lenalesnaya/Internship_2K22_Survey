@@ -18,23 +18,17 @@ namespace ItechArt.Survey.Foundation.Counters
         {
             _counter += 1;
 
-            var counter = SetCounterValue();
+            var counter = GetCounter();
 
             return counter;
         }
 
-        public Counter SetCounterValue()
+        public Counter GetCounter()
         {
-            var counter = GetCounterInstance();
-            counter.Value = _counter;
-
-            return counter;
-        }
-
-
-        private static Counter GetCounterInstance()
-        {
-            var counter = new Counter();
+            var counter = new Counter
+            {
+                Value = _counter
+            };
 
             return counter;
         }

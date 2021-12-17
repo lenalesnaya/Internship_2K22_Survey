@@ -19,7 +19,7 @@ namespace ItechArt.Survey.WebApp.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            var counter = _counterService.SetCounterValue();
+            var counter = _counterService.GetCounter();
             var counterViewModel = GetCounterViewModel(counter);
 
             return View(counterViewModel);

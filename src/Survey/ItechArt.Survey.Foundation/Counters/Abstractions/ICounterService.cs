@@ -6,6 +6,6 @@ namespace ItechArt.Survey.Foundation.Counters.Abstractions
     {
         Counter IncrementCounter();
 
-        Counter SetCounterValue();
+        Counter GetCounter();
     }
 }
