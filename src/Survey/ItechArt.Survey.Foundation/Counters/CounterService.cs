@@ -8,24 +8,33 @@ namespace ItechArt.Survey.Foundation.Counters
         private int _counter;
 
 
-        public Counter GetCounter()
+        public CounterService()
         {
-            var counter = new Counter
-            {
-                Value = _counter
-            };
-
-            return counter;
+            _counter = 0;
         }
+
 
         public Counter IncrementCounter()
         {
             _counter += 1;
 
-            var counter = new Counter
-            {
-                Value = _counter
-            };
+            var counter = SetCounterValue();
+
+            return counter;
+        }
+
+        public Counter SetCounterValue()
+        {
+            var counter = GetCounterInstance();
+            counter.Value = _counter;
+
+            return counter;
+        }
+
+
+        private static Counter GetCounterInstance()
+        {
+            var counter = new Counter();
 
             return counter;
         }

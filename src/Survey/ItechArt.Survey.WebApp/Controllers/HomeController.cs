@@ -1,4 +1,5 @@
-﻿using ItechArt.Survey.Foundation.Counters.Abstractions;
+﻿using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.Foundation.Counters.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,26 +19,27 @@ namespace ItechArt.Survey.WebApp.Controllers
         [HttpGet]
         public IActionResult HomePage()
         {
-            var counter = _counterService.GetCounter();
+            var counter = _counterService.SetCounterValue();
+            var counterViewModel = GetCounterViewModel(counter);
 
-            return View(GetCounterViewModel(counter.Value));
+            return View(counterViewModel);
         }
 
-        [Route("Home/HomePage")]
         [HttpPost]
         public IActionResult IncrementCounter()
         {
             var counter = _counterService.IncrementCounter();
+            var counterViewModel = GetCounterViewModel(counter);
 
-            return View("HomePage", GetCounterViewModel(counter.Value));
+            return View("HomePage", counterViewModel);
         }
 
 
-        private CounterViewModel GetCounterViewModel(int counterValue)
+        private static CounterViewModel GetCounterViewModel(Counter counter)
         {
             var counterViewModel = new CounterViewModel
             {
-                Value = counterValue
+                Value = counter.Value
             };
 
             return counterViewModel;
