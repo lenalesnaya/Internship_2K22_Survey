@@ -4,8 +4,8 @@ namespace ItechArt.Survey.Foundation.Counters.Abstractions
 {
     public interface ICounterService
     {
-        Counter IncrementCounter();
-
         Counter GetCounter();
+
+        Counter IncrementCounter();
     }
 }

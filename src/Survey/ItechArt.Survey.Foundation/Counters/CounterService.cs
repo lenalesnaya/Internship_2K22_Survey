@@ -1,3 +1,4 @@
+using System.Data;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 
@@ -14,23 +15,32 @@ namespace ItechArt.Survey.Foundation.Counters
         }
 
 
+        public Counter GetCounter()
+        {
+            var counter = CreateCounterInstance(_counter);
+
+            return counter;
+        }
+
         public Counter IncrementCounter()
         {
             _counter += 1;
 
-            var counter = GetCounter();
+            var counter = CreateCounterInstance(_counter);
 
             return counter;
         }
 
-        public Counter GetCounter()
+
+        private static Counter CreateCounterInstance(int value)
         {
             var counter = new Counter
             {
-                Value = _counter
+                Value = value
             };
 
             return counter;
         }
+
     }
 }
