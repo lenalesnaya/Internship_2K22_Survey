@@ -1,4 +1,3 @@
-using System.Data;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 
@@ -41,6 +40,5 @@ namespace ItechArt.Survey.Foundation.Counters
 
             return counter;
         }
-
     }
 }
