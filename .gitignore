@@ -284,6 +284,17 @@ FakesAssemblies/
 */.idea/**/*.iml
 */.idea/**/contentModel.xml
 */.idea/**/modules.xml
+*/.idea/**/indexlayout.xml
+*/.idea/**/projectSettingsUpdater.xml
+*/.idea/**/vcs.xml
+*/.idea/**/workspace.xml
+*/.idea/**/name
+*/.idea/**/*.name
+*/.idea/**/Project_Default.xml
+*/.idea/**/sqldialects.xml
+*/.idea/**/encodings.xml
+*/.idea/**/dataSources.local.xml
+
 
 *.suo
 *.user
@@ -296,12 +307,4 @@ _UpgradeReport_Files/
 Thumbs.db
 Desktop.ini
 .DS_Store
-/.idea/.idea.AniBand/.idea/inspectionProfiles/Project_Default.xml
-/.idea/.idea.AniBand/.idea/sqldialects.xml
-/.idea/.idea.AniBand/.idea/.gitignore
-/.idea/.idea.AniBand/.idea/encodings.xml
-/.idea/.idea.AniBand/.idea/indexLayout.xml
-/.idea/.idea.AniBand/.idea/vcs.xml
-/.idea/.idea.AniBand/.idea/workspace.xml
-/.idea/.idea.AniBand/.idea/dataSources.local.xml
-/.idea/.idea.AniBand/.idea/projectSettingsUpdater.xml
+
