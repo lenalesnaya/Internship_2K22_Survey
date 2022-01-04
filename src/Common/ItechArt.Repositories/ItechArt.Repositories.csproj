@@ -4,4 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Survey\ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj" />
+    <ProjectReference Include="..\..\Survey\ItechArt.Survey.Foundation\ItechArt.Survey.Foundation.csproj" />
+    <ProjectReference Include="..\..\Survey\ItechArt.Survey.Repositories\ItechArt.Survey.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
