@@ -4,7 +4,7 @@
 
 namespace ItechArt.Survey.Repositories.Migrations
 {
-    public partial class init : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,12 +12,13 @@ namespace ItechArt.Survey.Repositories.Migrations
                 name: "Counters",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Value = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Counters", x => x.Value);
+                    table.PrimaryKey("PK_Counters", x => x.Id);
                 });
         }
 

@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ItechArt.Survey.Repositories
 {
-    public class ItechArtDbContext 
+    public class SurveyDbContext 
         : DbContext
     {
         public DbSet<Counter> Counters { get; set; }
 
 
-        public ItechArtDbContext(DbContextOptions<ItechArtDbContext> options)
+        public SurveyDbContext(DbContextOptions<SurveyDbContext> options)
             : base(options)
         {
 

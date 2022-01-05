@@ -5,7 +5,7 @@ namespace ItechArt.Repositories
 {
     public class UnitOfWork : IDisposable
     {
-        private ItechArtDbContext _dbContext;
+        private SurveyDbContext _dbContext;
         private CounterRepository _counterRepository;
 
         public CounterRepository Counters

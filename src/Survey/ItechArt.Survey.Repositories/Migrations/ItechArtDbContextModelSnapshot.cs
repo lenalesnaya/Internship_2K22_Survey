@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItechArt.Survey.Repositories.Migrations
 {
-    [DbContext(typeof(ItechArtDbContext))]
+    [DbContext(typeof(SurveyDbContext))]
     partial class ItechArtDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -23,15 +23,18 @@ namespace ItechArt.Survey.Repositories.Migrations
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.Counter", b =>
                 {
-                    b.Property<int>("Value")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Value"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.HasKey("Value");
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
 
-                    b.ToTable("Counters");
+                    b.HasKey("Id");
+
+                    b.ToTable("Counters", (string)null);
                 });
 #pragma warning restore 612, 618
         }
