@@ -2,9 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ItechArt.Survey.DomainModel
 {
-    public class Counter
+    public class Counter : BaseModel
     {
-        [Key]
         public int Value { get; set; }
     }
 }
