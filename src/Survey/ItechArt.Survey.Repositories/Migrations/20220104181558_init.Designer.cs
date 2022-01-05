@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItechArt.Survey.Repositories.Migrations
 {
-    [DbContext(typeof(ItechArtDbContext))]
+    [DbContext(typeof(SurveyDbContext))]
     [Migration("20220104181558_init")]
     partial class init
     {

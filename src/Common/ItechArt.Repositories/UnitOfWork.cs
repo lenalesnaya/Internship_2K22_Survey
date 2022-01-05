@@ -1,46 +1,91 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ItechArt.Repositories.Abstractions;
+using ItechArt.Survey.DomainModel.Interfaces;
 using ItechArt.Survey.Repositories;
 
 namespace ItechArt.Repositories
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork<TContex> 
+        : IUnitOfWork
+        where TContex : SurveyDbContext
     {
-        private ItechArtDbContext _dbContext;
-        private CounterRepository _counterRepository;
+        private bool _disposed;
+        private IDictionary<Type, object> _repositories;
+        public TContex DbContext { get; }
 
-        public CounterRepository Counters
+        public UnitOfWork(TContex dbContext)
         {
-            get
-            {
-                if (_counterRepository == null)
-                    _counterRepository = new CounterRepository(_dbContext);
-                return _counterRepository;
-            }
+            DbContext = dbContext
+                ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public void Save()
+        public IBaseReadonlyRepository<TEntity> GetReadonlyRepository<TEntity>()
+            where TEntity : class, IEntity
         {
-            _dbContext.SaveChanges();
+            if (_repositories == null)
+            {
+                _repositories = new Dictionary<Type, object>();
+            }
+
+            var type = typeof(TEntity);
+
+            if (!_repositories.ContainsKey(type))
+            {
+                _repositories[type] = new BaseReadonlyRepository<TEntity>(DbContext);
+            }
+
+            return (IBaseReadonlyRepository<TEntity>)_repositories[type];
         }
 
-        private bool disposed = false;
-
-        public virtual void Dispose(bool disposing)
+        public IBaseReadWriteRepository<TEntity> GetReadWriteRepository<TEntity>()
+            where TEntity : class, IEntity
         {
-            if (!this.disposed)
+            if (_repositories == null)
             {
-                if (disposing)
-                {
-                    _dbContext.Dispose();
-                }
-                this.disposed = true;
+                _repositories = new Dictionary<Type, object>();
             }
+
+            var type = typeof(TEntity);
+
+            if (!_repositories.ContainsKey(type))
+            {
+                _repositories[type] = new BaseReadWriteRepository<TEntity>(DbContext);
+            }
+
+            return (IBaseReadWriteRepository<TEntity>)_repositories[type];
+        }
+
+        public int SaveChanges()
+        {
+            return DbContext.SaveChanges();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await DbContext.SaveChangesAsync();
         }
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+           Dispose(true);
+           GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _repositories?.Clear();
+                    
+                    DbContext.Dispose();
+                }
+            }
+
+            _disposed = true;
         }
     }
 }
