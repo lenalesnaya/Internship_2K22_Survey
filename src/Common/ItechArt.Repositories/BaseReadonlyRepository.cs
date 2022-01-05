@@ -14,22 +14,20 @@ public class BaseReadonlyRepository<TEntity>
     : IBaseReadonlyRepository<TEntity> 
     where TEntity : class, IEntity
 {
-    protected DbSet<TEntity> DbSet;
-    protected SurveyDbContext SurveyDbContext;
-
+    protected DbSet<TEntity> _dbSet;
+    protected SurveyDbContext _surveyDbContext;
 
         public BaseReadonlyRepository(SurveyDbContext surveyDbContext)
     {
-        SurveyDbContext = surveyDbContext;
-        DbSet = surveyDbContext.Set<TEntity>();
+        _surveyDbContext = surveyDbContext;
+        _dbSet = _surveyDbContext.Set<TEntity>();
     }
-
 
     public virtual IEnumerable<TEntity> Get(
         Expression<Func<TEntity, bool>> filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         if (filter != null)
         {
@@ -48,7 +46,7 @@ public class BaseReadonlyRepository<TEntity>
         Expression<Func<TEntity, bool>> filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         if (filter != null)
         {
@@ -67,7 +65,7 @@ public class BaseReadonlyRepository<TEntity>
         Expression<Func<TEntity, bool>> filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         if (filter != null)
         {
@@ -86,7 +84,7 @@ public class BaseReadonlyRepository<TEntity>
         Expression<Func<TEntity, bool>> filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         if (filter != null)
         {
@@ -106,7 +104,7 @@ public class BaseReadonlyRepository<TEntity>
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         params Expression<Func<TEntity, object>>[] includes)
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         foreach (var include in includes)
         {
@@ -131,7 +129,7 @@ public class BaseReadonlyRepository<TEntity>
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         params Expression<Func<TEntity, object>>[] includes)
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         foreach (var include in includes)
         {
@@ -156,7 +154,7 @@ public class BaseReadonlyRepository<TEntity>
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         params Expression<Func<TEntity, object>>[] includes)
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         foreach (var include in includes)
         {
@@ -181,7 +179,7 @@ public class BaseReadonlyRepository<TEntity>
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         params Expression<Func<TEntity, object>>[] includes)
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         foreach (var include in includes)
         {

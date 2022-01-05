@@ -24,7 +24,6 @@ namespace ItechArt.Repositories;
                 ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-
         public IBaseReadonlyRepository<TEntity> GetReadonlyRepository<TEntity>()
             where TEntity : class, IEntity
         {
@@ -76,7 +75,6 @@ namespace ItechArt.Repositories;
            Dispose(true);
            GC.SuppressFinalize(this);
         }
-
 
         protected virtual void Dispose(bool disposing)
         {

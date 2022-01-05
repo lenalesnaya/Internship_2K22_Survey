@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItechArt.Survey.Repositories.Migrations
 {
-    [DbContext(typeof(ItechArtDbContext))]
+    [DbContext(typeof(SurveyDbContext))]
     partial class ItechArtDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

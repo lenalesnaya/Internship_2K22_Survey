@@ -6,9 +6,9 @@ namespace ItechArt.Repositories
 {
         public class CounterRepository : ICounterRepository
         {
-            private readonly ItechArtDbContext _context;
+            private readonly SurveyDbContext _context;
 
-            public CounterRepository(ItechArtDbContext context)
+            public CounterRepository(SurveyDbContext context)
             {
                 _context = context;
             }

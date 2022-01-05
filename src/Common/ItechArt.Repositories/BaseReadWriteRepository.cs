@@ -17,67 +17,66 @@ public class BaseReadWriteRepository<TEntity>
     {
     }
 
-
     public virtual void Save(TEntity model)
     {
         if (model.Id > 0)
         {
-            DbSet.Update(model);
+            _dbSet.Update(model);
         }
         else
         {
-            DbSet.Add(model);
+            _dbSet.Add(model);
         }
 
-        SurveyDbContext.SaveChanges();
+        _surveyDbContext.SaveChanges();
     }
 
     public virtual async Task SaveAsync(TEntity model)
     {
         if (model.Id > 0)
         {
-            DbSet.Update(model);
+            _dbSet.Update(model);
         }
         else
         {
-            await DbSet.AddAsync(model);
+            await _dbSet.AddAsync(model);
         }
 
-        await SurveyDbContext.SaveChangesAsync();
+        await _surveyDbContext.SaveChangesAsync();
     }
 
     public void SaveChanges()
     {
-        SurveyDbContext.SaveChanges();
+        _surveyDbContext.SaveChanges();
     }
 
     public async Task SaveChangesAsync()
     { 
-        await SurveyDbContext.SaveChangesAsync();
+        await _surveyDbContext.SaveChangesAsync();
     }
 
     public virtual void Remove(TEntity model)
     {
-        SurveyDbContext.Remove(model);
-        SurveyDbContext.SaveChanges();
+        _surveyDbContext.Remove(model);
+        _surveyDbContext.SaveChanges();
     }
 
     public virtual async Task RemoveAsync(TEntity model)
     {
-        SurveyDbContext.Remove(model);
-        await SurveyDbContext.SaveChangesAsync();
+        _surveyDbContext.Remove(model);
+        await _surveyDbContext.SaveChangesAsync();
     }
 
     public virtual void Remove(int id)
     {
-        var model = DbSet.SingleOrDefault(x => x.Id == id);
+        var model = _dbSet.SingleOrDefault(x => x.Id == id);
 
         Remove(model);
     }
 
     public virtual async Task RemoveAsync(int id)
     {
-        var model = await DbSet.SingleOrDefaultAsync(x => x.Id == id);
+        var model = await _dbSet.SingleOrDefaultAsync(x => x.Id == id);
 
         await RemoveAsync(model);
     }
