@@ -1,7 +1,6 @@
-namespace ItechArt.Survey.WebApp.ViewModels
+namespace ItechArt.Survey.WebApp.ViewModels;
+
+public class CounterViewModel
 {
-    public class CounterViewModel
-    {
-        public int Value { get; set; }
-    }
+    public int Value { get; set; }
 }

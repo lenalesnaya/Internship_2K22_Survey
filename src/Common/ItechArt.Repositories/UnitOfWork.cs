@@ -5,21 +5,25 @@ using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel.Interfaces;
 using ItechArt.Survey.Repositories;
 
-namespace ItechArt.Repositories
-{
-    public class UnitOfWork<TContex> 
-        : IUnitOfWork
-        where TContex : SurveyDbContext
-    {
-        private bool _disposed;
-        private IDictionary<Type, object> _repositories;
-        public TContex DbContext { get; }
+namespace ItechArt.Repositories;
 
-        public UnitOfWork(TContex dbContext)
+    public class UnitOfWork<TContext> 
+        : IUnitOfWork
+        where TContext : SurveyDbContext
+    {
+        private IDictionary<Type, object> _repositories;
+        private bool _disposed;
+
+
+        public TContext DbContext { get; }
+
+
+        public UnitOfWork(TContext dbContext)
         {
             DbContext = dbContext
                 ?? throw new ArgumentNullException(nameof(dbContext));
         }
+
 
         public IBaseReadonlyRepository<TEntity> GetReadonlyRepository<TEntity>()
             where TEntity : class, IEntity
@@ -73,6 +77,7 @@ namespace ItechArt.Repositories
            GC.SuppressFinalize(this);
         }
 
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
@@ -88,4 +93,3 @@ namespace ItechArt.Repositories
             _disposed = true;
         }
     }
-}
