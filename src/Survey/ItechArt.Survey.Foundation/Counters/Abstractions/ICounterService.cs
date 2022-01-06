@@ -1,10 +1,11 @@
+using System.Threading.Tasks;
 using ItechArt.Survey.DomainModel;
 
 namespace ItechArt.Survey.Foundation.Counters.Abstractions;
 
 public interface ICounterService
 {
-    Counter GetCounter();
+    Task<Counter> GetCounterAsync();
 
-    Counter IncrementCounter();
+    Task<Counter> IncrementCounterAsync();
 }

@@ -1,4 +1,5 @@
-﻿using ItechArt.Survey.DomainModel;
+﻿using System.Threading.Tasks;
+using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -17,21 +18,15 @@ public class HomeController : Controller
 
 
     [HttpGet]
-    public IActionResult HomePage()
-    {
-        var counter = _counterService.GetCounter();
-        var counterViewModel = GetCounterViewModel(counter);
-
-        return View(counterViewModel);
-    }
+    public async Task<IActionResult> HomePage()
+        => View(GetCounterViewModel(await _counterService.GetCounterAsync()));
 
     [HttpPost]
-    public IActionResult IncrementCounter()
+    public async Task<IActionResult> IncrementCounter()
     {
-        var counter = _counterService.IncrementCounter();
-        var counterViewModel = GetCounterViewModel(counter);
+        await _counterService.IncrementCounterAsync();
 
-        return View("HomePage", counterViewModel);
+        return Redirect("HomePage");
     }
 
 

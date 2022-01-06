@@ -22,6 +22,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDatabase(Configuration);
+        services.AddUnitOfWork();
         services.AddCounter();
         services.AddControllersWithViews();
     }

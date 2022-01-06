@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 
@@ -14,14 +15,14 @@ public class InMemoryCounterService : ICounterService
     }
 
 
-    public Counter GetCounter()
+    public async Task<Counter> GetCounterAsync()
     {
         var counter = CreateCounterInstance(_counter);
 
         return counter;
     }
 
-    public Counter IncrementCounter()
+    public async Task<Counter> IncrementCounterAsync()
     {
         _counter += 1;
 

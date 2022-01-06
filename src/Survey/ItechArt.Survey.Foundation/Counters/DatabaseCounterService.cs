@@ -1,17 +1,41 @@
-﻿using ItechArt.Survey.DomainModel;
+﻿using System.Linq;
+using System.Security.Cryptography.Xml;
+using System.Threading.Tasks;
+using ItechArt.Repositories.Abstractions;
+using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 
 namespace ItechArt.Survey.Foundation.Counters;
 
 public class DatabaseCounterService : ICounterService
 {
-    public Counter GetCounter()
+    private IUnitOfWork _unitOfWork;
+
+    public DatabaseCounterService(IUnitOfWork unitOfWork)
     {
-        return new Counter();
+        _unitOfWork = unitOfWork;
     }
 
-    public Counter IncrementCounter()
+    public async Task<Counter> GetCounterAsync()
     {
-        return new Counter();
+        var counter = (await _unitOfWork.GetRepository<Counter>().GetAllAsync()).FirstOrDefault();
+
+        if (counter == null)
+        {
+            counter = new Counter{ Value = 0};
+            await _unitOfWork.GetRepository<Counter>().AddAsync(counter);
+        }
+
+        return counter;
+    }
+
+    public async Task<Counter> IncrementCounterAsync()
+    {
+        var counter = (await _unitOfWork.GetRepository<Counter>().GetAllAsync()).FirstOrDefault();
+
+        if (counter != null) counter.Value += 1;
+        await _unitOfWork.SaveChangesAsync();
+
+        return counter;
     }
 }
