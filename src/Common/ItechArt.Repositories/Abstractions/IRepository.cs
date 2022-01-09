@@ -1,17 +1,17 @@
 using System.Threading.Tasks;
-using ItechArt.Survey.DomainModel.Abstractions;
 
 namespace ItechArt.Repositories.Abstractions;
 
-public interface IRepository<TEntity>
-    : IReadonlyRepository<TEntity>
-    where TEntity : BaseEntity
+public interface IRepository<TEntity> : IReadonlyRepository<TEntity>
+    where TEntity : class, IEntityId
 {
     Task AddAsync(TEntity model);
 
-    Task Update(TEntity model);
+    Task UpdateByIdAsync(int id);
 
-    Task RemoveAsync(TEntity model);
+    void Update(TEntity model);
 
-    Task RemoveAsync(int id);
+    Task RemoveByIdAsync(int id);
+
+    void Remove(TEntity model);
 }

@@ -10,8 +10,7 @@ namespace ItechArt.Survey.WebApp.Extensions;
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCounter(this IServiceCollection services)
-        => services
-            .AddScoped<ICounterService, DatabaseCounterService>();
+        => services.AddScoped<ICounterService, DatabaseCounterService>();
 
     public static IServiceCollection AddUnitOfWork(this IServiceCollection service)
         => service.AddScoped<IUnitOfWork, UnitOfWork<SurveyDbContext>>();

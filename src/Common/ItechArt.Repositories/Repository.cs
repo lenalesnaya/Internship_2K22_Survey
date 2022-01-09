@@ -4,30 +4,27 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ItechArt.Repositories.Abstractions;
-using ItechArt.Survey.DomainModel.Abstractions;
-using ItechArt.Survey.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItechArt.Repositories;
 
-public class Repository<TEntity>
-    : IRepository<TEntity>
-    where TEntity : BaseEntity
+public class Repository<TEntity> : IRepository<TEntity>
+    where TEntity : class, IEntityId
 {
-    private DbSet<TEntity> DbSet;
-    private SurveyDbContext SurveyDbContext;
+    private readonly DbSet<TEntity> _dbSet;
+    private readonly DbContext _surveyDbContext;
 
 
-    public Repository(SurveyDbContext surveyDbContext)
+    public Repository(DbContext surveyDbContext)
     {
-        SurveyDbContext = surveyDbContext;
-        DbSet = surveyDbContext.Set<TEntity>();
+        _surveyDbContext = surveyDbContext;
+        _dbSet = surveyDbContext.Set<TEntity>();
     }
 
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync()
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         return await query.ToListAsync();
     }
@@ -35,12 +32,8 @@ public class Repository<TEntity>
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereAsync(
         Expression<Func<TEntity, bool>> filter = null)
     {
-        IQueryable<TEntity> query = DbSet;
-
-        if (filter != null)
-        {
-            query = query.Where(filter);
-        }
+        IQueryable<TEntity> query = _dbSet;
+        query = ToFilter(query, filter);
 
         return await query.ToListAsync();
     }
@@ -48,38 +41,26 @@ public class Repository<TEntity>
     public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(
         params Expression<Func<TEntity, object>>[] includes)
     {
-        IQueryable<TEntity> query = DbSet;
-
-        foreach (var include in includes)
-        {
-            query = query.Include(include);
-        }
+        IQueryable<TEntity> query = _dbSet;
+        query = IncludeEntities(query, includes);
 
         return await query.ToListAsync();
     }
-    
+
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereAsync(
         Expression<Func<TEntity, bool>> filter = null,
         params Expression<Func<TEntity, object>>[] includes)
     {
-        IQueryable<TEntity> query = DbSet;
-
-        foreach (var include in includes)
-        {
-            query = query.Include(include);
-        }
-
-        if (filter != null)
-        {
-            query = query.Where(filter);
-        }
+        IQueryable<TEntity> query = _dbSet;
+        query = IncludeEntities(query, includes);
+        query = ToFilter(query, filter);
 
         return await query.ToListAsync();
     }
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetAllNoTrackingAsync()
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         return await query.AsNoTracking().ToListAsync();
     }
@@ -87,73 +68,80 @@ public class Repository<TEntity>
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereNoTrackingAsync(
         Expression<Func<TEntity, bool>> filter = null)
     {
-        IQueryable<TEntity> query = DbSet;
-
-        if (filter != null)
-        {
-            query = query.Where(filter);
-        }
+        IQueryable<TEntity> query = _dbSet;
+        query = ToFilter(query, filter);
 
         return await query.AsNoTracking().ToListAsync();
     }
 
-    
     public virtual async Task<IReadOnlyCollection<TEntity>> GetAllNoTrackingAsync(
         params Expression<Func<TEntity, object>>[] includes)
     {
-        IQueryable<TEntity> query = DbSet;
-
-        foreach (var include in includes)
-        {
-            query = query.Include(include);
-        }
+        IQueryable<TEntity> query = _dbSet;
+        query = IncludeEntities(query, includes);
 
         return await query.AsNoTracking().ToListAsync();
     }
-    
+
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereNoTrackingAsync(
         Expression<Func<TEntity, bool>> filter = null,
         params Expression<Func<TEntity, object>>[] includes)
     {
-        IQueryable<TEntity> query = DbSet;
+        IQueryable<TEntity> query = _dbSet;
+        query = IncludeEntities(query, includes);
+        query = ToFilter(query, filter);
 
-        foreach (var include in includes)
-        {
-            query = query.Include(include);
-        }
+        return await query.AsNoTracking().ToListAsync();
+    }
 
+    public virtual IQueryable<TEntity> ToFilter(IQueryable<TEntity> query,
+        Expression<Func<TEntity, bool>> filter = null)
+    {
         if (filter != null)
         {
             query = query.Where(filter);
         }
 
-        return await query.AsNoTracking().ToListAsync();
+        return query;
     }
-    
+
+    public virtual IQueryable<TEntity> IncludeEntities(IQueryable<TEntity> query,
+        params Expression<Func<TEntity, object>>[] includes)
+    {
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return query;
+    }
+
     public virtual async Task AddAsync(TEntity model)
     {
-        await DbSet.AddAsync(model);
-
-        await SurveyDbContext.SaveChangesAsync();
+        await _dbSet.AddAsync(model);
     }
 
-    public virtual async Task Update(TEntity model)
+    public virtual async Task UpdateByIdAsync(int id)
     {
-        DbSet.Update(model);
+        var model = await _dbSet.SingleOrDefaultAsync(x => x.Id == id);
 
-        await SurveyDbContext.SaveChangesAsync();
+        Update(model);
     }
 
-    public virtual async Task RemoveAsync(TEntity model)
+    public virtual void Update(TEntity model)
     {
-        SurveyDbContext.Remove(model);
-        await SurveyDbContext.SaveChangesAsync();
+        _dbSet.Update(model);
     }
 
-    public virtual async Task RemoveAsync(int id)
+    public virtual async Task RemoveByIdAsync(int id)
     {
-        var model = await DbSet.SingleOrDefaultAsync(x => x.Id == id);
+        var model = await _dbSet.SingleOrDefaultAsync(x => x.Id == id);
 
-        await RemoveAsync(model);
+        Remove(model);
+    }
+
+    public virtual void Remove(TEntity model)
+    {
+        _surveyDbContext.Remove(model);
     }
 }

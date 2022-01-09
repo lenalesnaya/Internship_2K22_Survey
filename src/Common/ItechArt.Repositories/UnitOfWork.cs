@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ItechArt.Repositories.Abstractions;
-using ItechArt.Survey.DomainModel.Abstractions;
-using ItechArt.Survey.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ItechArt.Repositories;
 
-    public class UnitOfWork<TContext> 
-        : IUnitOfWork
-        where TContext : SurveyDbContext
+    public class UnitOfWork<TContext> : IUnitOfWork
+        where TContext : DbContext
     {
         private IDictionary<Type, object> _repositories;
         private bool _disposed;
@@ -26,8 +24,8 @@ namespace ItechArt.Repositories;
 
 
         public IRepository<TEntity> GetRepository<TEntity>()
-            where TEntity : BaseEntity
-        {
+            where TEntity : class, IEntityId
+    {
             if (_repositories == null)
             {
                 _repositories = new Dictionary<Type, object>();
@@ -41,11 +39,6 @@ namespace ItechArt.Repositories;
             }
 
             return (IRepository<TEntity>)_repositories[type];
-        }
-
-        public int SaveChanges()
-        {
-            return DbContext.SaveChanges();
         }
 
         public async Task<int> SaveChangesAsync()

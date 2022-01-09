@@ -1,12 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Survey\ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj" />
-    <ProjectReference Include="..\..\Survey\ItechArt.Survey.Repositories\ItechArt.Survey.Repositories.csproj" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
   </ItemGroup>
 
 </Project>
