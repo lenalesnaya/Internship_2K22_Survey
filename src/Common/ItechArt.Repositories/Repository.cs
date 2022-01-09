@@ -97,9 +97,9 @@ public class Repository<TEntity> : IRepository<TEntity>
     public virtual IQueryable<TEntity> ToFilter(IQueryable<TEntity> query,
         Expression<Func<TEntity, bool>> filter)
     {
-            query = query.Where(filter);
+        query = query.Where(filter);
 
-            return query;
+        return query;
     }
 
     public virtual IQueryable<TEntity> IncludeEntities(IQueryable<TEntity> query,
