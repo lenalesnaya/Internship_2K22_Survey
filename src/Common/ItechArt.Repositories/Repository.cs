@@ -12,13 +12,13 @@ public class Repository<TEntity> : IRepository<TEntity>
     where TEntity : class, IEntityId
 {
     private readonly DbSet<TEntity> _dbSet;
-    private readonly DbContext _surveyDbContext;
+    private readonly DbContext _dbContext;
 
 
-    public Repository(DbContext surveyDbContext)
+    public Repository(DbContext dbContext)
     {
-        _surveyDbContext = surveyDbContext;
-        _dbSet = surveyDbContext.Set<TEntity>();
+        _dbContext = dbContext;
+        _dbSet = dbContext.Set<TEntity>();
     }
 
 
@@ -30,7 +30,7 @@ public class Repository<TEntity> : IRepository<TEntity>
     }
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereAsync(
-        Expression<Func<TEntity, bool>> filter = null)
+        Expression<Func<TEntity, bool>> filter)
     {
         IQueryable<TEntity> query = _dbSet;
         query = ToFilter(query, filter);
@@ -48,7 +48,7 @@ public class Repository<TEntity> : IRepository<TEntity>
     }
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereAsync(
-        Expression<Func<TEntity, bool>> filter = null,
+        Expression<Func<TEntity, bool>> filter,
         params Expression<Func<TEntity, object>>[] includes)
     {
         IQueryable<TEntity> query = _dbSet;
@@ -66,7 +66,7 @@ public class Repository<TEntity> : IRepository<TEntity>
     }
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereNoTrackingAsync(
-        Expression<Func<TEntity, bool>> filter = null)
+        Expression<Func<TEntity, bool>> filter)
     {
         IQueryable<TEntity> query = _dbSet;
         query = ToFilter(query, filter);
@@ -84,7 +84,7 @@ public class Repository<TEntity> : IRepository<TEntity>
     }
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereNoTrackingAsync(
-        Expression<Func<TEntity, bool>> filter = null,
+        Expression<Func<TEntity, bool>> filter,
         params Expression<Func<TEntity, object>>[] includes)
     {
         IQueryable<TEntity> query = _dbSet;
@@ -95,14 +95,11 @@ public class Repository<TEntity> : IRepository<TEntity>
     }
 
     public virtual IQueryable<TEntity> ToFilter(IQueryable<TEntity> query,
-        Expression<Func<TEntity, bool>> filter = null)
+        Expression<Func<TEntity, bool>> filter)
     {
-        if (filter != null)
-        {
             query = query.Where(filter);
-        }
 
-        return query;
+            return query;
     }
 
     public virtual IQueryable<TEntity> IncludeEntities(IQueryable<TEntity> query,
@@ -142,6 +139,6 @@ public class Repository<TEntity> : IRepository<TEntity>
 
     public virtual void Remove(TEntity model)
     {
-        _surveyDbContext.Remove(model);
+        _dbContext.Remove(model);
     }
 }
