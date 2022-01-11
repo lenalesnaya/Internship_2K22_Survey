@@ -2,7 +2,7 @@ using ItechArt.Repositories.Abstractions;
 
 namespace ItechArt.Survey.DomainModel.Abstractions;
 
-public abstract class BaseEntity : IEntityId
+public abstract class Entity
 {
     public int Id { get; set; }
 }

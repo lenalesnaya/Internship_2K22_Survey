@@ -23,8 +23,8 @@ public class DatabaseCounterService : ICounterService
 
         if (counter == null)
         {
-            counter = new Counter{ Value = 0 };
-            await _unitOfWork.GetRepository<Counter>().AddAsync(counter);
+            counter = new Counter{ Value = 0 }; 
+            _unitOfWork.GetRepository<Counter>().Add(counter);
             await _unitOfWork.SaveChangesAsync();
         }
 

@@ -3,15 +3,11 @@ using System.Threading.Tasks;
 namespace ItechArt.Repositories.Abstractions;
 
 public interface IRepository<TEntity> : IReadonlyRepository<TEntity>
-    where TEntity : class, IEntityId
+    where TEntity : class
 {
-    Task AddAsync(TEntity model);
+    void Add(TEntity entity);
 
-    Task UpdateByIdAsync(int id);
+    void Update(TEntity entity);
 
-    void Update(TEntity model);
-
-    Task RemoveByIdAsync(int id);
-
-    void Remove(TEntity model);
+    void Remove(TEntity entity);
 }

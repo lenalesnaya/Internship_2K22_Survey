@@ -24,7 +24,7 @@ public class UnitOfWork<TContext> : IUnitOfWork
 
 
     public IRepository<TEntity> GetRepository<TEntity>()
-        where TEntity : class, IEntityId
+        where TEntity : class
     {
         if (_repositories == null)
         {
@@ -41,9 +41,9 @@ public class UnitOfWork<TContext> : IUnitOfWork
         return (IRepository<TEntity>)_repositories[type];
     }
 
-    public async Task<int> SaveChangesAsync()
+    public async Task SaveChangesAsync()
     {
-        return await DbContext.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
     }
 
     public void Dispose()

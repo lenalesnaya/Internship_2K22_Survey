@@ -123,7 +123,6 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
-*.json
 
 # Chutzpah Test files
 _Chutzpah*
