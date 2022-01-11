@@ -33,7 +33,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         Expression<Func<TEntity, bool>> filter)
     {
         IQueryable<TEntity> query = _dbSet;
-        query = ToFilter(query, filter);
+        query = query.Where(filter);
 
         return await query.ToListAsync();
     }
@@ -53,7 +53,7 @@ public class Repository<TEntity> : IRepository<TEntity>
     {
         IQueryable<TEntity> query = _dbSet;
         query = IncludeEntities(query, includes);
-        query = ToFilter(query, filter);
+        query = query.Where(filter);
 
         return await query.ToListAsync();
     }
@@ -69,7 +69,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         Expression<Func<TEntity, bool>> filter)
     {
         IQueryable<TEntity> query = _dbSet;
-        query = ToFilter(query, filter);
+        query = query.Where(filter);
 
         return await query.AsNoTracking().ToListAsync();
     }
@@ -89,28 +89,9 @@ public class Repository<TEntity> : IRepository<TEntity>
     {
         IQueryable<TEntity> query = _dbSet;
         query = IncludeEntities(query, includes);
-        query = ToFilter(query, filter);
-
-        return await query.AsNoTracking().ToListAsync();
-    }
-
-    public virtual IQueryable<TEntity> ToFilter(IQueryable<TEntity> query,
-        Expression<Func<TEntity, bool>> filter)
-    {
         query = query.Where(filter);
 
-        return query;
-    }
-
-    public virtual IQueryable<TEntity> IncludeEntities(IQueryable<TEntity> query,
-        params Expression<Func<TEntity, object>>[] includes)
-    {
-        foreach (var include in includes)
-        {
-            query = query.Include(include);
-        }
-
-        return query;
+        return await query.AsNoTracking().ToListAsync();
     }
 
     public virtual async Task AddAsync(TEntity model)
@@ -140,5 +121,17 @@ public class Repository<TEntity> : IRepository<TEntity>
     public virtual void Remove(TEntity model)
     {
         _dbContext.Remove(model);
+    }
+
+
+    protected virtual IQueryable<TEntity> IncludeEntities(IQueryable<TEntity> query,
+        params Expression<Func<TEntity, object>>[] includes)
+    {
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return query;
     }
 }
