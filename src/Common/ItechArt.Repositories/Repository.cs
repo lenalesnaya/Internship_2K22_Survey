@@ -11,17 +11,14 @@ namespace ItechArt.Repositories;
 public class Repository<TEntity> : IRepository<TEntity>
     where TEntity : class
 {
-    private readonly DbContext _dbContext;
-
-    private DbSet<TEntity> _dbSet;
+    private readonly DbSet<TEntity> _dbSet;
 
 
     public Repository(DbContext dbContext)
     {
-        _dbContext = dbContext;
-
         _dbSet = dbContext.Set<TEntity>();
     }
+
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(
         params Expression<Func<TEntity, object>>[] includes)
@@ -57,8 +54,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         _dbSet.Remove(entity);
     }
 
-    protected virtual IQueryable<TEntity> ToFilter(
-        IQueryable<TEntity> query,
+    protected virtual IQueryable<TEntity> ToFilter(IQueryable<TEntity> query,
         Expression<Func<TEntity, bool>> filter)
     {
         query = query.Where(filter);
@@ -66,14 +62,13 @@ public class Repository<TEntity> : IRepository<TEntity>
         return query;
     }
 
-    protected virtual IQueryable<TEntity> IncludeEntities(
-        IQueryable<TEntity> query,
+    protected virtual IQueryable<TEntity> IncludeEntities(IQueryable<TEntity> query,
         params Expression<Func<TEntity, object>>[] includes)
     {
         if (includes.Length > 0)
         {
-            includes.Aggregate(query,
-                (q, include) => q.Include(include));   
+            query = includes.Aggregate(query,
+                (q, include) => q.Include(include));
         }
 
         return query;

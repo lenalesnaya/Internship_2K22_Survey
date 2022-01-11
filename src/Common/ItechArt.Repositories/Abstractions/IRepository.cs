@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace ItechArt.Repositories.Abstractions;
 
 public interface IRepository<TEntity> : IReadonlyRepository<TEntity>

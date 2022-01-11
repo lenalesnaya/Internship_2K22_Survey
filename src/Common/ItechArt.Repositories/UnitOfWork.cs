@@ -3,66 +3,69 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ItechArt.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ItechArt.Repositories;
 
 public class UnitOfWork<TContext> : IUnitOfWork
     where TContext : DbContext
 {
-    private IDictionary<Type, object> _repositories;
+    private readonly TContext _dbContext;
+
+    private readonly IDictionary<Type, object> _repositories;
     private bool _disposed;
-
-
-    public TContext DbContext { get; }
 
 
     public UnitOfWork(TContext dbContext)
     {
-        DbContext = dbContext
-            ?? throw new ArgumentNullException(nameof(dbContext));
+        _dbContext = dbContext;
+
+        _repositories = new Dictionary<Type, object>();
     }
 
 
     public IRepository<TEntity> GetRepository<TEntity>()
         where TEntity : class
     {
-        if (_repositories == null)
-        {
-            _repositories = new Dictionary<Type, object>();
-        }
-
         var type = typeof(TEntity);
 
-        if (!_repositories.ContainsKey(type))
-        {
-            _repositories[type] = new Repository<TEntity>(DbContext);
-        }
+        _repositories.TryAdd(type, new Repository<TEntity>(_dbContext));
 
         return (IRepository<TEntity>)_repositories[type];
     }
 
+    public TRepository GetCustomRepository<TEntity, TRepository>()
+    where TEntity : class
+    where TRepository : class, IRepository<TEntity>
+    {
+        var customRepository = _dbContext.GetService<TRepository>();
+        if (customRepository != null)
+        {
+            return customRepository;
+        }
+
+        return null;
+    }
+
     public async Task SaveChangesAsync()
     {
-        await DbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync();
     }
 
     public void Dispose()
     {
-        Dispose(true);
+        DisposeManagedResources();
         GC.SuppressFinalize(this);
     }
 
 
-    protected virtual void Dispose(bool disposing)
+    protected virtual void DisposeManagedResources()
     {
         if (!_disposed)
         {
-            if (disposing)
-            {
-                _repositories?.Clear();
-                
-                DbContext.Dispose();
-            }
+            _repositories?.Clear();
+
+            _dbContext.Dispose();
         }
 
         _disposed = true;
