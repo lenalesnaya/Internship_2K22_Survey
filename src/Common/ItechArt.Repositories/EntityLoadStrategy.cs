@@ -10,7 +10,7 @@ public class EntityLoadStrategy<TEntity>
      : IEntityLoadStrategy<TEntity>
      where TEntity : class
 {
-     private IReadOnlyCollection<Expression<Func<TEntity, object>>> _includes;
+     private readonly IReadOnlyCollection<Expression<Func<TEntity, object>>> _includes;
 
 
      public EntityLoadStrategy(params Expression<Func<TEntity, object>>[] includes)

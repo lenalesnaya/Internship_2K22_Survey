@@ -4,8 +4,4 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\ItechArt.Repositories\ItechArt.Repositories.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -25,6 +25,11 @@ public class Repository<TEntity> : IRepository<TEntity>
         return await IncludeEntities(_dbSet, includes).ToListAsync();
     }
 
+    public virtual async Task<TEntity> GetFirstOrDefaultAsync(IEntityLoadStrategy<TEntity> includes = null)
+    {
+        return await IncludeEntities(_dbSet, includes).FirstOrDefaultAsync();
+    }
+
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereAsync(
         Expression<Func<TEntity, bool>> filter,
         IEntityLoadStrategy<TEntity> includes = null)

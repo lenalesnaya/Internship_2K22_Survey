@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ItechArt.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ItechArt.Repositories;
 
@@ -29,22 +28,19 @@ public class UnitOfWork<TContext> : IUnitOfWork
     {
         var type = typeof(TEntity);
 
-        _repositories.TryAdd(type, new Repository<TEntity>(_dbContext));
-
-        return (IRepository<TEntity>)_repositories[type];
-    }
-
-    public TRepository GetCustomRepository<TEntity, TRepository>()
-    where TEntity : class
-    where TRepository : class, IRepository<TEntity>
-    {
-        var customRepository = _dbContext.GetService<TRepository>();
-        if (customRepository != null)
+        if(_repositories.TryGetValue(type, out object value))
         {
-            return customRepository;
+            return (IRepository<TEntity>)value;
+        }
+        else
+        {
+            var repositoryType = typeof(IRepository<TEntity>);
+            var repositoryInstance = Activator.CreateInstance(
+                repositoryType.MakeGenericType(typeof(TEntity)), _dbContext);
+            _repositories.Add(type, repositoryInstance);
         }
 
-        return null;
+        return (IRepository<TEntity>)_repositories[type];
     }
 
     public async Task SaveChangesAsync()
@@ -54,19 +50,22 @@ public class UnitOfWork<TContext> : IUnitOfWork
 
     public void Dispose()
     {
-        DisposeManagedResources();
+        DisposeManagedResources(true);
         GC.SuppressFinalize(this);
     }
 
 
-    protected virtual void DisposeManagedResources()
+    protected virtual void DisposeManagedResources(bool disposing)
     {
-        if (!_disposed)
-        {
-            _repositories?.Clear();
+        if(!_disposed)
+            if(disposing)
+            {
+                {
+                    _repositories?.Clear();
 
-            _dbContext.Dispose();
-        }
+                    _dbContext.Dispose();
+                }
+            }
 
         _disposed = true;
     }

@@ -10,6 +10,8 @@ public interface IReadonlyRepository<TEntity>
 {
     Task<IReadOnlyCollection<TEntity>> GetAllAsync(IEntityLoadStrategy<TEntity> includes = null);
 
+    Task<TEntity> GetFirstOrDefaultAsync(IEntityLoadStrategy<TEntity> includes = null);
+
     Task<IReadOnlyCollection<TEntity>> GetWhereAsync(
         Expression<Func<TEntity, bool>> filter,
         IEntityLoadStrategy<TEntity> includes = null);

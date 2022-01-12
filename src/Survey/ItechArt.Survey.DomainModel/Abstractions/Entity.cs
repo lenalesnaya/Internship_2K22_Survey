@@ -1,5 +1,3 @@
-using ItechArt.Repositories.Abstractions;
-
 namespace ItechArt.Survey.DomainModel.Abstractions;
 
 public abstract class Entity
