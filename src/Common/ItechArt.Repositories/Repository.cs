@@ -20,23 +20,16 @@ public class Repository<TEntity> : IRepository<TEntity>
     }
 
 
-    public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(
-        params Expression<Func<TEntity, object>>[] includes)
+    public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(IEntityLoadStrategy<TEntity> includes = null)
     {
-        IQueryable<TEntity> query = _dbSet;
-
-        return await IncludeEntities(query, includes).ToListAsync();
+        return await IncludeEntities(_dbSet, includes).ToListAsync();
     }
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereAsync(
         Expression<Func<TEntity, bool>> filter,
-        params Expression<Func<TEntity, object>>[] includes)
+        IEntityLoadStrategy<TEntity> includes = null)
     {
-        IQueryable<TEntity> query = _dbSet;
-        query = IncludeEntities(query, includes);
-        query = ToFilter(query,filter);
-
-        return await query.ToListAsync();
+        return await IncludeEntities(_dbSet, includes).Where(filter).ToListAsync();
     }
 
     public virtual void Add(TEntity entity)
@@ -54,23 +47,13 @@ public class Repository<TEntity> : IRepository<TEntity>
         _dbSet.Remove(entity);
     }
 
-    protected virtual IQueryable<TEntity> ToFilter(IQueryable<TEntity> query,
-        Expression<Func<TEntity, bool>> filter)
+
+    protected virtual IQueryable<TEntity> IncludeEntities(
+        IQueryable<TEntity> query,
+        IEntityLoadStrategy<TEntity> includes)
     {
-        query = query.Where(filter);
-
-        return query;
-    }
-
-    protected virtual IQueryable<TEntity> IncludeEntities(IQueryable<TEntity> query,
-        params Expression<Func<TEntity, object>>[] includes)
-    {
-        if (includes.Length > 0)
-        {
-            query = includes.Aggregate(query,
-                (q, include) => q.Include(include));
-        }
-
-        return query;
+        return includes != null 
+            ? includes.Aggregate(query, (q, include) => q.Include(include))
+            : query;
     }
 }

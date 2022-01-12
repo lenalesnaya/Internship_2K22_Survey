@@ -20,7 +20,7 @@ public class DatabaseCounterService : ICounterService
     public async Task<Counter> GetCounterAsync()
     {
         var counter = (await _unitOfWork.GetRepository<Counter>().GetAllAsync()).FirstOrDefault();
-
+        
         if (counter == null)
         {
             counter = new Counter{ Value = 0 }; 
