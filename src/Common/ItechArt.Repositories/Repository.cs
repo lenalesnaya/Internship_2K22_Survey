@@ -57,8 +57,8 @@ public class Repository<TEntity> : IRepository<TEntity>
         IQueryable<TEntity> query,
         IEntityLoadStrategy<TEntity> includes)
     {
-        return includes != null 
-            ? includes.Aggregate(query, (q, include) => q.Include(include))
-            : query;
+        return includes == null 
+            ? query
+            : includes.Aggregate(query, (q, include) => q.Include(include));
     }
 }
