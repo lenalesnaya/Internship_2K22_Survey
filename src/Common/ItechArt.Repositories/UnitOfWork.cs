@@ -32,13 +32,11 @@ public class UnitOfWork<TContext> : IUnitOfWork
         {
             return (IRepository<TEntity>)value;
         }
-        else
-        {
-            var repositoryType = typeof(IRepository<TEntity>);
-            var repositoryInstance = Activator.CreateInstance(
-                repositoryType.MakeGenericType(typeof(TEntity)), _dbContext);
-            _repositories.Add(type, repositoryInstance);
-        }
+
+        var repositoryType = typeof(IRepository<TEntity>);
+        var repositoryInstance = Activator.CreateInstance(
+            repositoryType.MakeGenericType(typeof(TEntity)), _dbContext);
+        _repositories.Add(type, repositoryInstance);
 
         return (IRepository<TEntity>)_repositories[type];
     }
