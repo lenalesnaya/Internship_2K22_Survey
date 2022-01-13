@@ -18,11 +18,12 @@ public class DatabaseCounterService : ICounterService
 
     public async Task<Counter> GetCounterAsync()
     {
-        var counter = await _unitOfWork.GetRepository<Counter>().GetFirstOrDefaultAsync();
+        var repository = _unitOfWork.GetRepository<Counter>();
+        var counter = await repository.GetFirstOrDefaultAsync();
 
         if(counter == null)
         {
-            counter = CreateCounterInstance(value: 0);
+            counter = CreateCounter(0);
         }
 
         return counter;
@@ -30,22 +31,25 @@ public class DatabaseCounterService : ICounterService
 
     public async Task<Counter> IncrementCounterAsync()
     {
-        var counter = await _unitOfWork.GetRepository<Counter>().GetFirstOrDefaultAsync();
+        var repository = _unitOfWork.GetRepository<Counter>();
+        var counter = await repository.GetFirstOrDefaultAsync();
 
-        if(counter == null)
+        if (counter == null)
         {
-            counter = CreateCounterInstance(value : 0);
-            _unitOfWork.GetRepository<Counter>().Add(counter);
+            counter = CreateCounter(1);
+            repository.Add(counter);
         }
-
-        counter.Value += 1;
+        else
+        {
+            counter.Value += 1;
+        }
         await _unitOfWork.SaveChangesAsync();
 
         return counter;
     }
 
 
-    private static Counter CreateCounterInstance(int value)
+    private static Counter CreateCounter(int value)
     {
         var counter = new Counter
         {

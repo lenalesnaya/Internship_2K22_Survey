@@ -10,18 +10,17 @@ public class EntityLoadStrategy<TEntity>
      : IEntityLoadStrategy<TEntity>
      where TEntity : class
 {
-     private readonly IReadOnlyCollection<Expression<Func<TEntity, object>>> _includes;
-
+     public IEnumerable<Expression<Func<TEntity, object>>> Includes { get; set; }
 
      public EntityLoadStrategy(params Expression<Func<TEntity, object>>[] includes)
      {
-          _includes = includes;
+          Includes = includes;
      }
 
 
      public IEnumerator<Expression<Func<TEntity, object>>> GetEnumerator()
      {
-          return _includes.GetEnumerator();
+          return Includes.GetEnumerator();
      }
 
      IEnumerator IEnumerable.GetEnumerator()

@@ -48,22 +48,22 @@ public class UnitOfWork<TContext> : IUnitOfWork
 
     public void Dispose()
     {
-        DisposeManagedResources(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
     }
 
 
-    protected virtual void DisposeManagedResources(bool disposing)
+    protected virtual void Dispose(bool disposing)
     {
-        if(!_disposed)
-            if(disposing)
+        if (!_disposed)
+        {
+            if (disposing)
             {
-                {
-                    _repositories?.Clear();
+                _repositories?.Clear();
 
-                    _dbContext.Dispose();
-                }
+                _dbContext.Dispose();
             }
+        }
 
         _disposed = true;
     }

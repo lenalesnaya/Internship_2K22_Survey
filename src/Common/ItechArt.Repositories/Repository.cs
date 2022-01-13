@@ -22,19 +22,19 @@ public class Repository<TEntity> : IRepository<TEntity>
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(IEntityLoadStrategy<TEntity> includes = null)
     {
-        return await IncludeEntities(_dbSet, includes).ToListAsync();
+        return await IncludeEntities(includes).ToListAsync();
     }
 
     public virtual async Task<TEntity> GetFirstOrDefaultAsync(IEntityLoadStrategy<TEntity> includes = null)
     {
-        return await IncludeEntities(_dbSet, includes).FirstOrDefaultAsync();
+        return await IncludeEntities(includes).FirstOrDefaultAsync();
     }
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereAsync(
         Expression<Func<TEntity, bool>> filter,
         IEntityLoadStrategy<TEntity> includes = null)
     {
-        return await IncludeEntities(_dbSet, includes).Where(filter).ToListAsync();
+        return await IncludeEntities(includes).Where(filter).ToListAsync();
     }
 
     public virtual void Add(TEntity entity)
@@ -53,12 +53,11 @@ public class Repository<TEntity> : IRepository<TEntity>
     }
 
 
-    protected virtual IQueryable<TEntity> IncludeEntities(
-        IQueryable<TEntity> query,
-        IEntityLoadStrategy<TEntity> includes)
+    protected virtual IQueryable<TEntity> IncludeEntities(IEntityLoadStrategy<TEntity> includes = null)
     {
         return includes == null 
-            ? query
-            : includes.Aggregate(query, (q, include) => q.Include(include));
+            ? (IQueryable<TEntity>)_dbSet
+            : includes.Includes.Aggregate((IQueryable<TEntity>)_dbSet,
+                (q, include) => q.Include(include));
     }
 }
