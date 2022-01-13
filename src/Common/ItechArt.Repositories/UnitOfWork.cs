@@ -44,10 +44,7 @@ public class UnitOfWork<TContext> : IUnitOfWork
 
         if (_repositoryMappings.TryGetValue(entityType, out var repositoryType))
         {
-            var repositoryInstance = Activator.CreateInstance(repositoryType, _dbContext);
-            _repositories.Add(entityType, repositoryInstance);
-
-            return (IRepository<TEntity>)repositoryInstance;
+            return GetRepositaryByMapping<TEntity>(entityType, repositoryType);
         }
 
         return new Repository<TEntity>(_dbContext);
@@ -78,5 +75,14 @@ public class UnitOfWork<TContext> : IUnitOfWork
         }
 
         _disposed = true;
+    }
+
+    protected virtual IRepository<TEntity> GetRepositaryByMapping<TEntity>(Type entityType, Type repositoryType)
+        where TEntity : class
+    {
+        var repository = Activator.CreateInstance(repositoryType, _dbContext);
+        _repositories.Add(entityType, repository);
+
+        return (IRepository<TEntity>)repository;
     }
 }
