@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         service.AddDbContext<SurveyDbContext>(options
             => options.UseSqlServer(configuration.GetConnectionString("SurveyItechArt")));
         service.AddScoped<IUnitOfWork, UnitOfWork<SurveyDbContext>>();
+
         return service;
     }
 }

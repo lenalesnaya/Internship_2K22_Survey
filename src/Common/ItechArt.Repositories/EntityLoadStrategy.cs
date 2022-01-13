@@ -6,25 +6,25 @@ using ItechArt.Repositories.Abstractions;
 
 namespace ItechArt.Repositories;
 
-public class EntityLoadStrategy<TEntity>
-     : IEntityLoadStrategy<TEntity>
-     where TEntity : class
+public class EntityLoadStrategy<TEntity> : IEntityLoadStrategy<TEntity>
+    where TEntity : class
 {
-     public IEnumerable<Expression<Func<TEntity, object>>> Includes { get; set; }
-
-     public EntityLoadStrategy(params Expression<Func<TEntity, object>>[] includes)
-     {
-          Includes = includes;
-     }
+    public IEnumerable<Expression<Func<TEntity, object>>> Includes { get; set; }
 
 
-     public IEnumerator<Expression<Func<TEntity, object>>> GetEnumerator()
-     {
-          return Includes.GetEnumerator();
-     }
+    public EntityLoadStrategy(params Expression<Func<TEntity, object>>[] includes)
+    {
+        Includes = includes;
+    }
 
-     IEnumerator IEnumerable.GetEnumerator()
-     {
-          return GetEnumerator();
-     }
+
+    public IEnumerator<Expression<Func<TEntity, object>>> GetEnumerator()
+    {
+        return Includes.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }

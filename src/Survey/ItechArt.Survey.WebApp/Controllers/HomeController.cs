@@ -19,7 +19,12 @@ public class HomeController : Controller
 
     [HttpGet]
     public async Task<IActionResult> HomePage()
-        => View(GetCounterViewModel(await _counterService.GetCounterAsync()));
+    {
+        Counter counter = await _counterService.GetCounterAsync();
+        CounterViewModel counterViewModel = GetCounterViewModel(counter);
+
+        return View(counterViewModel);
+    }
 
     [HttpPost]
     public async Task<IActionResult> IncrementCounter()

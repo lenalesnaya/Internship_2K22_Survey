@@ -1,4 +1,3 @@
-using ItechArt.Survey.Repositories;
 using ItechArt.Survey.WebApp.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

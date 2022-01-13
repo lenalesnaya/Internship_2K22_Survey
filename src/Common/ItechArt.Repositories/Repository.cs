@@ -55,8 +55,8 @@ public class Repository<TEntity> : IRepository<TEntity>
 
     protected virtual IQueryable<TEntity> IncludeEntities(IEntityLoadStrategy<TEntity> includes = null)
     {
-        return includes == null 
-            ? (IQueryable<TEntity>)_dbSet
+        return includes == null
+            ? _dbSet
             : includes.Includes.Aggregate((IQueryable<TEntity>)_dbSet,
                 (q, include) => q.Include(include));
     }

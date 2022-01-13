@@ -17,18 +17,18 @@ public class InMemoryCounterService : ICounterService
 
     public Task<Counter> GetCounterAsync()
     {
-        var counter = Task.Run(() => CreateCounter(_counter));
+        var counter = CreateCounter(_counter);
 
-        return counter;
+        return Task.FromResult(counter);
     }
 
     public Task<Counter> IncrementCounterAsync()
     {
         _counter += 1;
 
-        var counter =  Task.Run(() => CreateCounter(_counter));
+        var counter = CreateCounter(_counter);
 
-        return counter;
+        return Task.FromResult(counter);
     }
 
 
