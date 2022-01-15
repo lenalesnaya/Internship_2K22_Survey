@@ -11,7 +11,7 @@ public class UnitOfWork<TContext> : IUnitOfWork
 {
     private readonly TContext _dbContext;
 
-    private readonly IDictionary<Type, Type> _repositoryMappings;
+    private readonly IDictionary<Type, Type> _typesOfRepositories;
     private readonly IDictionary<Type, object> _repositories;
     private bool _disposed;
 
@@ -20,17 +20,10 @@ public class UnitOfWork<TContext> : IUnitOfWork
     {
         _dbContext = dbContext;
 
-        _repositoryMappings = new Dictionary<Type, Type>();
+        _typesOfRepositories = new Dictionary<Type, Type>();
         _repositories = new Dictionary<Type, object>();
     }
 
-
-    public void AddMapping<TEntity, TRepository>()
-        where TEntity : class
-        where TRepository : class, IRepository<TEntity>
-    {
-        _repositoryMappings.Add(typeof(TEntity), typeof(TRepository));
-    }
 
     public IRepository<TEntity> GetRepository<TEntity>()
         where TEntity : class
@@ -42,12 +35,9 @@ public class UnitOfWork<TContext> : IUnitOfWork
             return (IRepository<TEntity>)repository;
         }
 
-        if (_repositoryMappings.TryGetValue(entityType, out var repositoryType))
-        {
-            return GetRepositoryByMapping<TEntity>(entityType, repositoryType);
-        }
+        AddRepositoryToTheDictionary<TEntity>();
 
-        return new Repository<TEntity>(_dbContext);
+        return (IRepository<TEntity>)_repositories[entityType];
     }
 
     public async Task SaveChangesAsync()
@@ -77,12 +67,36 @@ public class UnitOfWork<TContext> : IUnitOfWork
         _disposed = true;
     }
 
-    protected virtual IRepository<TEntity> GetRepositoryByMapping<TEntity>(Type entityType, Type repositoryType)
+    protected void AddMapping<TEntity, TRepository>()
+        where TEntity : class
+        where TRepository : class, IRepository<TEntity>
+    {
+        _typesOfRepositories.Add(typeof(TEntity), typeof(TRepository));
+    }
+
+
+    private void AddRepositoryToTheDictionary<TEntity>()
         where TEntity : class
     {
-        var repository = Activator.CreateInstance(repositoryType, _dbContext);
-        _repositories.Add(entityType, repository);
+        object repository = CreateRepository<TEntity>();
 
-        return (IRepository<TEntity>)repository;
+        _repositories.Add(typeof(TEntity), repository);
+    }
+
+    private object CreateRepository<TEntity>()
+        where TEntity : class
+    {
+        object repository;
+
+        if (_typesOfRepositories.TryGetValue(typeof(TEntity), out var typeOfRepository))
+        {
+            repository = Activator.CreateInstance(typeOfRepository, _dbContext);
+        }
+        else
+        {
+            repository = new Repository<TEntity>(_dbContext);
+        }
+
+        return repository;
     }
 }

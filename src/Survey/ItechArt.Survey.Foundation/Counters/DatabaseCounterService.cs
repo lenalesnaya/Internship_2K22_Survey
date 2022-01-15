@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using ItechArt.Repositories;
 using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
@@ -14,14 +13,13 @@ public class DatabaseCounterService : ICounterService
     public DatabaseCounterService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _unitOfWork.AddMapping<Counter, Repository<Counter>>();
     }
 
 
     public async Task<Counter> GetCounterAsync()
     {
-        var repository = _unitOfWork.GetRepository<Counter>();
-        var counter = await repository.GetFirstOrDefaultAsync();
+        var counterRepository = _unitOfWork.GetRepository<Counter>();
+        var counter = await counterRepository.GetFirstOrDefaultAsync();
 
         if (counter == null)
         {
@@ -33,13 +31,13 @@ public class DatabaseCounterService : ICounterService
 
     public async Task<Counter> IncrementCounterAsync()
     {
-        var repository = _unitOfWork.GetRepository<Counter>();
-        var counter = await repository.GetFirstOrDefaultAsync();
+        var counterRepository = _unitOfWork.GetRepository<Counter>();
+        var counter = await counterRepository.GetFirstOrDefaultAsync();
 
         if (counter == null)
         {
             counter = CreateCounter(1);
-            repository.Add(counter);
+            counterRepository.Add(counter);
         }
         else
         {
