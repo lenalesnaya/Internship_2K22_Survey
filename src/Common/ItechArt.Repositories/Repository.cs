@@ -20,21 +20,21 @@ public class Repository<TEntity> : IRepository<TEntity>
     }
 
 
-    public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(IEntityLoadStrategy<TEntity> includes = null)
+    public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(IEntityLoadStrategy<TEntity> loadStrategy = null)
     {
-        return await IncludeEntities(includes).ToListAsync();
-    }
-
-    public virtual async Task<TEntity> GetFirstOrDefaultAsync(IEntityLoadStrategy<TEntity> includes = null)
-    {
-        return await IncludeEntities(includes).FirstOrDefaultAsync();
+        return await IncludeEntities(loadStrategy).ToListAsync();
     }
 
     public virtual async Task<IReadOnlyCollection<TEntity>> GetWhereAsync(
         Expression<Func<TEntity, bool>> filter,
-        IEntityLoadStrategy<TEntity> includes = null)
+        IEntityLoadStrategy<TEntity> loadStrategy = null)
     {
-        return await IncludeEntities(includes).Where(filter).ToListAsync();
+        return await IncludeEntities(loadStrategy).Where(filter).ToListAsync();
+    }
+
+    public virtual async Task<TEntity> GetFirstOrDefaultAsync(IEntityLoadStrategy<TEntity> loadStrategy = null)
+    {
+        return await IncludeEntities(loadStrategy).FirstOrDefaultAsync();
     }
 
     public virtual void Add(TEntity entity)
@@ -53,11 +53,11 @@ public class Repository<TEntity> : IRepository<TEntity>
     }
 
 
-    protected virtual IQueryable<TEntity> IncludeEntities(IEntityLoadStrategy<TEntity> includes = null)
+    protected virtual IQueryable<TEntity> IncludeEntities(IEntityLoadStrategy<TEntity> loadStrategy = null)
     {
-        return includes == null
+        return loadStrategy == null
             ? _dbSet
-            : includes.Includes.Aggregate((IQueryable<TEntity>)_dbSet,
-                (q, include) => q.Include(include));
+            : loadStrategy.Includes.Aggregate(
+                 _dbSet.AsQueryable(), (q, include) => q.Include(include));
     }
 }

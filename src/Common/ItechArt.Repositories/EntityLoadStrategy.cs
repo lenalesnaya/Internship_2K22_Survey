@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ItechArt.Repositories.Abstractions;
 
 namespace ItechArt.Repositories;
 
-public class EntityLoadStrategy<TEntity> : IEntityLoadStrategy<TEntity>
+public class EntityLoadStrategy<TEntity>
     where TEntity : class
 {
-    public IEnumerable<Expression<Func<TEntity, object>>> Includes { get; set; }
+    public IReadOnlyCollection<Expression<Func<TEntity, object>>> Includes { get; }
 
 
-    public EntityLoadStrategy(params Expression<Func<TEntity, object>>[] includes)
+    public EntityLoadStrategy(
+        Expression<Func<TEntity, object>> first,
+        params Expression<Func<TEntity, object>>[] rest)
     {
+        var includes = new List<Expression<Func<TEntity, object>>>(rest) { first };
         Includes = includes;
-    }
-
-
-    public IEnumerator<Expression<Func<TEntity, object>>> GetEnumerator()
-    {
-        return Includes.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
     }
 }
