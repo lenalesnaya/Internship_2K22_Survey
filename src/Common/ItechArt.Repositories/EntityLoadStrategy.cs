@@ -11,10 +11,9 @@ public class EntityLoadStrategy<TEntity>
 
 
     public EntityLoadStrategy(
-        Expression<Func<TEntity, object>> first,
-        params Expression<Func<TEntity, object>>[] rest)
+        Expression<Func<TEntity, object>> include,
+        params Expression<Func<TEntity, object>>[] otherInclude)
     {
-        var includes = new List<Expression<Func<TEntity, object>>>(rest) { first };
-        Includes = includes;
+        Includes = new List<Expression<Func<TEntity, object>>>(otherInclude) { include };
     }
 }
