@@ -57,7 +57,9 @@ public class Repository<TEntity> : IRepository<TEntity>
     {
         return loadStrategy == null
             ? _dbSet
-            : loadStrategy.Includes.Aggregate(
-                _dbSet.AsQueryable(), (q, include) => q.Include(include));
+            : loadStrategy.Includes.Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>(
+                _dbSet,
+                (q, include)
+                    => q.Include(include));
     }
 }
