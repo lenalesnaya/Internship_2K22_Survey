@@ -35,7 +35,8 @@ public class UnitOfWork<TContext> : IUnitOfWork
             return (IRepository<TEntity>)repository;
         }
 
-        AddRepositoryToTheDictionary<TEntity>();
+        repository = CreateRepository<TEntity>();
+        _repositories.Add(typeof(TEntity), repository);
 
         return (IRepository<TEntity>)_repositories[entityType];
     }
@@ -75,27 +76,19 @@ public class UnitOfWork<TContext> : IUnitOfWork
     }
 
 
-    private void AddRepositoryToTheDictionary<TEntity>()
+    private IRepository<TEntity> CreateRepository<TEntity>()
         where TEntity : class
     {
-        object repository = CreateRepository<TEntity>();
-
-        _repositories.Add(typeof(TEntity), repository);
-    }
-
-    private object CreateRepository<TEntity>()
-        where TEntity : class
-    {
-        object repository;
+        IRepository<TEntity> repository;
 
         if (_typesOfRepositories.TryGetValue(typeof(TEntity), out var typeOfRepository))
         {
-            repository = Activator.CreateInstance(typeOfRepository, _dbContext);
+            repository = (IRepository<TEntity>)Activator.CreateInstance(typeOfRepository, _dbContext);
+
+            return repository;
         }
-        else
-        {
-            repository = new Repository<TEntity>(_dbContext);
-        }
+
+        repository = new Repository<TEntity>(_dbContext);
 
         return repository;
     }

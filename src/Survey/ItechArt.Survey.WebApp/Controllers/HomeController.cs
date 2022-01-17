@@ -20,8 +20,8 @@ public class HomeController : Controller
     [HttpGet]
     public async Task<IActionResult> HomePage()
     {
-        Counter counter = await _counterService.GetCounterAsync();
-        CounterViewModel counterViewModel = GetCounterViewModel(counter);
+        var counter = await _counterService.GetCounterAsync();
+        var counterViewModel = GetCounterViewModel(counter);
 
         return View(counterViewModel);
     }
