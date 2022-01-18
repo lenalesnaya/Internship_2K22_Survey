@@ -38,7 +38,7 @@ public class UnitOfWork<TContext> : IUnitOfWork
         repository = CreateRepository<TEntity>();
         _repositories.Add(typeof(TEntity), repository);
 
-        return (IRepository<TEntity>)_repositories[entityType];
+        return (IRepository<TEntity>)repository;
     }
 
     public async Task SaveChangesAsync()
@@ -79,17 +79,11 @@ public class UnitOfWork<TContext> : IUnitOfWork
     private IRepository<TEntity> CreateRepository<TEntity>()
         where TEntity : class
     {
-        IRepository<TEntity> repository;
-
         if (_typesOfRepositories.TryGetValue(typeof(TEntity), out var typeOfRepository))
         {
-            repository = (IRepository<TEntity>)Activator.CreateInstance(typeOfRepository, _dbContext);
-
-            return repository;
+            return (IRepository<TEntity>)Activator.CreateInstance(typeOfRepository, _dbContext);
         }
 
-        repository = new Repository<TEntity>(_dbContext);
-
-        return repository;
+        return new Repository<TEntity>(_dbContext);
     }
 }

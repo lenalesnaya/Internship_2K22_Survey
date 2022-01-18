@@ -59,7 +59,6 @@ public class Repository<TEntity> : IRepository<TEntity>
             ? _dbSet
             : loadStrategy.Includes.Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>(
                 _dbSet,
-                (q, include)
-                    => q.Include(include));
+                (q, include) => q.Include(include));
     }
 }
