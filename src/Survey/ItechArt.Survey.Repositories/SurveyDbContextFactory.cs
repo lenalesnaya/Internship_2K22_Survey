@@ -8,7 +8,7 @@ public class SurveyDbContextFactory : IDesignTimeDbContextFactory<SurveyDbContex
     public SurveyDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<SurveyDbContext>();
-        optionsBuilder.UseSqlServer("Server=(LocalDb)\\MSSQLLocalDB;Database=SurveyItechArt;Trusted_Connection=True");
+        optionsBuilder.UseSqlServer("Server=(localdb)\\Server;Database=Database;Trusted_Connection=True");
 
         return new SurveyDbContext(optionsBuilder.Options);
     }
