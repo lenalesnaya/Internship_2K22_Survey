@@ -29,9 +29,10 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> IncrementCounter()
     {
-        await _counterService.IncrementCounterAsync();
+        var counter = await _counterService.IncrementCounterAsync();
+        var counterViewModel = GetCounterViewModel(counter);
 
-        return Redirect("HomePage");
+        return View("HomePage", counterViewModel);
     }
 
 
