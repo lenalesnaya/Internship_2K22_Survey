@@ -15,13 +15,13 @@ public static class ServiceCollectionExtensions
         => services.AddScoped<ICounterService, DatabaseCounterService>();
 
     public static IServiceCollection AddDatabase(
-        this IServiceCollection service,
+        this IServiceCollection services,
         IConfiguration configuration)
     {
-        service.AddDbContext<SurveyDbContext>(options
+        services.AddDbContext<SurveyDbContext>(options
             => options.UseSqlServer(configuration.GetConnectionString("SurveyItechArt")));
-        service.AddScoped<IUnitOfWork, UnitOfWork<SurveyDbContext>>();
+        services.AddScoped<IUnitOfWork, UnitOfWork<SurveyDbContext>>();
 
-        return service;
+        return services;
     }
 }
