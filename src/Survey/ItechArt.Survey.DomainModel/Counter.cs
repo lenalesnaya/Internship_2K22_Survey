@@ -1,7 +1,8 @@
-namespace ItechArt.Survey.DomainModel
+using ItechArt.Survey.DomainModel.Abstractions;
+
+namespace ItechArt.Survey.DomainModel;
+
+public class Counter : Entity
 {
-    public class Counter
-    {
-        public int Value { get; set; }
-    }
+    public int Value { get; set; }
 }

@@ -1,48 +1,48 @@
-﻿using ItechArt.Survey.DomainModel;
+﻿using System.Threading.Tasks;
+using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ItechArt.Survey.WebApp.Controllers
+namespace ItechArt.Survey.WebApp.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ICounterService _counterService;
+
+
+    public HomeController(ICounterService counterService)
     {
-        private readonly ICounterService _counterService;
+        _counterService = counterService;
+    }
 
 
-        public HomeController(ICounterService counterService)
+    [HttpGet]
+    public async Task<IActionResult> HomePage()
+    {
+        var counter = await _counterService.GetCounterAsync();
+        var counterViewModel = GetCounterViewModel(counter);
+
+        return View(counterViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> IncrementCounter()
+    {
+        var counter = await _counterService.IncrementCounterAsync();
+        var counterViewModel = GetCounterViewModel(counter);
+
+        return View("HomePage", counterViewModel);
+    }
+
+
+    private static CounterViewModel GetCounterViewModel(Counter counter)
+    {
+        var counterViewModel = new CounterViewModel
         {
-            _counterService = counterService;
-        }
+            Value = counter.Value
+        };
 
-
-        [HttpGet]
-        public IActionResult HomePage()
-        {
-            var counter = _counterService.GetCounter();
-            var counterViewModel = GetCounterViewModel(counter);
-
-            return View(counterViewModel);
-        }
-
-        [HttpPost]
-        public IActionResult IncrementCounter()
-        {
-            var counter = _counterService.IncrementCounter();
-            var counterViewModel = GetCounterViewModel(counter);
-
-            return View("HomePage", counterViewModel);
-        }
-
-
-        private static CounterViewModel GetCounterViewModel(Counter counter)
-        {
-            var counterViewModel = new CounterViewModel
-            {
-                Value = counter.Value
-            };
-
-            return counterViewModel;
-        }
+        return counterViewModel;
     }
 }
