@@ -3,11 +3,15 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\ItechArt.Common\ItechArt.Common.csproj" />
     <ProjectReference Include="..\..\Common\ItechArt.Repositories\ItechArt.Repositories.csproj" />
     <ProjectReference Include="..\ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj" />
     <ProjectReference Include="..\ItechArt.Survey.Foundation\ItechArt.Survey.Foundation.csproj" />
     <ProjectReference Include="..\ItechArt.Survey.Repositories\ItechArt.Survey.Repositories.csproj" />
   </ItemGroup>
   <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
   </ItemGroup>
 </Project>
