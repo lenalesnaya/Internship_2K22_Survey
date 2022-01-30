@@ -3,17 +3,20 @@ using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace ItechArt.Survey.WebApp.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ICounterService _counterService;
+    private readonly Common.ILogger _logger;
 
 
-    public HomeController(ICounterService counterService)
+    public HomeController(ICounterService counterService, Common.ILogger logger)
     {
         _counterService = counterService;
+        _logger = logger;
     }
 
 
@@ -31,6 +34,8 @@ public class HomeController : Controller
     {
         var counter = await _counterService.IncrementCounterAsync();
         var counterViewModel = GetCounterViewModel(counter);
+
+        _logger.Write(LogLevel.Information, "Increment is happened");
 
         return View("HomePage", counterViewModel);
     }

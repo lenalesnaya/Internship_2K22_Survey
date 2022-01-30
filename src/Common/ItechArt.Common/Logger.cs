@@ -1,16 +1,31 @@
-﻿using Serilog;
-using Serilog.Events;
+﻿using Microsoft.Extensions.Logging;
+using System;
+using Serilog;
 
 namespace ItechArt.Common
 {
     public class Logger : ILogger
     {
-        public void Write(LogEvent logEvent)
+        public void Write(LogLevel logLevel, string logMessage, Exception exception = null)
         {
-            using var log = new LoggerConfiguration().WriteTo.File(
-                "../../Survey/ItechArt.Survey.WebApp/bin/Debug/net6.0/logs/Survey.log",
-                outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
-                .CreateLogger();
+            switch (logLevel)
+            {
+                case LogLevel.Information:
+                    Log.Information(exception, logMessage + Environment.NewLine);
+                    break;
+                case LogLevel.Warning:
+                    Log.Warning(exception, logMessage + Environment.NewLine);
+                    break;
+                case LogLevel.Critical:
+                    Log.Fatal(exception, logMessage + Environment.NewLine);
+                    break;
+                case LogLevel.Debug:
+                    Log.Debug(exception, logMessage + Environment.NewLine);
+                    break;
+                case LogLevel.Error:
+                    Log.Error(exception, logMessage + Environment.NewLine);
+                    break;
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ItechArt.Survey.WebApp;
 
@@ -12,11 +13,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Log.Logger = new LoggerConfiguration().WriteTo.File(
-            "bin/Debug/net6.0/logs/Survey.log",
-            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
-            .CreateLogger();
-        Log.Information("Started!");
+        Common.ILogger logger = new Common.Logger();
 
         try
         {
@@ -24,27 +21,18 @@ public class Program
             MigrateDbContext<SurveyDbContext>(host.Services);
             host.Run();
 
-            Log.Information("Stopped cleanly!");
+            logger.Write(LogLevel.Error, "Start!");
         }
         catch (Exception exception)
         {
-            Log.Fatal(exception, exception.Message);
-        }
-        finally
-        {
-            Log.CloseAndFlush();
+            logger.Write(LogLevel.Error, "Error!", exception);
         }
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args)
         => Host.CreateDefaultBuilder(args)
-            .UseSerilog((context, services, configuration)
-            => configuration.ReadFrom.Configuration(context.Configuration)
-                 .ReadFrom.Services(services)
-                 .Enrich.FromLogContext()
-                 .WriteTo.File(
-                "bin/Debug/net6.0/logs/Survey.log",
-                outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}"))
+            .UseSerilog((context, configuration) 
+            => configuration.ReadFrom.Configuration(context.Configuration))
             .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
 
 

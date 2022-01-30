@@ -1,4 +1,5 @@
 using ItechArt.Survey.WebApp.Extensions;
+using ItechArt.Common.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDatabase(Configuration);
+        services.AddLoggers();
         services.AddCounter();
         services.AddControllersWithViews();
     }
