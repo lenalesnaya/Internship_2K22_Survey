@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
+using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace ItechArt.Common
@@ -30,27 +30,27 @@ namespace ItechArt.Common
 
         public void Information(string logMessage, Exception exception = null)
         {
-            Write(LogLevel.Information, logMessage, exception);
+            Log.Information(exception, logMessage + Environment.NewLine);
         }
 
         public void Warning(string logMessage, Exception exception = null)
         {
-            Write(LogLevel.Warning, logMessage, exception);
+            Log.Warning(exception, logMessage + Environment.NewLine);
         }
 
         public void Critical(string logMessage, Exception exception = null)
         {
-            Write(LogLevel.Critical, logMessage, exception);
+            Log.Fatal(exception, logMessage + Environment.NewLine);
         }
 
         public void Debug(string logMessage, Exception exception = null)
         {
-            Write(LogLevel.Debug, logMessage, exception);
+            Log.Debug(exception, logMessage + Environment.NewLine);
         }
 
         public void Error(string logMessage, Exception exception = null)
         {
-            Write(LogLevel.Error, logMessage, exception);
+            Log.Error(exception, logMessage + Environment.NewLine);
         }
     }
 }

@@ -16,21 +16,19 @@ public class Program
 
         try
         {
-            logger.Information("The end");
-
             var host = CreateHostBuilder(args).Build();
             MigrateDbContext<SurveyDbContext>(host.Services);
             host.Run();
         }
         catch (Exception exception)
         {
-            logger.Error("Bad");
+            logger.Error("Bad", exception);
         }
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args)
         => Host.CreateDefaultBuilder(args)
-            .UseSerilog((context, configuration) 
+            .UseSerilog((context, configuration)
             => configuration.ReadFrom.Configuration(context.Configuration))
             .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
 

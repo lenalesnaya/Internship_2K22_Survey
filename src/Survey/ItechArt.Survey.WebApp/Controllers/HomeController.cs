@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
@@ -36,17 +37,36 @@ public class HomeController : Controller
         var counter = await _counterService.IncrementCounterAsync();
         var counterViewModel = GetCounterViewModel(counter);
 
-        _logger.Information("Hello my new log");
+        _logger.Information("Hello my new log, increment is happend");
+
+        return View("HomePage", counterViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ThrowException()
+    {
+        var counter = await _counterService.GetCounterAsync();
+        var counterViewModel = GetCounterViewModel(counter, "Error!");
+
+        try
+        {
+            throw new Exception();
+        }
+        catch (Exception exception)
+        {
+            _logger.Error("Error!", exception);
+        }
 
         return View("HomePage", counterViewModel);
     }
 
 
-    private static CounterViewModel GetCounterViewModel(Counter counter)
+    private static CounterViewModel GetCounterViewModel(Counter counter, string exception = null)
     {
         var counterViewModel = new CounterViewModel
         {
-            Value = counter.Value
+            Value = counter.Value,
+            Exception = exception
         };
 
         return counterViewModel;
