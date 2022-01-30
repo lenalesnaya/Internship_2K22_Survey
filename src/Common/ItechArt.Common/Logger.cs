@@ -27,5 +27,30 @@ namespace ItechArt.Common
                     break;
             }
         }
+
+        public void Information(string logMessage, Exception exception = null)
+        {
+            Write(LogLevel.Information, logMessage, exception);
+        }
+
+        public void Warning(string logMessage, Exception exception = null)
+        {
+            Write(LogLevel.Warning, logMessage, exception);
+        }
+
+        public void Critical(string logMessage, Exception exception = null)
+        {
+            Write(LogLevel.Critical, logMessage, exception);
+        }
+
+        public void Debug(string logMessage, Exception exception = null)
+        {
+            Write(LogLevel.Debug, logMessage, exception);
+        }
+
+        public void Error(string logMessage, Exception exception = null)
+        {
+            Write(LogLevel.Error, logMessage, exception);
+        }
     }
 }
