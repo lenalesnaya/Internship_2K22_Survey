@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace ItechArt.Survey.WebApp;
 
@@ -20,12 +19,10 @@ public class Program
             var host = CreateHostBuilder(args).Build();
             MigrateDbContext<SurveyDbContext>(host.Services);
             host.Run();
-
-            logger.Write(LogLevel.Error, "Start!");
         }
         catch (Exception exception)
         {
-            logger.Write(LogLevel.Error, "Error!", exception);
+            logger.Error("Bad", exception);
         }
     }
 
