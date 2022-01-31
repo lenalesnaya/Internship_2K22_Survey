@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ItechArt.Common;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
@@ -10,12 +11,12 @@ namespace ItechArt.Survey.WebApp.Controllers;
 public class HomeController : Controller
 {
     private readonly ICounterService _counterService;
-    private readonly Common.ILogger _logger;
+    private readonly ILogger _logger;
 
 
     public HomeController(
         ICounterService counterService,
-        Common.ILogger logger)
+        ILogger logger)
     {
         _counterService = counterService;
         _logger = logger;
@@ -50,7 +51,7 @@ public class HomeController : Controller
 
         try
         {
-            throw new Exception();
+            CatchInnerException();
         }
         catch (Exception exception)
         {
@@ -70,5 +71,17 @@ public class HomeController : Controller
         };
 
         return counterViewModel;
+    }
+
+    private static void CatchInnerException()
+    {
+        try
+        {
+            throw new Exception("Inner exception");
+        }
+        catch (Exception exception)
+        {
+            throw new Exception("Catch inner exception", exception);
+        }
     }
 }
