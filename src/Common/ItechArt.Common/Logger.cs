@@ -1,33 +1,39 @@
 ﻿using System;
-using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace ItechArt.Common
 {
     public class Logger : ILogger
     {
-        public void Trace(string logMessage)
+        private readonly Microsoft.Extensions.Logging.ILogger _logger;
+
+
+        public Logger(Microsoft.Extensions.Logging.ILogger logger)
         {
-            Log.Verbose(logMessage + Environment.NewLine);
+            _logger = logger;
         }
 
-        public void Information(string logMessage)
-        {
-            Log.Information(logMessage + Environment.NewLine);
-        }
 
-        public void Warning(string logMessage)
+        public void Log(LogLevel logLevel, string message, Exception exception = null)
         {
-            Log.Warning(logMessage + Environment.NewLine);
-        }
-
-        public void Error(string logMessage, Exception exception)
-        {
-            Log.Error(exception, logMessage + Environment.NewLine);
-        }
-
-        public void Critical(string logMessage, Exception exception)
-        {
-            Log.Fatal(exception, logMessage + Environment.NewLine);
+            switch (logLevel)
+            {
+                case LogLevel.Trace:
+                    _logger.LogTrace(message);
+                    break;
+                case LogLevel.Information:
+                    _logger.LogInformation(message);
+                    break;
+                case LogLevel.Warning:
+                    _logger.LogWarning(message);
+                    break;
+                case LogLevel.Error:
+                    _logger.LogError(message, exception);
+                    break;
+                case LogLevel.Critical:
+                    _logger.LogCritical(message, exception);
+                    break;
+            }
         }
     }
 }

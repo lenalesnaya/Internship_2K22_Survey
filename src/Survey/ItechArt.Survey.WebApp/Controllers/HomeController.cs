@@ -38,7 +38,7 @@ public class HomeController : Controller
         var counter = await _counterService.IncrementCounterAsync();
         var counterViewModel = GetCounterViewModel(counter);
 
-        _logger.Information("Hello my new log, increment is happend");
+        _logger.Log(LogLevel.Information, "Hello my new log, increment is happend");
 
         return View("HomePage", counterViewModel);
     }
@@ -55,7 +55,7 @@ public class HomeController : Controller
         }
         catch (Exception exception)
         {
-            _logger.Error("Error!", exception);
+            _logger.Log(LogLevel.Error, "Error!", exception);
         }
 
         return View("HomePage", counterViewModel);

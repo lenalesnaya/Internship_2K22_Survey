@@ -4,14 +4,6 @@ namespace ItechArt.Common
 {
     public interface ILogger
     {
-        void Trace(string logMessage);
-
-        void Information(string logMessage);
-
-        void Warning(string logMessage);
-
-        void Error(string logMessage, Exception exception);
-
-        void Critical(string logMessage, Exception exception);
+        public void Log(LogLevel logLevel, string message, Exception exception = null);
     }
 }
