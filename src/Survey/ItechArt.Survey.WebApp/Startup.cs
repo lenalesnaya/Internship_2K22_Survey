@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ItechArt.Survey.WebApp.Controllers;
 
 namespace ItechArt.Survey.WebApp;
 
@@ -22,7 +23,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDatabase(Configuration);
-        services.AddLoggers();
+        services.AddLoggers<HomeController>();
         services.AddCounter();
         services.AddControllersWithViews();
     }

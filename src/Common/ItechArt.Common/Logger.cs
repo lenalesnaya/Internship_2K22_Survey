@@ -3,14 +3,14 @@ using Microsoft.Extensions.Logging;
 
 namespace ItechArt.Common
 {
-    public class Logger : ILogger
+    public class Logger<T> : ILogger<T>
     {
-        private readonly Microsoft.Extensions.Logging.ILogger _logger;
+        private readonly Microsoft.Extensions.Logging.ILogger<T> _logger;
 
 
-        public Logger(Microsoft.Extensions.Logging.ILogger logger)
+        public Logger()
         {
-            _logger = logger;
+            _logger = new Microsoft.Extensions.Logging.Logger<T>(new LoggerFactory());
         }
 
 

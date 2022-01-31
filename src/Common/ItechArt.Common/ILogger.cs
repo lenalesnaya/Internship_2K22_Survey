@@ -2,7 +2,7 @@
 
 namespace ItechArt.Common
 {
-    public interface ILogger
+    public interface ILogger<T>
     {
         public void Log(LogLevel logLevel, string message, Exception exception = null);
     }

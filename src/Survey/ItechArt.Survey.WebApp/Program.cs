@@ -12,9 +12,9 @@ public class Program
 {
     public static void Main(string[] args)
     {
-            var host = CreateHostBuilder(args).Build();
-            MigrateDbContext<SurveyDbContext>(host.Services);
-            host.Run();
+        var host = CreateHostBuilder(args).Build();
+        MigrateDbContext<SurveyDbContext>(host.Services);
+        host.Run();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args)
