@@ -12,18 +12,9 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Common.ILogger logger = new Common.Logger();
-
-        try
-        {
             var host = CreateHostBuilder(args).Build();
             MigrateDbContext<SurveyDbContext>(host.Services);
             host.Run();
-        }
-        catch (Exception exception)
-        {
-            logger.Error("Bad", exception);
-        }
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args)

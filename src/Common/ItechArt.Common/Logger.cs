@@ -1,56 +1,33 @@
 ﻿using System;
-using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace ItechArt.Common
 {
     public class Logger : ILogger
     {
-        public void Write(LogLevel logLevel, string logMessage, Exception exception = null)
+        public void Trace(string logMessage)
         {
-            switch (logLevel)
-            {
-                case LogLevel.Information:
-                    Log.Information(exception, logMessage + Environment.NewLine);
-                    break;
-                case LogLevel.Warning:
-                    Log.Warning(exception, logMessage + Environment.NewLine);
-                    break;
-                case LogLevel.Critical:
-                    Log.Fatal(exception, logMessage + Environment.NewLine);
-                    break;
-                case LogLevel.Debug:
-                    Log.Debug(exception, logMessage + Environment.NewLine);
-                    break;
-                case LogLevel.Error:
-                    Log.Error(exception, logMessage + Environment.NewLine);
-                    break;
-            }
+            Log.Verbose(logMessage + Environment.NewLine);
         }
 
-        public void Information(string logMessage, Exception exception = null)
+        public void Information(string logMessage)
         {
-            Log.Information(exception, logMessage + Environment.NewLine);
+            Log.Information(logMessage + Environment.NewLine);
         }
 
-        public void Warning(string logMessage, Exception exception = null)
+        public void Warning(string logMessage)
         {
-            Log.Warning(exception, logMessage + Environment.NewLine);
+            Log.Warning(logMessage + Environment.NewLine);
         }
 
-        public void Critical(string logMessage, Exception exception = null)
-        {
-            Log.Fatal(exception, logMessage + Environment.NewLine);
-        }
-
-        public void Debug(string logMessage, Exception exception = null)
-        {
-            Log.Debug(exception, logMessage + Environment.NewLine);
-        }
-
-        public void Error(string logMessage, Exception exception = null)
+        public void Error(string logMessage, Exception exception)
         {
             Log.Error(exception, logMessage + Environment.NewLine);
+        }
+
+        public void Critical(string logMessage, Exception exception)
+        {
+            Log.Fatal(exception, logMessage + Environment.NewLine);
         }
     }
 }
