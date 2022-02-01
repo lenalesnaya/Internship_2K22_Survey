@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ItechArt.Survey.WebApp;
 
@@ -19,6 +20,11 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args)
         => Host.CreateDefaultBuilder(args)
+            .ConfigureLogging(logging
+            =>{
+                  logging.ClearProviders();
+                  logging.AddSerilog();
+              })
             .UseSerilog((context, configuration)
             => configuration.ReadFrom.Configuration(context.Configuration))
             .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());

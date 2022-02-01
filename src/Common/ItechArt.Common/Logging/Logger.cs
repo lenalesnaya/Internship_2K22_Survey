@@ -15,27 +15,27 @@ public class Logger : ILogger
     }
 
 
-    public void Trace(string message)
+    public void LogTrace(string message)
     {
         _logger.LogTrace(message);
     }
 
-    public void Information(string message)
+    public void LogInformation(string message)
     {
         _logger.LogInformation(message);
     }
 
-    public void Warning(string message, Exception exception)
+    public void LogWarning(string message, Exception exception)
     {
         _logger.LogWarning(exception, message);
     }
 
-    public void Error(string message, Exception exception)
+    public void LogError(string message, Exception exception)
     {
         _logger.LogError(exception, message);
     }
 
-    public void Critical(string message, Exception exception)
+    public void LogCritical(string message, Exception exception)
     {
         _logger.LogCritical(exception, message);
     }

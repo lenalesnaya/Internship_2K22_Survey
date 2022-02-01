@@ -9,19 +9,19 @@ public static class LoggerExtension
         switch (logLevel)
         {
             case LogLevel.Trace:
-                logger.Trace(message);
+                logger.LogTrace(message);
                 break;
             case LogLevel.Information:
-                logger.Information(message);
+                logger.LogInformation(message);
                 break;
             case LogLevel.Warning:
-                logger.Warning(message, exception);
+                logger.LogWarning(message, exception);
                 break;
             case LogLevel.Error:
-                logger.Error(message, exception);
+                logger.LogError(message, exception);
                 break;
             case LogLevel.Critical:
-                logger.Critical(message, exception);
+                logger.LogCritical(message, exception);
                 break;
         }
     }

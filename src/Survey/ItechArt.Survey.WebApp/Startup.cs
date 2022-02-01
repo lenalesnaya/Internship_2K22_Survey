@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace ItechArt.Survey.WebApp;
 
@@ -41,6 +42,7 @@ public class Startup
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+        app.UseSerilogRequestLogging();
         app.UseRouting();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>
