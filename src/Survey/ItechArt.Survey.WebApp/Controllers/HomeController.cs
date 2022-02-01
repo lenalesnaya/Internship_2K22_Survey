@@ -11,12 +11,12 @@ namespace ItechArt.Survey.WebApp.Controllers;
 public class HomeController : Controller
 {
     private readonly ICounterService _counterService;
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger _logger;
 
 
     public HomeController(
         ICounterService counterService,
-        ILogger<HomeController> logger)
+        Logger logger)
     {
         _counterService = counterService;
         _logger = logger;
@@ -38,7 +38,7 @@ public class HomeController : Controller
         var counter = await _counterService.IncrementCounterAsync();
         var counterViewModel = GetCounterViewModel(counter);
 
-        _logger.Log(LogLevel.Information, "Hello my new log, increment is happend");
+        _logger.Information("Hello my new log, increment is happend");
 
         return View("HomePage", counterViewModel);
     }
@@ -55,7 +55,7 @@ public class HomeController : Controller
         }
         catch (Exception exception)
         {
-            _logger.Log(LogLevel.Error, "Error!", exception);
+            _logger.Error("Error!", exception);
         }
 
         return View("HomePage", counterViewModel);
