@@ -16,7 +16,7 @@ public class HomeController : Controller
 
     public HomeController(
         ICounterService counterService,
-        Logger logger)
+        ILogger logger)
     {
         _counterService = counterService;
         _logger = logger;
