@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ItechArt.Common;
+namespace ItechArt.Common.Logging;
 
 public static class LoggerExtension
 {
@@ -13,7 +13,7 @@ public static class LoggerExtension
         logger.Log(LogLevel.Information, message);
     }
 
-    public static void LogWarning(this ILogger logger, string message, Exception exception = null)
+    public static void LogWarning(this ILogger logger, string message, Exception exception)
     {
         logger.Log(LogLevel.Warning, message, exception);
     }

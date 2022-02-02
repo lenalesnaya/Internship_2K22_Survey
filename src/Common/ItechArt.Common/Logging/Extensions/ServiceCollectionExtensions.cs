@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ItechArt.Common.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ItechArt.Common.Extensions;
 

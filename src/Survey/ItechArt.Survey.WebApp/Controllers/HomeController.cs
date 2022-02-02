@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ItechArt.Common;
+using ItechArt.Common.Logging;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
