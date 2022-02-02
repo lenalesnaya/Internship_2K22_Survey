@@ -20,11 +20,6 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args)
         => Host.CreateDefaultBuilder(args)
-            .ConfigureLogging(logging
-            =>{
-                  logging.ClearProviders();
-                  logging.AddSerilog();
-              })
             .UseSerilog((context, configuration)
             => configuration.ReadFrom.Configuration(context.Configuration))
             .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
