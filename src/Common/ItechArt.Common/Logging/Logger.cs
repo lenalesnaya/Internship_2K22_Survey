@@ -8,35 +8,31 @@ public class Logger : ILogger
     private readonly Microsoft.Extensions.Logging.ILogger _logger;
 
 
-    public Logger()
+    public Logger(ILoggerFactory loggerFactory)
     {
-        ILoggerFactory loggerFactory = new LoggerFactory();
-        _logger = loggerFactory.CreateLogger("MyLogger");
+        _logger = loggerFactory.CreateLogger("Logger");
     }
 
 
-    public void LogTrace(string message)
+    public void Log(LogLevel logLevel, string message, Exception exception = null)
     {
-        _logger.LogTrace(message);
-    }
-
-    public void LogInformation(string message)
-    {
-        _logger.LogInformation(message);
-    }
-
-    public void LogWarning(string message, Exception exception)
-    {
-        _logger.LogWarning(exception, message);
-    }
-
-    public void LogError(string message, Exception exception)
-    {
-        _logger.LogError(exception, message);
-    }
-
-    public void LogCritical(string message, Exception exception)
-    {
-        _logger.LogCritical(exception, message);
+        switch (logLevel)
+        {
+            case LogLevel.Trace:
+                _logger.LogTrace(message);
+                break;
+            case LogLevel.Information:
+                _logger.LogInformation(message);
+                break;
+            case LogLevel.Warning:
+                _logger.LogWarning(exception, message);
+                break;
+            case LogLevel.Error:
+                _logger.LogError(exception, message);
+                break;
+            case LogLevel.Critical:
+                _logger.LogCritical(exception, message);
+                break;
+        }
     }
 }

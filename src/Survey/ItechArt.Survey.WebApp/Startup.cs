@@ -22,7 +22,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDatabase(Configuration);
-        services.AddLoggers();
+        services.AddLogger();
         services.AddCounter();
         services.AddControllersWithViews();
     }

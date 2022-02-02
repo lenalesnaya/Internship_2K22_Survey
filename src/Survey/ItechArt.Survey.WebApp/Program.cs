@@ -20,8 +20,7 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args)
         => Host.CreateDefaultBuilder(args)
-            .UseSerilog((context, configuration)
-            => configuration.ReadFrom.Configuration(context.Configuration)
+            .UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration)
             .WriteTo.File(path: $"{AppDomain.CurrentDomain.BaseDirectory}{context.Configuration.GetValue<string>("Serilog:WriteToFile:path")}",
                 outputTemplate: $"{context.Configuration.GetValue<string>("Serilog:WriteToFile:outputTemplate")}"))
             .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
