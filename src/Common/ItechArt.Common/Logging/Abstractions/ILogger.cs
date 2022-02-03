@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ItechArt.Common;
+namespace ItechArt.Common.Logging.Abstractions;
 
 public interface ILogger
 {

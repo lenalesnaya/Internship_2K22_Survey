@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
+using ILogger = ItechArt.Common.Logging.Abstractions.ILogger;
+using LogLevel = ItechArt.Common.Logging.Abstractions.LogLevel;
 
 namespace ItechArt.Common.Logging;
 
@@ -33,6 +35,8 @@ public class Logger : ILogger
             case LogLevel.Critical:
                 _logger.LogCritical(exception, message);
                 break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

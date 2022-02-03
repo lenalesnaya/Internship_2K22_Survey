@@ -1,4 +1,4 @@
-﻿namespace ItechArt.Common;
+﻿namespace ItechArt.Common.Logging.Abstractions;
 
 public enum LogLevel
 {

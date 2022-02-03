@@ -1,7 +1,7 @@
-﻿using ItechArt.Common.Logging;
+﻿using ItechArt.Common.Logging.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ItechArt.Common.Extensions;
+namespace ItechArt.Common.Logging;
 
 public static class ServiceCollectionExtensions
 {
