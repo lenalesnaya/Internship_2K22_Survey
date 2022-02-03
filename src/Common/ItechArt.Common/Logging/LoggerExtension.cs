@@ -13,7 +13,7 @@ public static class LoggerExtension
         logger.Log(LogLevel.Information, message);
     }
 
-    public static void LogWarning(this ILogger logger, string message, Exception exception)
+    public static void LogWarning(this ILogger logger, string message, Exception exception = null)
     {
         logger.Log(LogLevel.Warning, message, exception);
     }
