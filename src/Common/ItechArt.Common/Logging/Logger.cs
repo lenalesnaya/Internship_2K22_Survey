@@ -36,7 +36,17 @@ public class Logger : ILogger
                 _logger.LogCritical(exception, message);
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                try
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    throw new ArgumentOutOfRangeException(
+                        "Unregistered LogLevel value",
+                        ex,
+                        $"The Loglevel value \"{logLevel}\" isn`t registered in the current method");
+                }
         }
     }
 }
