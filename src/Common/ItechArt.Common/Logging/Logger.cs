@@ -37,8 +37,8 @@ public class Logger : ILogger
                 break;
             default:
                 throw new ArgumentOutOfRangeException(
-                    "Unregistered LogLevel value",
-                    $"The Loglevel value \"{logLevel}\" isn`t registered in the current method");
+                    nameof(logLevel),
+                    $"The Loglevel value \"{logLevel}\" isn`t used in the switch instruction of the current method");
         }
     }
 }

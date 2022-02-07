@@ -22,7 +22,9 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args)
         => Host.CreateDefaultBuilder(args)
-            .UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration))
+            .UseSerilog(
+                (context, configuration) => configuration.ReadFrom.Configuration(context.Configuration),
+                writeToProviders: true)
             .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
 
 
