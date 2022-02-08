@@ -21,7 +21,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDatabase(Configuration);
-        services.AddIdentityConfiguration();
+        services.AddIdentity();
         services.AddServicesMapper();
         services.AddAuthenticationService();
         services.AddControllersWithViews();
