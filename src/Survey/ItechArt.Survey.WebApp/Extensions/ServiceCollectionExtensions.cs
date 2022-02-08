@@ -4,8 +4,6 @@ using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation;
 using ItechArt.Survey.Foundation.Abstractions;
-using ItechArt.Survey.Foundation.Counters;
-using ItechArt.Survey.Foundation.Counters.Abstractions;
 using ItechArt.Survey.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +14,8 @@ namespace ItechArt.Survey.WebApp.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCounter(this IServiceCollection services)
-        => services.AddScoped<ICounterService, DatabaseCounterService>()
-            .AddScoped<IAuthenticateService, AuthenticateService>();
+    public static IServiceCollection AddAuthenticationService(this IServiceCollection services)
+        => services.AddScoped<IAuthenticateService, AuthenticateService>();
 
     public static IServiceCollection AddDatabase(
         this IServiceCollection services,
@@ -34,7 +31,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-    public static IServiceCollection AddAuthenticationRules(
+    public static IServiceCollection AddIdentityWithConfiguration(
         this IServiceCollection service)
         => service
             .AddIdentity()
@@ -45,6 +42,9 @@ public static class ServiceCollectionExtensions
             .AddIdentity<User, IdentityRole<int>>()
             .AddEntityFrameworkStores<SurveyDbContext>()
             .Services;
+    //Метод AddEntityFrameworkStores() устанавливает тип хранилища,
+    //которое будет применяться в Identity для хранения данных.
+    //В качестве типа хранилища здесь указывается класс контекста данных.
 
     public static IServiceCollection AddIdentityConfiguration(
         this IServiceCollection services)

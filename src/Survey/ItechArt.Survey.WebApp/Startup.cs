@@ -24,8 +24,9 @@ public class Startup
         services.AddDatabase(Configuration);
         services.AddLogger();
         services.AddAuthenticationRules();
+        services.AddIdentityWithConfiguration();
         services.AddServicesMapper();
-        services.AddCounter();
+        services.AddAuthenticationService();
         services.AddControllersWithViews();
     }
 
@@ -37,7 +38,7 @@ public class Startup
         }
         else
         {
-            app.UseExceptionHandler("/Home/Error");
+            app.UseExceptionHandler("/Registration/Error");
             app.UseHsts();
         }
 
@@ -49,7 +50,7 @@ public class Startup
         {
             endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=HomePage}/{id?}");
+                pattern: "{controller=Authentication}/{action=Registration}/{id?}");
         });
     }
 }

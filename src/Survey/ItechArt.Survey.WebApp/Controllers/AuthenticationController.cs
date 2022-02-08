@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ItechArt.Survey.WebApp.Controllers;
 
-public class AuthenticateController : Controller
+public class AuthenticationController : Controller
 {
     private IAuthenticateService _authenticateService;
     private IMapper _mapper;
     
-    public AuthenticateController(
+    public AuthenticationController(
         IAuthenticateService authenticateService,
         IMapper mapper)
     {
