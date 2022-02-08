@@ -44,7 +44,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddIdentity(this IServiceCollection services)
         => services
-            .AddIdentity<User, IdentityRole<int>>()
+            .AddIdentity<User, Role>()
             .AddEntityFrameworkStores<SurveyDbContext>()
             .Services;
     //Метод AddEntityFrameworkStores() устанавливает тип хранилища,
