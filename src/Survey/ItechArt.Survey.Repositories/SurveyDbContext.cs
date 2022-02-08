@@ -16,11 +16,12 @@ public class SurveyDbContext :
     IdentityRoleClaim<int>,
     IdentityUserToken<int>>
 {
-    public DbSet<Counter> Counters { get; set; }
 
 
     public SurveyDbContext(DbContextOptions<SurveyDbContext> options)
         : base(options)
     {
     }
+
+    // where DbSet is? And should be.
 }
