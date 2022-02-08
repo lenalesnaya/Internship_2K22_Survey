@@ -1,8 +1,13 @@
+using System.Reflection;
 using ItechArt.Repositories;
 using ItechArt.Repositories.Abstractions;
+using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.Foundation;
+using ItechArt.Survey.Foundation.Abstractions;
 using ItechArt.Survey.Foundation.Counters;
 using ItechArt.Survey.Foundation.Counters.Abstractions;
 using ItechArt.Survey.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +17,8 @@ namespace ItechArt.Survey.WebApp.Extensions;
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCounter(this IServiceCollection services)
-        => services.AddScoped<ICounterService, DatabaseCounterService>();
+        => services.AddScoped<ICounterService, DatabaseCounterService>()
+            .AddScoped<IAuthenticateService, AuthenticateService>();
 
     public static IServiceCollection AddDatabase(
         this IServiceCollection services,
@@ -24,4 +30,29 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    public static IServiceCollection AddServicesMapper(this IServiceCollection services)
+        => services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+    public static IServiceCollection AddAuthenticationRules(
+        this IServiceCollection service)
+        => service
+            .AddIdentity()
+            .AddIdentityConfiguration();
+
+    public static IServiceCollection AddIdentity(this IServiceCollection services)
+        => services
+            .AddIdentity<User, IdentityRole<int>>()
+            .AddEntityFrameworkStores<SurveyDbContext>()
+            .Services;
+
+    public static IServiceCollection AddIdentityConfiguration(
+        this IServiceCollection services)
+        => services
+            .Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
 }

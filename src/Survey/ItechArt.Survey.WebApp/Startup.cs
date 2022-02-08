@@ -23,6 +23,8 @@ public class Startup
     {
         services.AddDatabase(Configuration);
         services.AddLogger();
+        services.AddAuthenticationRules();
+        services.AddServicesMapper();
         services.AddCounter();
         services.AddControllersWithViews();
     }
