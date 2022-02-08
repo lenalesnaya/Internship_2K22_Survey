@@ -31,23 +31,16 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-    public static IServiceCollection AddIdentityConfiguration(
+    public static IServiceCollection AddIdentity(
         this IServiceCollection service)
         => service
-            .AddIdentity()
-            .Configure<IdentityOptions>(options =>
+            .AddIdentity<User, Role>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-            });
-
-    public static IServiceCollection AddIdentity(this IServiceCollection services)
-        => services
-            .AddIdentity<User, Role>()
-            .AddEntityFrameworkStores<SurveyDbContext>()
-            .Services;
-    //Метод AddEntityFrameworkStores() устанавливает тип хранилища,
-    //которое будет применяться в Identity для хранения данных.
-    //В качестве типа хранилища здесь указывается класс контекста данных.
+                options.User.RequireUniqueEmail = true;
+            })
+            .Services
+            .AddEntityFrameworkSqlServer();
 }
