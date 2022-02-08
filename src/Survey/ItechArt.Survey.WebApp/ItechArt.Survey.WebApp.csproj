@@ -7,6 +7,7 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\ItechArt.Common\ItechArt.Common.csproj" />
     <ProjectReference Include="..\..\Common\ItechArt.Repositories\ItechArt.Repositories.csproj" />
     <ProjectReference Include="..\ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj" />
     <ProjectReference Include="..\ItechArt.Survey.Foundation\ItechArt.Survey.Foundation.csproj" />
