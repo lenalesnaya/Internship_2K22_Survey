@@ -31,11 +31,16 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-    public static IServiceCollection AddIdentityWithConfiguration(
+    public static IServiceCollection AddIdentityConfiguration(
         this IServiceCollection service)
         => service
             .AddIdentity()
-            .AddIdentityConfiguration();
+            .Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
 
     public static IServiceCollection AddIdentity(this IServiceCollection services)
         => services
@@ -45,14 +50,4 @@ public static class ServiceCollectionExtensions
     //Метод AddEntityFrameworkStores() устанавливает тип хранилища,
     //которое будет применяться в Identity для хранения данных.
     //В качестве типа хранилища здесь указывается класс контекста данных.
-
-    public static IServiceCollection AddIdentityConfiguration(
-        this IServiceCollection services)
-        => services
-            .Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-            });
 }

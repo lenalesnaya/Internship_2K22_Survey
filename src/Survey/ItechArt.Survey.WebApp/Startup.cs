@@ -25,6 +25,7 @@ public class Startup
         services.AddLogger();
         services.AddAuthenticationRules();
         services.AddIdentityWithConfiguration();
+        services.AddIdentityConfiguration();
         services.AddServicesMapper();
         services.AddAuthenticationService();
         services.AddControllersWithViews();

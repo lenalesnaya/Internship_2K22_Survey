@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Abstractions;
