@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
@@ -7,13 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ItechArt.Survey.WebApp.Controllers;
 
-public class AuthenticationController : Controller
+public class AccountController : Controller
 {
     private IAuthenticateService _authenticateService;
     private IMapper _mapper;
 
 
-    public AuthenticationController(
+    public AccountController(
         IAuthenticateService authenticateService,
         IMapper mapper)
     {
