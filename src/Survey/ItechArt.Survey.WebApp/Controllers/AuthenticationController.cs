@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Survey.DomainModel;
-using ItechArt.Survey.Foundation.Abstractions;
+using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,10 +30,7 @@ public class AuthenticationController : Controller
     public async Task<IActionResult> Registration(RegistrationViewModel model)
     {
         var result = await _authenticateService.RegistrationAsync(_mapper.Map<User>(model), model.Password);
-        if (result == HttpStatusCode.BadRequest)
-        {
-            throw new Exception();
-        }
+        
         return View(model);
     }
 }
