@@ -1,6 +1,4 @@
-using System.Text.Json.Serialization.Metadata;
 using ItechArt.Survey.DomainModel;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItechArt.Survey.Repositories;
@@ -11,6 +9,7 @@ public class SurveyDbContext : DbContext
         : base(options)
     {
     }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

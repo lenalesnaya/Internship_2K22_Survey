@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
@@ -13,7 +11,8 @@ public class AuthenticationController : Controller
 {
     private IAuthenticateService _authenticateService;
     private IMapper _mapper;
-    
+
+
     public AuthenticationController(
         IAuthenticateService authenticateService,
         IMapper mapper)
@@ -22,6 +21,7 @@ public class AuthenticationController : Controller
         _mapper = mapper;
     }
 
+
     [HttpGet]
     public IActionResult Registration()
         => View(new RegistrationViewModel());
@@ -29,8 +29,13 @@ public class AuthenticationController : Controller
     [HttpPost]
     public async Task<IActionResult> Registration(RegistrationViewModel model)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
         var result = await _authenticateService.RegistrationAsync(_mapper.Map<User>(model), model.Password);
-        
+
         return View(model);
     }
 }
