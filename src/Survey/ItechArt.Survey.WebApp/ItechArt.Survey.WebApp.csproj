@@ -6,6 +6,7 @@
     <ProjectReference Include="..\..\Common\ItechArt.Common\ItechArt.Common.csproj" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\ItechArt.Common\ItechArt.Common.csproj" />

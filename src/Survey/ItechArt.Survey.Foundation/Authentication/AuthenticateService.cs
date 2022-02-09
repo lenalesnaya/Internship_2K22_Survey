@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using Microsoft.AspNetCore.Identity;
@@ -10,14 +9,16 @@ public class AuthenticateService : IAuthenticateService
 {
     private readonly UserManager<User> _userManager;
 
+
     public AuthenticateService(UserManager<User> userManager)
     {
         _userManager = userManager;
     }
 
-    public async Task<OperationResult<int, UserRegistrationStatus>> RegistrationAsync(User entity, string password)
+
+    public async Task<OperationResult<int, UserRegistrationStatus>> RegistrationAsync(User user, string password)
     {
-        var userExists = await _userManager.FindByEmailAsync(entity.Email);
+        var userExists = await _userManager.FindByEmailAsync(user.Email);
 
         if (userExists != null)
         {
@@ -28,12 +29,12 @@ public class AuthenticateService : IAuthenticateService
             };
         }
 
-        var result = await _userManager.CreateAsync(entity, password);
+        var result = await _userManager.CreateAsync(user, password);
 
         return result.Succeeded
             ? new OperationResult<int, UserRegistrationStatus>
             {
-                Data = entity.Id,
+                Data = user.Id,
                 OperationStatus = UserRegistrationStatus.Ok
             }
             : new OperationResult<int, UserRegistrationStatus>

@@ -2,7 +2,6 @@ using System.Reflection;
 using ItechArt.Repositories;
 using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel;
-using ItechArt.Survey.Foundation;
 using ItechArt.Survey.Foundation.Authentication;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Repositories;
