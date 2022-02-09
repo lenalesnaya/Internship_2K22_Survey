@@ -15,7 +15,6 @@ public class AuthenticateService : IAuthenticateService
         _userManager = userManager;
     }
 
-
     public async Task<OperationResult<int, UserRegistrationStatus>> RegistrationAsync(User user, string password)
     {
         var userExists = await _userManager.FindByEmailAsync(user.Email);
