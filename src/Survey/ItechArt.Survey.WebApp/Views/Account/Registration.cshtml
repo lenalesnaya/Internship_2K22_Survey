@@ -6,42 +6,50 @@
 }
 
 
-<form action="@Url.Action("Registration", "Account")" method="post">
+<form asp-antiforgery="true" asp-action="Registration" asp-controller="Account">
+
   <div class="container">
-    <div asp-validation-summary="All"></div>
+
+    <div asp-validation-summary="ModelOnly"></div>
+
     <h1>Register</h1>
     <p>Please fill in this form to create an account.</p>
     <hr>
 
-    <label>
-      <b>User name</b>
-    </label>
-    <input type="text" placeholder="Enter user name" name="@nameof(RegistrationViewModel.UserName)" id="email" @*required*@>
-    @Html.ValidationMessageFor(model => model.UserName)
+    <div>
+    <label asp-for="UserName"></label><br />
+    <input type="text" asp-for="UserName" placeholder="Enter user name" value=""/>
+    <span asp-validation-for="UserName"></span>
+    </div>
 
-    <label>
-      <b>Email</b>
-    </label>
-    <input type="text" placeholder="Enter Email" name="@nameof(RegistrationViewModel.Email)" id="email" @*required*@>
-    @Html.ValidationMessageFor(model => model.Email)
-    
-    <label>
-      <b>Password</b>
-    </label>
-    <input type="password" placeholder="Enter Password" name="@nameof(RegistrationViewModel.Password)" id="psw" @*required*@>
-    @Html.ValidationMessageFor(model => model.Password)
+    <div>
+    <label asp-for="Email"></label><br />
+    <input asp-for="Email" placeholder="Enter Email" value=""/>
+    <span asp-validation-for="Email"></span>
+    </div>
 
-    <label>
-      <b>Repeat Password</b>
-    </label>
-    <input type="password" placeholder="Repeat Password" name="@nameof(RegistrationViewModel.RepeatPassword)" id="psw-repeat" @*required*@>
-    @Html.ValidationMessageFor(model => model.RepeatPassword)
+    <div>
+    <label asp-for="Password"></label><br />
+    <input asp-for="Password" type="password" placeholder="Enter Password" />
+    <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+    <label asp-for="RepeatPassword"></label><br />
+    <input asp-for="RepeatPassword" type="password" placeholder="Repeat Password" />
+    <span asp-validation-for="RepeatPassword"></span>
+    </div>
 
     <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-    <button type="submit" class="registerbtn">Register</button>
+    <input type="submit" value="Register"/>
   </div>
 
   <div class="container signin">
     <p>Already have an account? <a href="#">Sign in</a>.</p>
   </div>
 </form>
+
+
+@section Script {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

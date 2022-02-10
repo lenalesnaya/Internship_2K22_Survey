@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace ItechArt.Common;
 
@@ -22,7 +21,7 @@ public class OperationResult<TResult, TStatus>
     {
         Status = status;
     }
-    
+
     public OperationResult(TStatus  status, params string[] errors)
     {
         Status = status;
