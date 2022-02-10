@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
+using ItechArt.Common;
 using ItechArt.Survey.DomainModel;
 
 namespace ItechArt.Survey.Foundation.Authentication.Abstractions;
 
 public interface IAuthenticateService
 { 
-    Task<OperationResult<int, UserRegistrationStatus>> RegistrationAsync(User user, string password);
+    Task<OperationResult<User, UserRegistrationStatus>> RegistrationAsync(User user, string password);
 }

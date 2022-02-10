@@ -37,11 +37,6 @@ public class AccountController : Controller
 
         var result = await _authenticateService.RegistrationAsync(_mapper.Map<User>(model), model.Password);
 
-        if (result.OperationStatus == UserRegistrationStatus.UserAlreadyExists)
-        {
-            throw new Exception("User with this Email already exists");
-        }
-        
         return View(model);
     }
 }
