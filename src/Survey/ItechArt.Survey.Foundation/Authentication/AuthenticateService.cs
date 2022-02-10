@@ -10,10 +10,12 @@ public class AuthenticateService : IAuthenticateService
 {
     private readonly UserManager<User> _userManager;
 
+
     public AuthenticateService(UserManager<User> userManager)
     {
         _userManager = userManager;
     }
+
 
     public async Task<OperationResult<User, UserRegistrationStatus>> RegistrationAsync(User user, string password)
     {
