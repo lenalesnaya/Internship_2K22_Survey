@@ -4,5 +4,5 @@ public enum UserRegistrationStatus
 {
     Ok,
     UserAlreadyExists,
-    UnprocessableEntity
+    UnknownError
 }
