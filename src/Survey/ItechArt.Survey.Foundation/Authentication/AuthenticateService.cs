@@ -23,13 +23,15 @@ public class AuthenticateService : IAuthenticateService
 
         if (userExists != null)
         {
-            return new OperationResult<User, UserRegistrationStatus>(UserRegistrationStatus.UserAlreadyExists);
+            return OperationResult<User, UserRegistrationStatus>.FailureResult(
+                UserRegistrationStatus.UserAlreadyExists,
+                "User already exists");
         }
 
         var result = await _userManager.CreateAsync(user, password);
 
         return result.Succeeded
-            ? new OperationResult<User, UserRegistrationStatus>(user, UserRegistrationStatus.Ok)
-            : new OperationResult<User, UserRegistrationStatus>(UserRegistrationStatus.UnknownError, result.Errors.ToString());
+            ? OperationResult<User, UserRegistrationStatus>.SuccessResult(user, UserRegistrationStatus.Ok)
+            : OperationResult<User, UserRegistrationStatus>.FailureResult(UserRegistrationStatus.UnknownError, result.Errors.ToString());
     }
 }

@@ -5,37 +5,16 @@ using System.Linq;
 namespace ItechArt.Common;
 
 public class OperationResult<TResult, TStatus>
-    where TResult: class
     where TStatus: Enum
 {
-    private TResult _result;
+    private readonly TResult _result;
 
 
-    public OperationResult(TResult result,TStatus  status)
-    {
-        _result = result;
-        Status = status;
-    }
-
-    public OperationResult(TStatus  status)
-    {
-        Status = status;
-    }
-
-    public OperationResult(TStatus  status, params string[] errors)
-    {
-        Status = status;
-        AddErrors(errors);
-    }
-
-
-    public bool Success => Errors == null;
-    
     public TResult Result
     {
         get
         {
-            if (_result == null)
+            if (Success == false)
             {
                 throw new Exception("Result was not set");
             }
@@ -44,17 +23,37 @@ public class OperationResult<TResult, TStatus>
         }
     }
 
-    public IList<string> Errors { get; private set;}
-    public TStatus Status { get; private set; }
+    public bool Success => Errors == null;
+
+    public IList<string> Errors { get; set;}
+
+    private TStatus Status { get; }
 
 
-    public void AddError(string error)
+    private OperationResult(TResult result, TStatus  status)
     {
-        Errors ??= new List<string>();
-        Errors.Add(error);
+        _result = result;
+        Status = status;
     }
 
-    public void AddErrors(IEnumerable<string> errors)
+    private OperationResult(TStatus  status, params string[] errors)
+    {
+        Status = status;
+        AddErrors(errors);
+    }
+
+
+    public static OperationResult<TResult, TStatus> SuccessResult(TResult result, TStatus status)
+    {
+        return new OperationResult<TResult, TStatus>(result, status);
+    }
+
+    public static OperationResult<TResult, TStatus> FailureResult(TStatus status,params string[] errors)
+    {
+        return new OperationResult<TResult, TStatus>(status, errors);
+    }
+
+    private void AddErrors(IEnumerable<string> errors)
     {
         Errors = Errors == null
             ? new List<string>(errors)
