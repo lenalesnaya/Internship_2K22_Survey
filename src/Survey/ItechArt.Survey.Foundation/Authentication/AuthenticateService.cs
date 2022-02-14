@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using ItechArt.Common;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
@@ -27,11 +31,22 @@ public class AuthenticateService : IAuthenticateService
                 UserRegistrationStatus.UserAlreadyExists,
                 "User already exists");
         }
+        
+        var createResult = await _userManager.CreateAsync(user, password);
+        var addRoleResult = await _userManager.AddToRoleAsync(user, "User");
 
-        var result = await _userManager.CreateAsync(user, password);
-
-        return result.Succeeded
+        return createResult.Succeeded && addRoleResult.Succeeded
             ? OperationResult<User, UserRegistrationStatus>.SuccessResult(user, UserRegistrationStatus.Ok)
-            : OperationResult<User, UserRegistrationStatus>.FailureResult(UserRegistrationStatus.UnknownError, result.Errors.ToString());
+            : OperationResult<User, UserRegistrationStatus>.FailureResult(UserRegistrationStatus.UnknownError, createResult.Errors.ToString());
     }
+
+    // public async Task<OperationResult<User>> AuthenticateAsync(User user, string password)
+    // {
+    //     var userExists = await _userManager.FindByEmailAsync(user.Email);
+    //     if (userExists != null && await _userManager.CheckPasswordAsync(user, password))
+    //     {
+    //         var claims = await _userManager.GetClaimsAsync(user);
+    //         claims.Add(new Claim(user.Id.ToString()));
+    //     }
+    // }
 }
