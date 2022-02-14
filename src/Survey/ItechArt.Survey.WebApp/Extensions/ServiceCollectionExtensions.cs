@@ -5,6 +5,7 @@ using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Repositories;
+using ItechArt.Survey.Repositories.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -43,6 +44,7 @@ public static class ServiceCollectionExtensions
             })
             .AddRoles<Role>()
             .AddRoleManager<RoleManager<Role>>()
-            .AddEntityFrameworkStores<SurveyDbContext>()
+            .AddRoleStore<RoleStore<Role>>()
+            //.AddEntityFrameworkStores<SurveyDbContext>()
             .Services;
 }
