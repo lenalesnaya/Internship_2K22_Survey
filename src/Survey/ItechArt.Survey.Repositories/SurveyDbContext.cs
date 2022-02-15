@@ -13,7 +13,8 @@ public class SurveyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>();
+        modelBuilder.Entity<User>().Property(u => u.UserName).HasMaxLength(30);
+        modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
         modelBuilder.Entity<Role>();
         modelBuilder.Entity<UserRole>().HasKey(u=> new { u.RoleId, u.UserId });
     }

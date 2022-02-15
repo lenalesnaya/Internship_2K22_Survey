@@ -4,6 +4,8 @@ using AutoMapper;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItechArt.Survey.WebApp.Controllers;
@@ -34,9 +36,17 @@ public class AccountController : Controller
         {
             return View(model);
         }
-
         var result = await _authenticateService.RegistrationAsync(_mapper.Map<User>(model), model.Password);
+        
+        //await HttpContext.SignInAsync(result.Result);
+        return RedirectToAction("Profile");
+    }
 
+    [HttpGet]
+    [Authorize]
+    public IActionResult Profile()
+    {
+        var model = new ProfileViewModel();
         return View(model);
     }
 }

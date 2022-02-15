@@ -1,5 +1,5 @@
 <Project>
-   <PropertyGroup>    
+   <PropertyGroup>
      <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
    </PropertyGroup>
- </Project>
+</Project>
