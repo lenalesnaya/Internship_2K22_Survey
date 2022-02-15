@@ -98,24 +98,32 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
                 u.UserName.ToString() == userName))
             .SingleOrDefault();
 
-    public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
+    public async Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        user.Email = email;
+        await UpdateAsync(user, cancellationToken);
     }
 
-    public Task<string> GetEmailAsync(User user, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<string> GetEmailAsync(User user, CancellationToken cancellationToken)
+        => (await _unitOfWork
+            .GetRepository<User>()
+            .GetWhereAsync(u => 
+                u.Email == user.Email))
+            .SingleOrDefault()
+            .Email;
 
-    public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken)
+        => (await _unitOfWork
+                .GetRepository<User>()
+                .GetWhereAsync(u => 
+                    u.EmailConfirmed == user.EmailConfirmed))
+            .SingleOrDefault()
+            .EmailConfirmed;
 
-    public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
+    public async Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        user.EmailConfirmed = confirmed;
+        await UpdateAsync(user, cancellationToken);
     }
 
     public async Task<User> FindByEmailAsync(string email, CancellationToken cancellationToken)
@@ -125,14 +133,18 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
                     u.Email == email))
             .SingleOrDefault();
 
-    public Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
+        => (await _unitOfWork
+                .GetRepository<User>()
+                .GetWhereAsync(u => 
+                    u.NormalizedEmail == user.NormalizedEmail))
+            .SingleOrDefault()
+            .NormalizedEmail;
 
-    public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken)
+    public async Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        user.NormalizedEmail = normalizedEmail;
+        await UpdateAsync(user, cancellationToken);
     }
 
     public async Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
@@ -141,14 +153,20 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         await UpdateAsync(user, cancellationToken);
     }
 
-    public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
+        => (await _unitOfWork
+                .GetRepository<User>()
+                .GetWhereAsync(u => 
+                    u.PasswordHash == user.PasswordHash))
+            .SingleOrDefault()
+            .PasswordHash;
 
-    public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
+    public async Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        user = (await _unitOfWork
+            .GetRepository<User>()
+            .GetWhereAsync(u => u.Id == user.Id)).SingleOrDefault();
+        return user.PasswordHash != null;
     }
 
     public async Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken = default)
