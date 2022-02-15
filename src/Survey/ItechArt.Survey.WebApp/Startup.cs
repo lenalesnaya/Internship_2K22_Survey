@@ -1,4 +1,3 @@
-using ItechArt.Common.Logging;
 using ItechArt.Survey.WebApp.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,10 +21,6 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDatabase(Configuration);
-        services.AddLogger();
-        services.AddAuthenticationRules();
-        services.AddIdentityWithConfiguration();
-        services.AddIdentityConfiguration();
         services.AddIdentity();
         services.AddServicesMapper();
         services.AddAuthenticationService();

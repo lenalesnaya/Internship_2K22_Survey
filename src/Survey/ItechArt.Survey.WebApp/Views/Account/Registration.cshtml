@@ -1,12 +1,10 @@
-﻿@model ItechArt.Survey.WebApp.ViewModels.RegistrationViewModel
+﻿@using ItechArt.Survey.WebApp.ViewModels
+@model ItechArt.Survey.WebApp.ViewModels.RegistrationViewModel
 
 @{
     Layout = "_Layout";
 }
 
-@section Script {
-     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 
 <form asp-antiforgery="true" asp-action="Registration" asp-controller="Account">
 
@@ -50,3 +48,8 @@
     <p>Already have an account? <a href="#">Sign in</a>.</p>
   </div>
 </form>
+
+
+@section Script {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
