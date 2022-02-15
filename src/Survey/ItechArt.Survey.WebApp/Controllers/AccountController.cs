@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItechArt.Survey.WebApp.Controllers;
@@ -34,9 +37,15 @@ public class AccountController : Controller
         {
             return View(model);
         }
-        var result = await _authenticateService.RegistrationAsync(_mapper.Map<User>(model), model.Password);
-        
-        //await HttpContext.SignInAsync(result.Result);
+
+        var user = _mapper.Map<User>(model);
+        var result = await _authenticateService.RegistrationAsync(user, model.Password);
+
+        var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
+        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+        identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+
+        await HttpContext.SignInAsync(new ClaimsPrincipal(identity));
         return RedirectToAction("Profile");
     }
 

@@ -6,11 +6,12 @@ using ItechArt.Survey.Foundation.Authentication;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Repositories;
 using ItechArt.Survey.Repositories.Stores;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 //using ItechArt.Survey.Repositories.Stores;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UserStore = ItechArt.Survey.Repositories.Stores.UserStore;
 
 namespace ItechArt.Survey.WebApp.Extensions;
 
@@ -44,8 +45,9 @@ public static class ServiceCollectionExtensions
                 options.User.RequireUniqueEmail = true;
             })
             .AddRoles<Role>()
-            .AddRoleManager<RoleManager<Role>>()
-            .AddRoleStore<RoleStore<Role>>()
-            //.AddEntityFrameworkStores<SurveyDbContext>()
+            .AddUserStore<UserStore>()
+            //.AddRoleManager<RoleManager<Role>>()
+            //.AddRoleStore<RoleStore<Role>>()
+            .AddEntityFrameworkStores<SurveyDbContext>()
             .Services;
 }

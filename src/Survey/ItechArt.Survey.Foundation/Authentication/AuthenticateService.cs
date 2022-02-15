@@ -29,9 +29,9 @@ public class AuthenticateService : IAuthenticateService
         }
         
         var createResult = await _userManager.CreateAsync(user, password);
-        var addRoleResult = await _userManager.AddToRoleAsync(user, "User");
+        //var addRoleResult = await _userManager.AddToRoleAsync(user, "User");
 
-        return createResult.Succeeded && addRoleResult.Succeeded
+        return createResult.Succeeded
             ? OperationResult<User, UserRegistrationStatus>.SuccessResult(user, UserRegistrationStatus.Ok)
             : OperationResult<User, UserRegistrationStatus>.FailureResult(UserRegistrationStatus.UnknownError, createResult.Errors.ToString());
     }
