@@ -1,11 +1,14 @@
 ﻿using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel;
+using Microsoft.AspNetCore.Identity;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ItechArt.Survey.Repositories.Stores
 {
-    public class RoleStore<TRole> : IDisposable//: IRoleStore<TRole>
+    public class RoleStore<TRole> : IRoleStore<TRole>
         where TRole : Role
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -17,57 +20,147 @@ namespace ItechArt.Survey.Repositories.Stores
         }
 
 
-        public void CreateAsync(TRole role) // ?? should return Task<OperationResult<TResult, TStatus>>
+        public async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+
             var repository = _unitOfWork.GetRepository<TRole>();
             repository.Add(role);
 
-            _unitOfWork.SaveChangesAsync();
+            return await SaveChangesAsync();
         }
 
-        public void DeleteAsync(TRole role) // ?? should return Task<OperationResult<TResult, TStatus>>
+        public async Task<IdentityResult> UpdateAsync(TRole role, CancellationToken cancellationToken = default)
         {
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+
+            var repository = _unitOfWork.GetRepository<TRole>();
+            repository.Update(role);
+
+            return await SaveChangesAsync();
+        }
+
+        public async Task<IdentityResult> DeleteAsync(TRole role, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+
             var repository = _unitOfWork.GetRepository<TRole>();
             repository.Remove(role);
 
-            _unitOfWork.SaveChangesAsync();
+            return await SaveChangesAsync();
         }
 
-        public Task<TRole> FindByIdAsync(int roleId)
+        public Task<string> GetRoleIdAsync(TRole role, CancellationToken cancellationToken = default)
         {
-            var repository = _unitOfWork.GetRepository<TRole>();
-            var collectionWithRole = repository.GetWhereAsync(role => role.Id == roleId).Result;
-            TRole role = null;
+            cancellationToken.ThrowIfCancellationRequested();
 
-            foreach (var item in collectionWithRole)
+            if (role == null)
             {
-                role = item;
+                throw new ArgumentNullException(nameof(role));
             }
 
-            return Task.FromResult(role);
+            return Task.FromResult(role.Id.ToString());
         }
 
-        public Task<TRole> FindByNameAsync(string roleName)
+        public Task<string> GetRoleNameAsync(TRole role, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+
+            return Task.FromResult(role.Name);
+        }
+
+        public Task SetRoleNameAsync(TRole role, string roleName, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+
+            role.Name = roleName ?? throw new ArgumentNullException(nameof(roleName));
+
+            return Task.CompletedTask;
+        }
+
+        public Task<string> GetNormalizedRoleNameAsync(TRole role, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+
+            return Task.FromResult(role.NormalizedName);
+        }
+
+        public Task SetNormalizedRoleNameAsync(TRole role, string normalizedName, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+
+            role.Name = normalizedName ?? throw new ArgumentNullException(nameof(normalizedName));
+
+            return Task.CompletedTask;
+        }
+
+        public Task<TRole> FindByIdAsync(string roleId, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (int.TryParse(roleId, out int intRoleId))
+            {
+                var repository = _unitOfWork.GetRepository<TRole>();
+                var collectionWithRole = repository.GetWhereAsync(role => role.Id == intRoleId).Result;
+
+                TRole role = collectionWithRole.FirstOrDefault();
+
+                return Task.FromResult(role);
+            }
+            else
+            {
+                throw new ArgumentException("Parameter value must be parsed to int", nameof(roleId));
+            }
+        }
+
+        public Task<TRole> FindByNameAsync(string roleName, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (roleName == null)
+            {
+                throw new ArgumentNullException(nameof(roleName));
+            }
+
             var repository = _unitOfWork.GetRepository<TRole>();
             var collectionWithRole = repository.GetWhereAsync(role => role.Name == roleName).Result;
-            TRole role = null;
 
-            foreach (var item in collectionWithRole)
-            {
-                role = item;
-            }
+            TRole role = collectionWithRole.FirstOrDefault();
 
             return Task.FromResult(role);
-        }
-
-        public void SetRoleNameAsync(TRole role, string roleName)
-        {
-            var repository = _unitOfWork.GetRepository<TRole>();
-            role.Name = roleName;
-            repository.Update(role);
-
-            _unitOfWork.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -76,29 +169,19 @@ namespace ItechArt.Survey.Repositories.Stores
             GC.SuppressFinalize(this);
         }
 
-        //public Task<string> GetNormalizedRoleNameAsync(TRole role, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        //public Task<string> GetRoleIdAsync(TRole role)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        protected async Task<IdentityResult> SaveChangesAsync()
+        {
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch
+            {
+                return IdentityResult.Failed();
+            }
 
-        //public Task<string> GetRoleNameAsync(TRole role)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task SetNormalizedRoleNameAsync(TRole role, string normalizedName, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<IdentityResult> UpdateAsync(TRole role)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            return IdentityResult.Success;
+        }
     }
 }
