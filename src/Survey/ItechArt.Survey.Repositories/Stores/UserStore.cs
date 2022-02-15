@@ -253,7 +253,8 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         var repositoryOfUserRoles = _unitOfWork.GetRepository<UserRole>();
 
         var role = repositoryOfRoles.GetWhereAsync(role => role.Name == roleName).Result.SingleOrDefault();
-        var result = repositoryOfUserRoles.GetAllAsync().Result.Any(userRole => (userRole.UserId == user.Id) && (userRole.RoleId == role.Id));
+        var result = repositoryOfUserRoles.GetAllAsync().Result.Any(
+            userRole => (userRole.UserId == user.Id) && (userRole.RoleId == role.Id));
 
         return Task.FromResult(result);
     }
