@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     }
 
 
-    public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default)
+    public async Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default)
     {
         return user.Id.ToString();
     }
@@ -78,13 +79,13 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var repository = _unitOfWork.GetRepository<User>();
         var id = int.Parse(userId);
-        return await repository.SingleGetWhere(u => u.Id == id);
+        return await repository.GetSingleWhereAsync(u => u.Id == id);
     }
 
     public async Task<User> FindByNameAsync(string userName, CancellationToken cancellationToken = default)
     {
         var repository = _unitOfWork.GetRepository<User>();
-        return await repository.SingleGetWhere(u => u.UserName == userName);
+        return await repository.GetSingleWhereAsync(u => u.UserName == userName);
     }
 
     public async Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
@@ -110,7 +111,7 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     public async Task<User> FindByEmailAsync(string email, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.GetRepository<User>();
-        return await repository.SingleGetWhere(u => u.Email == email);
+        return await repository.GetSingleWhereAsync(u => u.Email == email);
     }
 
     public async Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
@@ -223,7 +224,6 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
 
         return users;
     }
-
 
     public async Task<IdentityResult> SaveChangesAsync()
     {
