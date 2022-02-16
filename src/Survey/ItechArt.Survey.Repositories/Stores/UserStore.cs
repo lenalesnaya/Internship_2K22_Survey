@@ -13,24 +13,19 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
 {
     private readonly IUnitOfWork _unitOfWork;
 
+
     public UserStore(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
 
-    public void Dispose()
-    {
-        _unitOfWork.Dispose();
-        GC.SuppressFinalize(this);
-    }
 
     public async Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default)
-        => (await _unitOfWork
-            .GetRepository<User>()
-            .GetWhereAsync(u =>
-                u.Id == user.Id))
-            .SingleOrDefault()
-            .ToString();
+    {
+        var repository = _unitOfWork.GetRepository<User>();
+        var userId = await repository.SingleGetWhere(u => u.Id == user.Id);
+        return user.Id.ToString();
+    }
 
     public async Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken = default)
         => (await _unitOfWork
@@ -96,7 +91,7 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
             .GetRepository<User>()
             .GetWhereAsync(u =>
                 u.UserName.ToString() == userName))
-            .SingleOrDefault();
+            .SingleOrDefault();//пропарсить к int а потом 
 
     public async Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
     {
@@ -296,5 +291,10 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         }
 
         return IdentityResult.Success;
+    }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
     }
 }
