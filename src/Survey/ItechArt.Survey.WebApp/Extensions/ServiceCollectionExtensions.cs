@@ -8,8 +8,8 @@ using ItechArt.Survey.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using UserStore = ItechArt.Survey.Repositories.Stores.UserStore;
-using RoleStore = ItechArt.Survey.Repositories.Stores.RoleStore;
+using UserStore = ItechArt.Survey.Foundation.Authentication.Stores.UserStore;
+using RoleStore = ItechArt.Survey.Foundation.Authentication.Stores.RoleStore;
 
 namespace ItechArt.Survey.WebApp.Extensions;
 

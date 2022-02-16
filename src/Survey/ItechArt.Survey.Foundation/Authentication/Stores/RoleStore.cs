@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ItechArt.Survey.Repositories.Stores;
+namespace ItechArt.Survey.Foundation.Authentication.Stores;
 
 public class RoleStore: IRoleStore<Role>
 {
