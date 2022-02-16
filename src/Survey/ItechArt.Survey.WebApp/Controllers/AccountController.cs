@@ -15,14 +15,17 @@ public class AccountController : Controller
 {
     private IAuthenticateService _authenticateService;
     private IMapper _mapper;
+    private readonly SignInManager<User> _signInManager;
 
 
     public AccountController(
         IAuthenticateService authenticateService,
-        IMapper mapper)
+        IMapper mapper,
+        SignInManager<User> signInManager)
     {
         _authenticateService = authenticateService;
         _mapper = mapper;
+        _signInManager = signInManager;
     }
 
 
@@ -40,13 +43,14 @@ public class AccountController : Controller
 
         var user = _mapper.Map<User>(model);
         var result = await _authenticateService.RegistrationAsync(user, model.Password);
+        
+        if (result.Success)
+        {
+            await _signInManager.SignInAsync(user, false);
+            return RedirectToAction("Profile");
+        }
 
-        var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
-        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-        identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
-
-        await HttpContext.SignInAsync(new ClaimsPrincipal(identity));
-        return RedirectToAction("Profile");
+        return View(model);
     }
 
     [HttpGet]
@@ -55,5 +59,14 @@ public class AccountController : Controller
     {
         var model = new ProfileViewModel();
         return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> LogOut()
+    {
+        await _signInManager.SignOutAsync();
+
+        return RedirectToAction("Registration");
     }
 }
