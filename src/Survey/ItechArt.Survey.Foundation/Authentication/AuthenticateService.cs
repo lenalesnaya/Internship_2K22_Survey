@@ -6,7 +6,6 @@ using ItechArt.Survey.Foundation.Authentication.Validation;
 using Microsoft.AspNetCore.Identity;
 using UserOptions = ItechArt.Survey.Foundation.Authentication.Validation.UserOptions;
 
-
 namespace ItechArt.Survey.Foundation.Authentication;
 
 public class AuthenticateService : IAuthenticateService
