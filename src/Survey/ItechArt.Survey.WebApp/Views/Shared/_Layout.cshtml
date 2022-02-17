@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -10,11 +11,16 @@
     @await RenderSectionAsync("Script", false)
 </head>
 <body>
-<form action="">
-    <p>
-        <input type="button" value=" Нажми меня нежно ">
-    </p>
-</form>
+<div>
+    <a href="/Account/Profile"><span>My Profile</span></a>
+</div>
+<div>
+    <form action="/Account/LogOut" method="get">
+        <p>
+            <input type="submit" value="Log out">
+        </p>
+    </form>
+</div>
 <div>
     @RenderBody()
 </div>

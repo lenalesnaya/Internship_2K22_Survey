@@ -60,12 +60,12 @@ public class AccountController : Controller
     {
         var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userService.GetCurrent(userId);
-
         var model = _mapper.Map<ProfileViewModel>(user);
+
         return View(model);
     }
 
-    [HttpPost]
+    [HttpGet]
     public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();
