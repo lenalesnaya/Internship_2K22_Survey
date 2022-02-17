@@ -1,10 +1,12 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
+using ItechArt.Survey.Foundation.UserService;
 using ItechArt.Survey.WebApp.ViewModels;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,16 +18,18 @@ public class AccountController : Controller
     private IAuthenticateService _authenticateService;
     private IMapper _mapper;
     private readonly SignInManager<User> _signInManager;
+    private IUserService _userService;
 
 
     public AccountController(
         IAuthenticateService authenticateService,
         IMapper mapper,
-        SignInManager<User> signInManager)
+        SignInManager<User> signInManager, IUserService userService)
     {
         _authenticateService = authenticateService;
         _mapper = mapper;
         _signInManager = signInManager;
+        _userService = userService;
     }
 
 
@@ -43,26 +47,25 @@ public class AccountController : Controller
 
         var user = _mapper.Map<User>(model);
         var result = await _authenticateService.RegistrationAsync(user, model.Password);
-        
-        if (result.Success)
-        {
-            await _signInManager.SignInAsync(user, false);
-            return RedirectToAction("Profile");
-        }
 
-        return View(model);
+        if (!result.Success) return View(model);
+        await _signInManager.SignInAsync(user, false);
+
+        return RedirectToAction("Profile");
     }
 
     [HttpGet]
     [Authorize]
-    public IActionResult Profile()
+    public async Task<IActionResult> Profile()
     {
-        var model = new ProfileViewModel();
+        var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _userService.GetCurrent(userId);
+
+        var model = _mapper.Map<ProfileViewModel>(user);
         return View(model);
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();

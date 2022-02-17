@@ -28,7 +28,7 @@ public class AuthenticateService : IAuthenticateService
                 UserRegistrationStatus.UserAlreadyExists,
                 "User already exists");
         }
-        
+
         var createResult = await _userManager.CreateAsync(user, password);
         var addRoleResult = await _userManager.AddToRoleAsync(user, "User");
 

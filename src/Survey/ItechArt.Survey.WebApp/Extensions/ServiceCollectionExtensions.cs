@@ -4,6 +4,7 @@ using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
+using ItechArt.Survey.Foundation.UserService;
 using ItechArt.Survey.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,8 @@ namespace ItechArt.Survey.WebApp.Extensions;
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAuthenticationService(this IServiceCollection services)
-        => services.AddScoped<IAuthenticateService, AuthenticateService>();
+        => services.AddScoped<IAuthenticateService, AuthenticateService>()
+            .AddScoped<IUserService, UserService>();
 
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());
