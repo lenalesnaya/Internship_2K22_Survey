@@ -20,7 +20,6 @@ public class RegistrationViewModel
     [Required(ErrorMessage = "Email is required")]
     public string Email { get; set; }
 
-    [StringLength(20, MinimumLength = 8, ErrorMessage = "Password must consist of 8-20 symbols")]
     [RegularExpression(
         @"^(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,20}$",
         ErrorMessage = "Incorrect password")]

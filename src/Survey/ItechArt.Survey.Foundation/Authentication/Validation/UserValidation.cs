@@ -13,7 +13,7 @@ namespace ItechArt.Survey.Foundation.Authentication.Validation
             }
             else if (options.UserName.Length < 3 || options.UserName.Length > 30)
             {
-                return ValidateOptionsResult.Fail("User name must consist of 3-60 symbols");
+                return ValidateOptionsResult.Fail("User name must consist of 3-30 symbols");
             }
 
             var nameRegex = new Regex(@"^(?=.{3,30}$)(?![_.0-9])[a-zA-ZА-Яа-я0-9._]+(?<![_.])$");
@@ -45,10 +45,10 @@ namespace ItechArt.Survey.Foundation.Authentication.Validation
             }
             else if (options.Password.Length < 3 || options.Password.Length > 30)
             {
-                return ValidateOptionsResult.Fail("Password must consist of 3-60 symbols");
+                return ValidateOptionsResult.Fail("Password must consist of 8-20 symbols");
             }
 
-            var passwordRegex = new Regex(@"^(?=.{3,30}$)(?![_.0-9])[a-zA-ZА-Яа-я0-9._]+(?<![_.])$");
+            var passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,20}$");
             match = passwordRegex.Match(options.Password);
 
             if (string.IsNullOrEmpty(match.Value))
