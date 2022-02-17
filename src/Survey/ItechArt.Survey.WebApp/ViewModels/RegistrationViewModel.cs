@@ -27,5 +27,6 @@ public class RegistrationViewModel
     public string Password { get; set; }
 
     [Required(ErrorMessage = "Please, repeat password")]
+    [Compare("Password", ErrorMessage = "Confirm password doesn't match, Type again !")]
     public string RepeatPassword { get; set; }
 }
