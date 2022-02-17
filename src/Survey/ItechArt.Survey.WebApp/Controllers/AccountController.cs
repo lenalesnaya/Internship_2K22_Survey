@@ -1,10 +1,8 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -42,12 +40,17 @@ public class AccountController : Controller
         }
 
         var user = _mapper.Map<User>(model);
-        var result = await _authenticateService.RegistrationAsync(user, model.Password);
-        
+        var result = await _authenticateService.RegistrationAsync(user, model.Password, model.RepeatPassword);
+
         if (result.Success)
         {
             await _signInManager.SignInAsync(user, false);
             return RedirectToAction("Profile");
+        }
+
+        foreach(var error in result.Errors)
+        {
+            model.Error = error;
         }
 
         return View(model);

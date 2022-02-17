@@ -1,9 +1,11 @@
+using ItechArt.Survey.Foundation.Authentication.Validation;
 using ItechArt.Survey.WebApp.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace ItechArt.Survey.WebApp;
 
@@ -25,6 +27,8 @@ public class Startup
         services.AddServicesMapper();
         services.AddAuthenticationService();
         services.AddControllersWithViews();
+        services.AddOptions<UserOptions>().ValidateDataAnnotations();
+        services.AddSingleton<IValidateOptions<UserOptions>, UserValidator>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

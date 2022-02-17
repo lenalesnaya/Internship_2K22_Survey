@@ -225,20 +225,6 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         return users;
     }
 
-    public async Task<IdentityResult> SaveChangesAsync()
-    {
-        try
-        {
-            await _unitOfWork.SaveChangesAsync();
-        }
-        catch (Exception exception)
-        {
-            throw new Exception(exception.Message);
-        }
-
-        return IdentityResult.Success;
-    }
-
     public void Dispose()
     {
         // is not needed
