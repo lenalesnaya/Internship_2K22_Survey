@@ -24,7 +24,7 @@ public class AuthenticateService : IAuthenticateService
 
         if (userExists != null)
         {
-            return OperationResult<User, UserRegistrationStatusErrors>.FailureResult(
+            return OperationResult<User, UserRegistrationStatusErrors>.GetFailureResult(
                 UserRegistrationStatusErrors.UserAlreadyExists);
         }
 
@@ -32,7 +32,7 @@ public class AuthenticateService : IAuthenticateService
         var addRoleResult = await _userManager.AddToRoleAsync(user, "User");
 
         return createResult.Succeeded
-            ? OperationResult<User, UserRegistrationStatusErrors>.SuccessResult(user)
-            : OperationResult<User, UserRegistrationStatusErrors>.FailureResult(UserRegistrationStatusErrors.UnknownError);
+            ? OperationResult<User, UserRegistrationStatusErrors>.GetSuccessResult(user)
+            : OperationResult<User, UserRegistrationStatusErrors>.GetFailureResult(UserRegistrationStatusErrors.UnknownError);
     }
 }

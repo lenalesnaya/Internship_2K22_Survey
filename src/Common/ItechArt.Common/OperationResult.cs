@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ItechArt.Common;
 
-public class OperationResult<TResult, TStatus>
-    where TStatus: Enum
+public class OperationResult<TResult, TStatusError>
+    where TStatusError: Enum
 {
     private readonly TResult _result;
-    private readonly TStatus _status;
+    private readonly TStatusError _status;
 
 
     public TResult Result
@@ -32,19 +30,19 @@ public class OperationResult<TResult, TStatus>
         _result = result;
     }
 
-    private OperationResult(TStatus  status)
+    private OperationResult(TStatusError  status)
     {
         _status = status;
     }
 
 
-    public static OperationResult<TResult, TStatus> SuccessResult(TResult result)
+    public static OperationResult<TResult, TStatusError> GetSuccessResult(TResult result)
     {
-        return new OperationResult<TResult, TStatus>(result);
+        return new OperationResult<TResult, TStatusError>(result);
     }
 
-    public static OperationResult<TResult, TStatus> FailureResult(TStatus status)
+    public static OperationResult<TResult, TStatusError> GetFailureResult(TStatusError status)
     {
-        return new OperationResult<TResult, TStatus>(status);
+        return new OperationResult<TResult, TStatusError>(status);
     }
 }
