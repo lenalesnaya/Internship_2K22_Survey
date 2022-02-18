@@ -4,9 +4,9 @@ namespace ItechArt.Survey.WebApp.ViewModels;
 
 public class RegistrationViewModel
 {
-    [StringLength(30, MinimumLength = 3, ErrorMessage = "User name must consist of 3-60 symbols")]
+    [StringLength(30, MinimumLength = 3, ErrorMessage = "User name must consist of 3-30 symbols")]
     [RegularExpression(
-        @"^(?=.{3,30}$)(?![_.0-9])[a-zA-ZА-Яа-я0-9._]+(?<![_.])$",
+       @"^(?=.{3,30}$)(?![_.0-9])[a-zA-ZА-Яа-я0-9._]+(?<![_.])$",
        ErrorMessage = "Incorrect user name")]
     [Required(ErrorMessage = "User name is required")]
     public string UserName { get; set; }
@@ -27,6 +27,8 @@ public class RegistrationViewModel
     public string Password { get; set; }
 
     [Required(ErrorMessage = "Please, repeat password")]
-    [Compare("Password", ErrorMessage = "Confirm password doesn't match, Type again !")]
+    [Compare("Password", ErrorMessage = "Password doesn't match, try again !")]
     public string RepeatPassword { get; set; }
+
+    public string Error { get; set; }
 }

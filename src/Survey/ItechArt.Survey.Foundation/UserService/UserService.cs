@@ -18,6 +18,7 @@ public class UserService : IUserService
     public async Task<User> GetCurrent(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
+
         return user;
     }
 }

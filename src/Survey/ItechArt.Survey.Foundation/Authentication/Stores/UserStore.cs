@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ItechArt.Repositories.Abstractions;
@@ -49,7 +47,6 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var repository = _unitOfWork.GetRepository<User>();
         repository.Add(user);
-
         await _unitOfWork.SaveChangesAsync();
 
         return IdentityResult.Success;
@@ -59,7 +56,6 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var repository = _unitOfWork.GetRepository<User>();
         repository.Update(user);
-
         await _unitOfWork.SaveChangesAsync();
 
         return IdentityResult.Success;
@@ -69,7 +65,6 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var repository = _unitOfWork.GetRepository<User>();
         repository.Remove(user);
-
         await _unitOfWork.SaveChangesAsync();
 
         return IdentityResult.Success;
@@ -77,64 +72,67 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
 
     public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
     {
-        var repository = _unitOfWork.GetRepository<User>();
         var id = int.Parse(userId);
+        var repository = _unitOfWork.GetRepository<User>();
+
         return await repository.GetSingleWhereAsync(u => u.Id == id);
     }
 
     public async Task<User> FindByNameAsync(string userName, CancellationToken cancellationToken = default)
     {
         var repository = _unitOfWork.GetRepository<User>();
+
         return await repository.GetSingleWhereAsync(u => u.UserName == userName);
     }
 
-    public async Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
+    public async Task SetEmailAsync(User user, string email, CancellationToken cancellationToken = default)
     {
         user.Email = email;;
     }
 
-    public async Task<string> GetEmailAsync(User user, CancellationToken cancellationToken)
+    public async Task<string> GetEmailAsync(User user, CancellationToken cancellationToken = default)
     {
         return user.Email;
     }
 
-    public async Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken)
+    public async Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken = default)
     {
         return user.EmailConfirmed;
     }
 
-    public async Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
+    public async Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken = default)
     {
         user.EmailConfirmed = confirmed;
     }
 
-    public async Task<User> FindByEmailAsync(string email, CancellationToken cancellationToken)
+    public async Task<User> FindByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         var repository = _unitOfWork.GetRepository<User>();
+
         return await repository.GetSingleWhereAsync(u => u.Email == email);
     }
 
-    public async Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
+    public async Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken = default)
     {
         return user.NormalizedEmail;
     }
 
-    public async Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken)
+    public async Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken = default)
     {
         user.NormalizedEmail = normalizedEmail;
     }
 
-    public async Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
+    public async Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken = default)
     {
         user.PasswordHash = passwordHash;
     }
 
-    public async Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
+    public async Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken = default)
     {
         return user.PasswordHash;
     }
 
-    public async Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
+    public async Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken = default)
     {
         return user.PasswordHash != null;
     }
@@ -143,7 +141,6 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
-
         var role = await rolesRepository.GetSingleWhereAsync(role => role.Name == roleName);
 
         var userRole = new UserRole()
@@ -159,7 +156,6 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
-
         var role = await rolesRepository.GetSingleWhereAsync(role => role.Name == roleName);
 
         var userRole = new UserRole()
@@ -175,23 +171,17 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
         var rolesRepository = _unitOfWork.GetRepository<Role>();
+        var userRoles = await userRolesRepository.GetWhereAsync(userRole => userRole.UserId == user.Id);
 
         var roleNames = new List<string>();
-        var userRoles = await userRolesRepository.GetWhereAsync(userRole => userRole.UserId == user.Id);
 
         foreach (var userRole in userRoles)
         {
-            roleNames.Add((await rolesRepository.GetSingleWhereAsync(role => role.Id == userRole.RoleId)).Name);// много для одной строки?
+            roleNames.Add((await rolesRepository.GetSingleWhereAsync(
+                role => role.Id == userRole.RoleId)).Name);
         }
 
         return roleNames;
-
-        //var query = from userRole in userRoles
-        //            where userRole.UserId.Equals(user.Id)
-        //            join role in await repositoryOfRoles.GetAllAsync() on userRole.RoleId equals role.Id
-        //            select role.Name;
-
-        //return query.ToList();
     }
 
     public async Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken = default)
@@ -208,8 +198,6 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
 
     public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default)
     {
-        var users = new List<User>();
-
         var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
         var usersRepository = _unitOfWork.GetRepository<User>();
@@ -217,26 +205,14 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         var role = await rolesRepository.GetSingleWhereAsync(role => role.Name == roleName);
         var roleUsers = await userRolesRepository.GetWhereAsync(userRole => userRole.RoleId == role.Id);
 
+        var users = new List<User>();
+
         foreach (var roleUser in roleUsers)
         {
             users.Add(await usersRepository.GetSingleWhereAsync(user => user.Id == roleUser.UserId));
         }
 
         return users;
-    }
-
-    public async Task<IdentityResult> SaveChangesAsync()
-    {
-        try
-        {
-            await _unitOfWork.SaveChangesAsync();
-        }
-        catch (Exception exception)
-        {
-            throw new Exception(exception.Message);
-        }
-
-        return IdentityResult.Success;
     }
 
     public void Dispose()

@@ -17,7 +17,7 @@ namespace ItechArt.Survey.WebApp.Extensions;
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAuthenticationService(this IServiceCollection services)
-        => services.AddScoped<IAuthenticateService, AuthenticateService>()
+                => services.AddScoped<IAuthenticateService, AuthenticateService>()
             .AddScoped<IUserService, UserService>();
 
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)

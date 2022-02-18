@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Net;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Survey.DomainModel;
@@ -15,10 +13,10 @@ namespace ItechArt.Survey.WebApp.Controllers;
 
 public class AccountController : Controller
 {
-    private IAuthenticateService _authenticateService;
-    private IMapper _mapper;
     private readonly SignInManager<User> _signInManager;
-    private IUserService _userService;
+    private readonly IAuthenticateService _authenticateService;
+    private readonly IMapper _mapper;
+    private readonly IUserService _userService;
 
 
     public AccountController(
@@ -26,9 +24,9 @@ public class AccountController : Controller
         IMapper mapper,
         SignInManager<User> signInManager, IUserService userService)
     {
+        _signInManager = signInManager;
         _authenticateService = authenticateService;
         _mapper = mapper;
-        _signInManager = signInManager;
         _userService = userService;
     }
 
@@ -46,9 +44,18 @@ public class AccountController : Controller
         }
 
         var user = _mapper.Map<User>(model);
-        var result = await _authenticateService.RegistrationAsync(user, model.Password);
+        var result = await _authenticateService.RegistrationAsync(user, model.Password, model.RepeatPassword);
 
-        if (!result.Success) return View(model);
+        if (!result.Success)
+        {
+            foreach (var error in result.Errors)
+            {
+                model.Error = error;
+            }
+
+            return View(model);
+        }
+
         await _signInManager.SignInAsync(user, false);
 
         return RedirectToAction("Profile");

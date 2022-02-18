@@ -21,7 +21,6 @@ public class RoleStore: IRoleStore<Role>
     {
         var repository = _unitOfWork.GetRepository<Role>();
         repository.Add(role);
-
         await _unitOfWork.SaveChangesAsync();
 
         return IdentityResult.Success;
@@ -31,7 +30,6 @@ public class RoleStore: IRoleStore<Role>
     {
         var repository = _unitOfWork.GetRepository<Role>();
         repository.Update(role);
-
         await _unitOfWork.SaveChangesAsync();
 
         return IdentityResult.Success;
@@ -41,7 +39,6 @@ public class RoleStore: IRoleStore<Role>
     {
         var repository = _unitOfWork.GetRepository<Role>();
         repository.Remove(role);
-
         await _unitOfWork.SaveChangesAsync();
 
         return IdentityResult.Success;
@@ -79,7 +76,6 @@ public class RoleStore: IRoleStore<Role>
     public async Task<Role> FindByIdAsync(string roleId, CancellationToken cancellationToken = default)
     {
         int intRoleId = int.Parse(roleId);
-
         var repository = _unitOfWork.GetRepository<Role>();
         var role = await repository.GetSingleWhereAsync(role => role.Id == intRoleId);
 
