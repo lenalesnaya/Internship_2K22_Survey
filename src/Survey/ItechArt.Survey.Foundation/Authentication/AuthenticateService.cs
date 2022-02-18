@@ -31,9 +31,7 @@ public class AuthenticateService : IAuthenticateService
         var validateOptionsResult = userValidation.Validate("UserOptions", userOptions);
 
         if (validateOptionsResult.Failed)
-            return OperationResult<User, UserRegistrationStatus>.FailureResult(
-                UserRegistrationStatus.UnknownError,
-                validateOptionsResult.FailureMessage);
+            return OperationResult<User, UserRegistrationStatusErrors>.GetFailureResult(UserRegistrationStatusErrors.UnknownError);
 
         var userExists = await _userManager.FindByEmailAsync(user.Email);
 
