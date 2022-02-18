@@ -8,6 +8,7 @@ public class OperationResult<TResult, TStatus>
     where TStatus: Enum
 {
     private readonly TResult _result;
+    private readonly TStatus _status;
 
 
     public TResult Result
@@ -23,40 +24,27 @@ public class OperationResult<TResult, TStatus>
         }
     }
 
-    public bool Success => Errors == null;
-
-    public IList<string> Errors { get; set;}
-
-    private TStatus Status { get; }
+    public bool Success => Result != null;
 
 
-    private OperationResult(TResult result, TStatus  status)
+    private OperationResult(TResult result)
     {
         _result = result;
-        Status = status;
     }
 
-    private OperationResult(TStatus  status, params string[] errors)
+    private OperationResult(TStatus  status)
     {
-        Status = status;
-        AddErrors(errors);
+        _status = status;
     }
 
 
-    public static OperationResult<TResult, TStatus> SuccessResult(TResult result, TStatus status)
+    public static OperationResult<TResult, TStatus> SuccessResult(TResult result)
     {
-        return new OperationResult<TResult, TStatus>(result, status);
+        return new OperationResult<TResult, TStatus>(result);
     }
 
-    public static OperationResult<TResult, TStatus> FailureResult(TStatus status,params string[] errors)
+    public static OperationResult<TResult, TStatus> FailureResult(TStatus status)
     {
-        return new OperationResult<TResult, TStatus>(status, errors);
-    }
-
-    private void AddErrors(IEnumerable<string> errors)
-    {
-        Errors = Errors == null
-            ? new List<string>(errors)
-            : Errors.Concat(errors).ToList();
+        return new OperationResult<TResult, TStatus>(status);
     }
 }
