@@ -44,7 +44,7 @@ public class AccountController : Controller
         }
 
         var user = _mapper.Map<User>(model);
-        var result = await _authenticateService.RegistrationAsync(user, model.Password);
+        var result = await _authenticateService.RegisterAsync(user, model.Password);
 
         if (!result.Success)
         {

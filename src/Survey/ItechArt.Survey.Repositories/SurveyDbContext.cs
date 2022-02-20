@@ -16,6 +16,6 @@ public class SurveyDbContext : DbContext
         modelBuilder.Entity<User>().Property(u => u.UserName).HasMaxLength(30);
         modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
         modelBuilder.Entity<Role>().Property(u => u.Name).IsRequired();
-        modelBuilder.Entity<UserRole>().HasKey(u=> new { u.RoleId, u.UserId });
+        modelBuilder.Entity<UserRole>().HasKey(u => new { u.RoleId, u.UserId });
     }
 }

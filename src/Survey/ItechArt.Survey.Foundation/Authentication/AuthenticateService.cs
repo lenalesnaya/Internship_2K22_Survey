@@ -18,7 +18,7 @@ public class AuthenticateService : IAuthenticateService
     }
 
 
-    public async Task<OperationResult<UserRegistrationErrors>> RegistrationAsync(User user, string password)
+    public async Task<OperationResult<UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
         var userValidatorResult = UserValidator.Validate(user, password);
 

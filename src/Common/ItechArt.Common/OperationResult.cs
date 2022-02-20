@@ -5,24 +5,25 @@ namespace ItechArt.Common;
 public class OperationResult<TError>
     where TError: Enum
 {
-    private readonly bool _success = true;
     private readonly TError _error = default;
+
+    private readonly bool _success = true;
     private readonly string _message = "";
 
-
-    public bool Success
-    {
-        get
-        {
-            return _success;
-        }
-    }
 
     public TError Error
     {
         get
         {
             return _error;
+        }
+    }
+
+    public bool Success
+    {
+        get
+        {
+            return _success;
         }
     }
 
@@ -43,8 +44,8 @@ public class OperationResult<TError>
 
     private OperationResult(TError error, string message = null)
     {
-        _success = false;
         _error = error;
+        _success = false;
 
         if (message != null)
             _message = message;
