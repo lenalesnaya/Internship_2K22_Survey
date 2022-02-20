@@ -48,10 +48,7 @@ public class AccountController : Controller
 
         if (!result.Success)
         {
-            foreach (var error in result.Errors)
-            {
-                model.Error = error;
-            }
+            model.Error = result.Message;
 
             return View(model);
         }

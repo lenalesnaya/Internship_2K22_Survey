@@ -1,7 +1,9 @@
 ﻿namespace ItechArt.Survey.Foundation.Authentication.Abstractions;
 
-public enum UserRegistrationStatusErrors
+public enum UserRegistrationErrors
 {
+    NoError,
     UserAlreadyExists,
+    ValidationError,
     UnknownError
 }

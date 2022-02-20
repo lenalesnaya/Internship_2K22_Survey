@@ -6,5 +6,5 @@ namespace ItechArt.Survey.Foundation.Authentication.Abstractions;
 
 public interface IAuthenticateService
 { 
-    Task<OperationResult<User, UserRegistrationStatusErrors>> RegistrationAsync(User user, string password);
+    Task<OperationResult<UserRegistrationErrors>> RegistrationAsync(User user, string password);
 }

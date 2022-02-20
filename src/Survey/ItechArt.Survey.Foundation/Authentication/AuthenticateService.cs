@@ -4,7 +4,6 @@ using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.Authentication.Validation;
 using Microsoft.AspNetCore.Identity;
-using UserOptions = ItechArt.Survey.Foundation.Authentication.Validation.UserOptions;
 
 namespace ItechArt.Survey.Foundation.Authentication;
 
@@ -19,33 +18,26 @@ public class AuthenticateService : IAuthenticateService
     }
 
 
-    public async Task<OperationResult<User, UserRegistrationStatusErrors>> RegistrationAsync(User user, string password)
+    public async Task<OperationResult<UserRegistrationErrors>> RegistrationAsync(User user, string password)
     {
-        var userOptions = new UserOptions();
-        var userValidation = new UserValidator();
+        var userValidatorResult = UserValidator.Validate(user, password);
 
-        userOptions.UserName = user.UserName;
-        userOptions.Email = user.Email;
-        userOptions.Password = password;
-        userOptions.RepeatPassword = repeatPassword;
-        var validateOptionsResult = userValidation.Validate("UserOptions", userOptions);
-
-        if (validateOptionsResult.Failed)
-            return OperationResult<User, UserRegistrationStatusErrors>.GetFailureResult(UserRegistrationStatusErrors.UnknownError);
+        if (!userValidatorResult.Success)
+            return userValidatorResult;
 
         var userExists = await _userManager.FindByEmailAsync(user.Email);
 
         if (userExists != null)
         {
-            return OperationResult<User, UserRegistrationStatusErrors>.GetFailureResult(
-                UserRegistrationStatusErrors.UserAlreadyExists);
+            return OperationResult<UserRegistrationErrors>.GetFailureResult(
+                UserRegistrationErrors.UserAlreadyExists, "User already exists");
         }
 
         var createResult = await _userManager.CreateAsync(user, password);
-        var addToRoleResult = await _userManager.AddToRoleAsync(user, "User");
+        await _userManager.AddToRoleAsync(user, "User");
 
         return createResult.Succeeded
-            ? OperationResult<User, UserRegistrationStatusErrors>.GetSuccessResult(user)
-            : OperationResult<User, UserRegistrationStatusErrors>.GetFailureResult(UserRegistrationStatusErrors.UnknownError);
+            ? OperationResult<UserRegistrationErrors>.GetSuccessfulResult()
+            : OperationResult<UserRegistrationErrors>.GetFailureResult(UserRegistrationErrors.UnknownError);
     }
 }

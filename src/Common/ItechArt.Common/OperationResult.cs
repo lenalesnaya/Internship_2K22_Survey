@@ -2,47 +2,62 @@
 
 namespace ItechArt.Common;
 
-public class OperationResult<TResult, TStatusError>
-    where TStatusError: Enum
+public class OperationResult<TError>
+    where TError: Enum
 {
-    private readonly TResult _result;
-    private readonly TStatusError _status;
+    private readonly bool _success = true;
+    private readonly TError _error = default;
+    private readonly string _message = "";
 
 
-    public TResult Result
+    public bool Success
     {
         get
         {
-            if (Success == false)
-            {
-                throw new Exception("Result was not set");
-            }
-
-            return _result;
+            return _success;
         }
     }
 
-    public bool Success => Result != null;
-
-
-    private OperationResult(TResult result)
+    public TError Error
     {
-        _result = result;
+        get
+        {
+            return _error;
+        }
     }
 
-    private OperationResult(TStatusError  status)
+    public string Message
     {
-        _status = status;
+        get
+        {
+            return _message;
+        }
     }
 
 
-    public static OperationResult<TResult, TStatusError> GetSuccessResult(TResult result)
+    private OperationResult(string message = null)
     {
-        return new OperationResult<TResult, TStatusError>(result);
+        if (message != null)
+            _message = message;
     }
 
-    public static OperationResult<TResult, TStatusError> GetFailureResult(TStatusError status)
+    private OperationResult(TError error, string message = null)
     {
-        return new OperationResult<TResult, TStatusError>(status);
+        _success = false;
+        _error = error;
+
+        if (message != null)
+            _message = message;
+    }
+
+
+    public static OperationResult<TError> GetSuccessfulResult(string message = null)
+    {
+        return new OperationResult<TError>(message);
+    }
+
+    public static OperationResult<TError> GetFailureResult(TError error, string message = null)
+    {
+        return new OperationResult<TError>(error, message);
     }
 }

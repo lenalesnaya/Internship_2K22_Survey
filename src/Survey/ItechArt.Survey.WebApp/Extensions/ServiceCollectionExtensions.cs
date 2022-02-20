@@ -39,10 +39,12 @@ public static class ServiceCollectionExtensions
         => service
             .AddIdentity<User, Role>(options =>
             {
-                options.Password.RequireDigit = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
                 options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 8;
             })
             .AddRoles<Role>()
             .AddUserStore<UserStore>()
