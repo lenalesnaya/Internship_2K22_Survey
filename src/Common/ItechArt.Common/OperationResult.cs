@@ -2,63 +2,62 @@
 
 namespace ItechArt.Common;
 
-public class OperationResult<TError>
-    where TError: Enum
+public class OperationResult<TResult, TError>
+    where TError : Enum
 {
-    private readonly TError _error = default;
+    private readonly TError _error;
+    private readonly TResult _result;
 
-    private readonly bool _success = true;
-    private readonly string _message = "";
+    private readonly bool _success;
 
+
+    public TResult Result
+    {
+        get
+        {
+            if (!_success)
+            {
+                throw new InvalidOperationException("Result was not set");
+            }
+
+            return _result;
+        }
+    }
 
     public TError Error
     {
         get
         {
+            if (_success)
+            {
+                throw new InvalidOperationException("Successful result has no error");
+            }
+
             return _error;
         }
     }
 
-    public bool Success
+    public bool Success => Error == null;
+
+
+    private OperationResult(TResult result)
     {
-        get
-        {
-            return _success;
-        }
+        _result = result;
     }
 
-    public string Message
-    {
-        get
-        {
-            return _message;
-        }
-    }
-
-
-    private OperationResult(string message = null)
-    {
-        if (message != null)
-            _message = message;
-    }
-
-    private OperationResult(TError error, string message = null)
+    private OperationResult(TError error)
     {
         _error = error;
-        _success = false;
-
-        if (message != null)
-            _message = message;
     }
 
 
-    public static OperationResult<TError> GetSuccessfulResult(string message = null)
+    public static OperationResult<TResult, TError> CreateSuccessfulResult(TResult result)
     {
-        return new OperationResult<TError>(message);
+        return new OperationResult<TResult, TError>(result);
     }
 
-    public static OperationResult<TError> GetFailureResult(TError error, string message = null)
+    public static OperationResult<TResult, TError> CreateFailureResult(TError error)
     {
-        return new OperationResult<TError>(error, message);
+        return new OperationResult<TResult, TError>(error);
     }
 }

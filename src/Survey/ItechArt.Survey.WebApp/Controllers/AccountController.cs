@@ -48,8 +48,6 @@ public class AccountController : Controller
 
         if (!result.Success)
         {
-            model.Error = result.Message;
-
             return View(model);
         }
 

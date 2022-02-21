@@ -14,13 +14,11 @@ public interface IReadonlyRepository<TEntity>
         Expression<Func<TEntity, bool>> filter,
         IEntityLoadStrategy<TEntity> loadStrategy = null);
 
-    Task<TEntity> GetSingleWhereAsync(
+    Task<TEntity> GetSingleAsync(
         Expression<Func<TEntity, bool>> filter,
         IEntityLoadStrategy<TEntity> loadStrategy = null);
 
     Task<TEntity> GetFirstOrDefaultAsync(IEntityLoadStrategy<TEntity> loadStrategy = null);
 
-    Task<bool> AnyAsync(
-    Expression<Func<TEntity, bool>> filter,
-    IEntityLoadStrategy<TEntity> loadStrategy = null);
+    Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter);
 }

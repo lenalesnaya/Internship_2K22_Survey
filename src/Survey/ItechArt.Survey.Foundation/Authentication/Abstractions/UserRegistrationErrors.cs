@@ -2,7 +2,6 @@
 
 public enum UserRegistrationErrors
 {
-    NoError,
     UserAlreadyExists,
     ValidationError,
     UnknownError

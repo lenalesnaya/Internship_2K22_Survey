@@ -18,26 +18,27 @@ public class AuthenticateService : IAuthenticateService
     }
 
 
-    public async Task<OperationResult<UserRegistrationErrors>> RegisterAsync(User user, string password)
+    public async Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
         var userValidatorResult = UserValidator.Validate(user, password);
 
         if (!userValidatorResult.Success)
+        {
             return userValidatorResult;
+        }
 
         var userExists = await _userManager.FindByEmailAsync(user.Email);
 
         if (userExists != null)
         {
-            return OperationResult<UserRegistrationErrors>.GetFailureResult(
-                UserRegistrationErrors.UserAlreadyExists, "User already exists");
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UserAlreadyExists);
         }
 
         var createResult = await _userManager.CreateAsync(user, password);
         await _userManager.AddToRoleAsync(user, "User");
 
         return createResult.Succeeded
-            ? OperationResult<UserRegistrationErrors>.GetSuccessfulResult()
-            : OperationResult<UserRegistrationErrors>.GetFailureResult(UserRegistrationErrors.UnknownError);
+            ? OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user)
+            : OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UnknownError);
     }
 }
