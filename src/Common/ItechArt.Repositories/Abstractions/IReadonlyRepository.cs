@@ -20,6 +20,5 @@ public interface IReadonlyRepository<TEntity>
 
     Task<TEntity> GetFirstOrDefaultAsync(IEntityLoadStrategy<TEntity> loadStrategy = null);
 
-    Task<bool> AnyAsync(
-        Expression<Func<TEntity, bool>> filter);
+    Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter);
 }

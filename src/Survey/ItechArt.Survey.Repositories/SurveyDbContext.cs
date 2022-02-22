@@ -1,4 +1,5 @@
 using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.Repositories.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItechArt.Survey.Repositories;
@@ -13,9 +14,8 @@ public class SurveyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().Property(u => u.UserName).HasMaxLength(30);
-        modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
-        modelBuilder.Entity<Role>().Property(u => u.Name).IsRequired();
-        modelBuilder.Entity<UserRole>().HasKey(u => new { u.RoleId, u.UserId });
+        modelBuilder.AddUserConfigurations();
+        modelBuilder.AddRoleConfigurations();
+        modelBuilder.AddUserRoleConfigurations();
     }
 }
