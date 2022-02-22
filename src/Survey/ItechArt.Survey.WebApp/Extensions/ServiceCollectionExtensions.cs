@@ -17,8 +17,9 @@ namespace ItechArt.Survey.WebApp.Extensions;
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAuthenticationService(this IServiceCollection services)
-                => services.AddScoped<IAuthenticateService, AuthenticateService>()
-            .AddScoped<IUserService, UserService>();
+        => services
+        .AddScoped<IAuthenticateService, AuthenticateService>()
+        .AddScoped<IUserService, UserService>();
 
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -34,9 +35,9 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddIdentity(
-        this IServiceCollection service)
-        => service
+    public static IServiceCollection AddIdentity(this IServiceCollection service)
+    {
+        service
             .AddIdentity<User, Role>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -49,6 +50,8 @@ public static class ServiceCollectionExtensions
             .AddRoles<Role>()
             .AddUserStore<UserStore>()
             .AddRoleStore<RoleStore>()
-            .AddEntityFrameworkStores<SurveyDbContext>()
-            .Services;
+            .AddEntityFrameworkStores<SurveyDbContext>();
+
+            return service;
+    }
 }
