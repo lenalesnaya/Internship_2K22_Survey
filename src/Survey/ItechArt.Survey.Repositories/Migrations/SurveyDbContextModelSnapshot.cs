@@ -41,7 +41,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Role", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.User", b =>
@@ -96,7 +96,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.UserRole", b =>
@@ -109,7 +109,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasKey("RoleId", "UserId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRole", (string)null);
                 });
 #pragma warning restore 612, 618
         }

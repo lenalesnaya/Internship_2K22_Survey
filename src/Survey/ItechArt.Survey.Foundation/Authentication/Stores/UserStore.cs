@@ -18,29 +18,33 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     }
 
 
-    public async Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default)
+    public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default)
     {
-        return user.Id.ToString();
+        return Task.FromResult(user.Id.ToString());
     }
 
-    public async Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken = default)
+    public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken = default)
     {
-        return user.UserName;
+        return Task.FromResult(user.UserName);
     }
 
-    public async Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken = default)
+    public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken = default)
     {
         user.UserName = userName;
+
+        return Task.CompletedTask;
     }
 
-    public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken = default)
+    public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken = default)
     {
-        return user.NormalizedUserName;
+        return Task.FromResult(user.NormalizedUserName);
     }
 
-    public async Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken = default)
+    public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken = default)
     {
         user.NormalizedEmail = normalizedName;
+
+        return Task.CompletedTask;
     }
 
     public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken = default)
@@ -75,73 +79,81 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         var id = int.Parse(userId);
         var repository = _unitOfWork.GetRepository<User>();
 
-        return await repository.GetSingleWhereAsync(u => u.Id == id);
+        return await repository.GetSingleAsync(u => u.Id == id);
     }
 
     public async Task<User> FindByNameAsync(string userName, CancellationToken cancellationToken = default)
     {
         var repository = _unitOfWork.GetRepository<User>();
 
-        return await repository.GetSingleWhereAsync(u => u.UserName == userName);
+        return await repository.GetSingleAsync(u => u.UserName == userName);
     }
 
-    public async Task SetEmailAsync(User user, string email, CancellationToken cancellationToken = default)
+    public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken = default)
     {
-        user.Email = email;;
+        user.Email = email;
+
+        return Task.CompletedTask;
     }
 
-    public async Task<string> GetEmailAsync(User user, CancellationToken cancellationToken = default)
+    public Task<string> GetEmailAsync(User user, CancellationToken cancellationToken = default)
     {
-        return user.Email;
+        return Task.FromResult(user.Email);
     }
 
-    public async Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken = default)
+    public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken = default)
     {
-        return user.EmailConfirmed;
+        return Task.FromResult(user.EmailConfirmed);
     }
 
-    public async Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken = default)
+    public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken = default)
     {
         user.EmailConfirmed = confirmed;
+
+        return Task.CompletedTask;
     }
 
     public async Task<User> FindByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         var repository = _unitOfWork.GetRepository<User>();
 
-        return await repository.GetSingleWhereAsync(u => u.Email == email);
+        return await repository.GetSingleAsync(u => u.Email == email);
     }
 
-    public async Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken = default)
+    public Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken = default)
     {
-        return user.NormalizedEmail;
+        return Task.FromResult(user.NormalizedEmail);
     }
 
-    public async Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken = default)
+    public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken = default)
     {
         user.NormalizedEmail = normalizedEmail;
+
+        return Task.CompletedTask;
     }
 
-    public async Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken = default)
+    public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken = default)
     {
         user.PasswordHash = passwordHash;
+
+        return Task.CompletedTask;
     }
 
-    public async Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken = default)
+    public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken = default)
     {
-        return user.PasswordHash;
+        return Task.FromResult(user.PasswordHash);
     }
 
-    public async Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken = default)
+    public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken = default)
     {
-        return user.PasswordHash != null;
+        return Task.FromResult(user.PasswordHash != null);
     }
 
     public async Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken = default)
     {
         var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
-        var role = await rolesRepository.GetSingleWhereAsync(role => role.Name == roleName);
+        var role = await rolesRepository.GetSingleAsync(role => role.Name == roleName);
 
         var userRole = new UserRole()
         {
@@ -156,13 +168,8 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
-        var role = await rolesRepository.GetSingleWhereAsync(role => role.Name == roleName);
-
-        var userRole = new UserRole()
-        {
-            RoleId = role.Id,
-            UserId = user.Id
-        };
+        var role = await rolesRepository.GetSingleAsync(role => role.Name == roleName);
+        var userRole = await userRolesRepository.GetSingleAsync(userRole => userRole.RoleId == role.Id);
 
         userRolesRepository.Remove(userRole);
     }
@@ -177,7 +184,7 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
 
         foreach (var userRole in userRoles)
         {
-            roleNames.Add((await rolesRepository.GetSingleWhereAsync(
+            roleNames.Add((await rolesRepository.GetSingleAsync(
                 role => role.Id == userRole.RoleId)).Name);
         }
 
@@ -189,7 +196,7 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
 
-        var role = await rolesRepository.GetSingleWhereAsync(role => role.Name == roleName);
+        var role = await rolesRepository.GetSingleAsync(role => role.Name == roleName);
         var result = await userRolesRepository.AnyAsync(
             userRole => (userRole.UserId == user.Id) && (userRole.RoleId == role.Id));
 
@@ -202,14 +209,14 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
         var usersRepository = _unitOfWork.GetRepository<User>();
 
-        var role = await rolesRepository.GetSingleWhereAsync(role => role.Name == roleName);
+        var role = await rolesRepository.GetSingleAsync(role => role.Name == roleName);
         var roleUsers = await userRolesRepository.GetWhereAsync(userRole => userRole.RoleId == role.Id);
 
         var users = new List<User>();
 
         foreach (var roleUser in roleUsers)
         {
-            users.Add(await usersRepository.GetSingleWhereAsync(user => user.Id == roleUser.UserId));
+            users.Add(await usersRepository.GetSingleAsync(user => user.Id == roleUser.UserId));
         }
 
         return users;

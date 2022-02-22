@@ -48,7 +48,15 @@ public class AccountController : Controller
 
         if (!result.Success)
         {
-            model.Error = result.Message;
+            model.Error = result.Error switch
+            {
+                UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
+                UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
+                UserRegistrationErrors.InvalidUserName => "Invalid user name",
+                UserRegistrationErrors.InvalidEmail => "Invalid email",
+                UserRegistrationErrors.InvalidPassword => "Invalid password",
+                _ => "Unknown error"
+            };
 
             return View(model);
         }
