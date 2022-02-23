@@ -11,12 +11,17 @@ namespace ItechArt.Survey.Foundation.Authentication;
 public class AuthenticateService : IAuthenticateService
 {
     private readonly UserManager<User> _userManager;
+    private readonly RoleManager<Role> _roleManager;
     private readonly RegistrationOptions _options;
 
 
-    public AuthenticateService(UserManager<User> userManager, IOptions<RegistrationOptions> options)
+    public AuthenticateService(
+        UserManager<User> userManager,
+        RoleManager<Role> roleManager,
+        IOptions<RegistrationOptions> options)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
         _options = options.Value;
     }
 
@@ -45,8 +50,17 @@ public class AuthenticateService : IAuthenticateService
                 UserRegistrationErrors.EmailAlreadyExists);
         }
 
+        if (await _roleManager.FindByNameAsync("User") == null)
+        {
+            var userRole = new Role()
+            {
+                Name = "User"
+            };
+            await _roleManager.CreateAsync(userRole);
+        }
+
         var createResult = await _userManager.CreateAsync(user, password);
-        await _userManager.AddToRoleAsync(user, "User"); // заменить на присвоение по умолчанию (через миграцию)
+        await _userManager.AddToRoleAsync(user, "User");
 
         return createResult.Succeeded
             ? OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user)
