@@ -2,7 +2,7 @@
 
 namespace ItechArt.Survey.Foundation.Authentication.Configuration;
 
-public class RegistrationOptions // добавить значения по умолчанию?
+public class RegistrationOptions
 {
     public bool UserNameIsRequired { get; set; }
 

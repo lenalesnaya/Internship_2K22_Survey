@@ -11,7 +11,6 @@ public class RegistrationViewModel
     [Required(ErrorMessage = "User name is required")]
     public string UserName { get; set; }
 
-    [EmailAddress(ErrorMessage = "Incorrect email address")]
     [RegularExpression(
         @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
         @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
