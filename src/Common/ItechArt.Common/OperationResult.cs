@@ -3,7 +3,6 @@
 namespace ItechArt.Common;
 
 public class OperationResult<TResult, TError>
-    where TResult : class
     where TError : Enum
 {
     private readonly TError _error;
@@ -48,10 +47,15 @@ public class OperationResult<TResult, TError>
     }
 
 
-    private OperationResult(TResult result = null, TError error = default)
+    private OperationResult(TResult result)
     {
         _result = result;
-        _success = result != null;
+        _success = true;
+    }
+
+    private OperationResult(TError error)
+    {
+        _success = false;
         _error = error;
     }
 
@@ -63,6 +67,6 @@ public class OperationResult<TResult, TError>
 
     public static OperationResult<TResult, TError> CreateFailureResult(TError error)
     {
-        return new OperationResult<TResult, TError>(null, error);
+        return new OperationResult<TResult, TError>(error);
     }
 }

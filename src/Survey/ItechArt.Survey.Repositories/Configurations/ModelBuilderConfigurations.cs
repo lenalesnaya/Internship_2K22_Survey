@@ -12,7 +12,8 @@ public static class ModelBuilderConfigurations
             .IsRequired();
         modelBuilder.Entity<User>()
             .HasIndex(u => u.NormalizedUserName)
-            .IsUnique();
+            .IsUnique()
+            .HasFilter(null);
         modelBuilder.Entity<User>()
             .Property(u => u.Email)
             .IsRequired();
@@ -21,7 +22,8 @@ public static class ModelBuilderConfigurations
             .IsUnique();
         modelBuilder.Entity<User>()
             .HasIndex(u => u.NormalizedEmail)
-            .IsUnique();
+            .IsUnique()
+            .HasFilter(null);
         modelBuilder.Entity<User>()
             .Property(u => u.PasswordHash)
             .IsRequired();
@@ -38,11 +40,9 @@ public static class ModelBuilderConfigurations
             .HasIndex(u => u.Name)
             .IsUnique();
         modelBuilder.Entity<Role>()
-            .Property(u => u.NormalizedName)
-            .IsRequired();
-        modelBuilder.Entity<Role>()
             .HasIndex(u => u.NormalizedName)
-            .IsUnique();
+            .IsUnique()
+            .HasFilter(null);
 
         return modelBuilder;
     }
@@ -53,14 +53,16 @@ public static class ModelBuilderConfigurations
         modelBuilder.Entity<UserRole>()
             .HasOne(ur => ur.Role)
             .WithMany(r => r.UserRoles)
-            .HasForeignKey(u => u.RoleId);
+            .HasForeignKey(u => u.RoleId)
+            .IsRequired();
         modelBuilder.Entity<UserRole>()
             .HasOne(ur => ur.User)
             .WithMany(u => u.UserRoles)
-            .HasForeignKey(u => u.UserId);
-        modelBuilder.Entity<UserRole>()
-            .Property(ur => ur.Role)
-            .HasDefaultValue("User");
+            .HasForeignKey(u => u.UserId)
+            .IsRequired();
+        //modelBuilder.Entity<UserRole>()
+        //    .Property(ur => ur.Role)
+        //    .HasDefaultValue("User");
 
         return modelBuilder;
     }
