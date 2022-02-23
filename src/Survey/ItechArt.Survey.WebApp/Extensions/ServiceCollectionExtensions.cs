@@ -54,7 +54,7 @@ public static class ServiceCollectionExtensions
     }
 
 
-    public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services) // или переместить это в AddAuthenticationService
+    public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services)
         => services
         .Configure<RegistrationOptions>(options =>
         {
