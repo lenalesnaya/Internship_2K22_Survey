@@ -38,9 +38,6 @@ public static class ModelBuilderConfigurations
             .HasIndex(u => u.Name)
             .IsUnique();
         modelBuilder.Entity<Role>()
-            .Property(u => u.NormalizedName)
-            .IsRequired();
-        modelBuilder.Entity<Role>()
             .HasIndex(u => u.NormalizedName)
             .IsUnique();
 
@@ -58,9 +55,6 @@ public static class ModelBuilderConfigurations
             .HasOne(ur => ur.User)
             .WithMany(u => u.UserRoles)
             .HasForeignKey(u => u.UserId);
-        modelBuilder.Entity<UserRole>()
-            .Property(ur => ur.Role)
-            .HasDefaultValue("User");
 
         return modelBuilder;
     }

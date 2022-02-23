@@ -53,6 +53,7 @@ public class AuthenticateService : IAuthenticateService
             {
                 Name = "User"
             };
+
             await _roleManager.CreateAsync(userRole);
         }
 
