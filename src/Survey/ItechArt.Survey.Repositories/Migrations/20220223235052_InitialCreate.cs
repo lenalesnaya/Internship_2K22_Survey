@@ -30,7 +30,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -74,6 +74,11 @@ namespace ItechArt.Survey.Repositories.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { 1, "bce4ca0b-bc52-4a45-9fb2-302fbd32f895", "User", "USER" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Role_Name",
                 table: "Role",
@@ -84,7 +89,8 @@ namespace ItechArt.Survey.Repositories.Migrations
                 name: "IX_Role_NormalizedName",
                 table: "Role",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Email",
@@ -96,13 +102,15 @@ namespace ItechArt.Survey.Repositories.Migrations
                 name: "IX_User_NormalizedEmail",
                 table: "User",
                 column: "NormalizedEmail",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedEmail] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_NormalizedUserName",
                 table: "User",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRole_UserId",

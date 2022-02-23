@@ -42,7 +42,7 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
 
     public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken = default)
     {
-        user.NormalizedEmail = normalizedName;
+        user.NormalizedUserName = normalizedName;
 
         return Task.CompletedTask;
     }

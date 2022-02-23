@@ -47,18 +47,18 @@ public class AuthenticateService : IAuthenticateService
             return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.EmailAlreadyExists);
         }
 
-        if (await _roleManager.FindByNameAsync("User") == null)
-        {
-            var userRole = new Role()
-            {
-                Name = "User"
-            };
+        //if (await _roleManager.FindByNameAsync("User") == null)
+        //{
+        //    var userRole = new Role()
+        //    {
+        //        Name = "User"
+        //    };
 
-            await _roleManager.CreateAsync(userRole);
-        }
+        //    await _roleManager.CreateAsync(userRole);
+        //}
 
         var createResult = await _userManager.CreateAsync(user, password);
-        var roleResult = await _userManager.AddToRoleAsync(user, "User"); // заменить на присвоение по умолчанию (через миграцию)
+        var roleResult = await _userManager.AddToRoleAsync(user, "User");
 
         return createResult.Succeeded
             ? OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user)

@@ -40,6 +40,8 @@ public static class ModelBuilderConfigurations
         modelBuilder.Entity<Role>()
             .HasIndex(u => u.NormalizedName)
             .IsUnique();
+        modelBuilder.Entity<Role>()
+            .HasData(new Role() { Id = 1, Name = "User", NormalizedName = "USER" });
 
         return modelBuilder;
     }
@@ -50,11 +52,13 @@ public static class ModelBuilderConfigurations
         modelBuilder.Entity<UserRole>()
             .HasOne(ur => ur.Role)
             .WithMany(r => r.UserRoles)
-            .HasForeignKey(u => u.RoleId);
+            .HasForeignKey(u => u.RoleId)
+            .IsRequired();
         modelBuilder.Entity<UserRole>()
             .HasOne(ur => ur.User)
             .WithMany(u => u.UserRoles)
-            .HasForeignKey(u => u.UserId);
+            .HasForeignKey(u => u.UserId)
+            .IsRequired();
 
         return modelBuilder;
     }
