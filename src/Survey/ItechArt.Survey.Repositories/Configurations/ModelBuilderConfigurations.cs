@@ -11,8 +11,8 @@ public static class ModelBuilderConfigurations
             .Property(u => u.UserName)
             .IsRequired();
         modelBuilder.Entity<User>()
-            .Property(u => u.NormalizedUserName)
-            .IsRequired();
+            .HasIndex(u => u.NormalizedUserName)
+            .IsUnique();
         modelBuilder.Entity<User>()
             .Property(u => u.Email)
             .IsRequired();
@@ -58,6 +58,9 @@ public static class ModelBuilderConfigurations
             .HasOne(ur => ur.User)
             .WithMany(u => u.UserRoles)
             .HasForeignKey(u => u.UserId);
+        modelBuilder.Entity<UserRole>()
+            .Property(ur => ur.Role)
+            .HasDefaultValue("User");
 
         return modelBuilder;
     }

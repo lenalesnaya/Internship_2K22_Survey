@@ -26,27 +26,24 @@ public class AuthenticateService : IAuthenticateService
         var validationResult = Validate(user, password);
 
         if (validationResult.HasError)
-            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(
-                validationResult.Error);
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
 
         var userExists = await _userManager.FindByNameAsync(user.UserName);
 
         if (userExists != null)
         {
-            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(
-                UserRegistrationErrors.UserNameAlreadyExists);
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UserNameAlreadyExists);
         }
 
         userExists = await _userManager.FindByEmailAsync(user.Email);
 
         if (userExists != null)
         {
-            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(
-                UserRegistrationErrors.EmailAlreadyExists);
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.EmailAlreadyExists);
         }
 
         var createResult = await _userManager.CreateAsync(user, password);
-        await _userManager.AddToRoleAsync(user, "User"); // заменить на присвоение по умолчанию (через миграцию)
+        var roleResult = await _userManager.AddToRoleAsync(user, "User"); // заменить на присвоение по умолчанию (через миграцию)
 
         return createResult.Succeeded
             ? OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user)
