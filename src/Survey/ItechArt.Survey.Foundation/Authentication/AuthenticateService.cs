@@ -31,7 +31,9 @@ public class AuthenticateService : IAuthenticateService
         var validationResult = Validate(user, password);
 
         if (validationResult.HasError)
+        {
             return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
+        }
 
         var userExists = await _userManager.FindByNameAsync(user.UserName);
 
@@ -48,9 +50,15 @@ public class AuthenticateService : IAuthenticateService
         }
 
         var createResult = await _userManager.CreateAsync(user, password);
+
+        if (!createResult.Succeeded)
+        {
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UnknownError);
+        }
+
         var roleResult = await _userManager.AddToRoleAsync(user, "User");
 
-        return createResult.Succeeded
+        return createResult.Succeeded && roleResult.Succeeded
             ? OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user)
             : OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UnknownError);
     }

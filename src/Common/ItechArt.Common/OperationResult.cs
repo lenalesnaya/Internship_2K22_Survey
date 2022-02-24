@@ -11,62 +11,38 @@ public class OperationResult<TResult, TError>
     private readonly bool _success;
 
 
+    public bool Seccess => _success;
+
     public TResult Result
     {
-        get
-        {
-            if (!_success)
-            {
-                throw new InvalidOperationException("Result was not set");
-            }
-
-            return _result;
-        }
+        get => !_success
+            ? throw new Exception("Result was not set")
+            : _result;
     }
 
     public TError Error
     {
-        get
-        {
-            if (_success)
-            {
-                throw new InvalidOperationException("Successful result has no error");
-            }
-
-            return _error;
-        }
+        get => _success
+            ? throw new Exception("Successful result has no error")
+            : _error;
     }
 
 
-    public bool Success
-    {
-        get
-        {
-            return _success;
-        }
-    }
-
-
-    private OperationResult(TResult result)
+    private OperationResult(TResult result, TError error, bool seccess)
     {
         _result = result;
-        _success = true;
-    }
-
-    private OperationResult(TError error)
-    {
-        _success = false;
         _error = error;
+        _success = seccess;
     }
 
 
     public static OperationResult<TResult, TError> CreateSuccessfulResult(TResult result)
     {
-        return new OperationResult<TResult, TError>(result);
+        return new OperationResult<TResult, TError>(result, default, true);
     }
 
     public static OperationResult<TResult, TError> CreateFailureResult(TError error)
     {
-        return new OperationResult<TResult, TError>(error);
+        return new OperationResult<TResult, TError>(default, error, false);
     }
 }

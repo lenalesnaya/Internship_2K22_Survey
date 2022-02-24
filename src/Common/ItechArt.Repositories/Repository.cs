@@ -32,7 +32,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         return await IncludeEntities(loadStrategy).Where(filter).ToListAsync();
     }
 
-    public virtual async Task<TEntity> GetSingleAsync(
+    public virtual async Task<TEntity> SingleOrDefaultAsync(
         Expression<Func<TEntity, bool>> filter,
         IEntityLoadStrategy<TEntity> loadStrategy = null)
     {
@@ -46,7 +46,7 @@ public class Repository<TEntity> : IRepository<TEntity>
 
     public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter)
     {
-        return await _dbSet.AnyAsync(filter);
+        return await IncludeEntities().AnyAsync(filter);
     }
 
     public virtual void Add(TEntity entity)
