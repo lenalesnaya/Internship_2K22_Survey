@@ -4,8 +4,13 @@ public enum UserRegistrationErrors
 {
     UserNameAlreadyExists,
     EmailAlreadyExists,
-    InvalidUserName,
-    InvalidEmail,
-    InvalidPassword,
+    UserNameIsRequired,
+    IncorrectUserName,
+    InvalidUserNameLength,
+    EmailIsRequired,
+    IncorrectEmail,
+    PasswordIsRequired,
+    IncorrectPassword,
+    InvalidPasswordLength,
     UnknownError
 }

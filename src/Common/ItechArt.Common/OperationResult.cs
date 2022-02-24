@@ -11,7 +11,7 @@ public class OperationResult<TResult, TError>
     private readonly bool _success;
 
 
-    public bool Seccess => _success;
+    public bool Success => _success;
 
     public TResult Result
     {

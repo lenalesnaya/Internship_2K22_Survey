@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ItechArt.Survey.Foundation.Authentication.Stores;
 
-public class RoleStore: IRoleStore<Role>
+public class RoleStore : IRoleStore<Role>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -77,7 +77,7 @@ public class RoleStore: IRoleStore<Role>
     {
         int intRoleId = int.Parse(roleId);
         var repository = _unitOfWork.GetRepository<Role>();
-        var role = await repository.GetSingleAsync(role => role.Id == intRoleId);
+        var role = await repository.GetSingleOrDefaultAsync(role => role.Id == intRoleId);
 
         return role;
 }
@@ -85,7 +85,7 @@ public class RoleStore: IRoleStore<Role>
     public async Task<Role> FindByNameAsync(string roleName, CancellationToken cancellationToken = default)
     {
         var repository = _unitOfWork.GetRepository<Role>();
-        var role = await repository.GetSingleAsync(role => role.Name == roleName);
+        var role = await repository.GetSingleOrDefaultAsync(role => role.Name == roleName);
 
         return role;
     }

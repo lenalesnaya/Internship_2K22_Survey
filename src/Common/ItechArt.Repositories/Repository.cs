@@ -32,7 +32,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         return await IncludeEntities(loadStrategy).Where(filter).ToListAsync();
     }
 
-    public virtual async Task<TEntity> SingleOrDefaultAsync(
+    public virtual async Task<TEntity> GetSingleOrDefaultAsync(
         Expression<Func<TEntity, bool>> filter,
         IEntityLoadStrategy<TEntity> loadStrategy = null)
     {

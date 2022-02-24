@@ -6,49 +6,34 @@ namespace ItechArt.Survey.Foundation.Authentication.Configuration
         where TError : Enum
     {
         private readonly TError _error;
-
         private readonly bool _hasError;
 
 
         public TError Error
         {
-            get
-            {
-                if (!_hasError)
-                {
-                    throw new InvalidOperationException("Has no error");
-                }
-
-                return _error;
-            }
+            get => _hasError
+                ? _error
+                : throw new InvalidOperationException("Has no error");
         }
 
-        public bool HasError
-        {
-            get { return _hasError; }
-        }
+        public bool HasError => _hasError;
 
 
-        private ValidationResult()
-        {
-            _hasError = false;
-        }
-
-        private ValidationResult (TError error)
+        private ValidationResult (bool hasError, TError error = default)
         {
             _error = error;
-            _hasError = true;
+            _hasError = hasError;
         }
 
 
         public static ValidationResult<TError> CreateResultWithoutError()
         {
-            return new ValidationResult<TError>();
+            return new ValidationResult<TError>(false);
         }
 
         public static ValidationResult<TError> CreateResultWithError(TError error)
         {
-            return new ValidationResult<TError>(error);
+            return new ValidationResult<TError>(true, error);
         }
     }
 }

@@ -52,9 +52,14 @@ public class AccountController : Controller
             {
                 UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
                 UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
-                UserRegistrationErrors.InvalidUserName => "Invalid user name",
-                UserRegistrationErrors.InvalidEmail => "Invalid email",
-                UserRegistrationErrors.InvalidPassword => "Invalid password",
+                UserRegistrationErrors.UserNameIsRequired => "User name is required",
+                UserRegistrationErrors.InvalidUserNameLength => "User name must consist of 3-30 symbols",
+                UserRegistrationErrors.IncorrectUserName => "Incorrect user name",
+                UserRegistrationErrors.EmailIsRequired => "Email is required",
+                UserRegistrationErrors.IncorrectEmail => "Incorrect email",
+                UserRegistrationErrors.PasswordIsRequired => "Password is required",
+                UserRegistrationErrors.InvalidPasswordLength => "Password must consist of 8-20 symbols",
+                UserRegistrationErrors.IncorrectPassword => "Incorrect password",
                 _ => "Unknown error"
             };
 

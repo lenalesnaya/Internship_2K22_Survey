@@ -6,7 +6,7 @@ public class RegistrationViewModel
 {
     [StringLength(30, MinimumLength = 3, ErrorMessage = "User name must consist of 3-30 symbols")]
     [RegularExpression(
-       @"^(?=.{3,30}$)(?![_.0-9])[a-zA-ZА-Яа-я0-9._]+(?<![_.])$",
+       @"^(?=.{3,30}$)(?![_0-9\s])[a-zA-ZА-Яа-я0-9\s_]+(?<![_\s])$",
        ErrorMessage = "Incorrect user name")]
     [Required(ErrorMessage = "User name is required")]
     public string UserName { get; set; }

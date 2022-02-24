@@ -14,7 +14,7 @@ public interface IReadonlyRepository<TEntity>
         Expression<Func<TEntity, bool>> filter,
         IEntityLoadStrategy<TEntity> loadStrategy = null);
 
-    Task<TEntity> GetSingleAsync(
+    Task<TEntity> GetSingleOrDefaultAsync(
         Expression<Func<TEntity, bool>> filter,
         IEntityLoadStrategy<TEntity> loadStrategy = null);
 

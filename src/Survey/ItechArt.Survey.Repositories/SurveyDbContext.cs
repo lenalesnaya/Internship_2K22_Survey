@@ -13,8 +13,8 @@ public class SurveyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.AddUserConfigurations();
-        modelBuilder.AddRoleConfigurations();
-        modelBuilder.AddUserRoleConfigurations();
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
+        modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
     }
 }
