@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItechArt.Survey.Repositories.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    [Migration("20220223235052_InitialCreate")]
+    [Migration("20220227125112_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,10 +37,13 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
 
@@ -48,8 +51,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .IsUnique();
 
                     b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Role");
 
@@ -57,7 +59,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "bce4ca0b-bc52-4a45-9fb2-302fbd32f895",
+                            ConcurrencyStamp = "fc48dfdd-859e-4383-afe0-f2e4950c6adb",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -91,10 +93,13 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -123,12 +128,13 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
-                        .IsUnique()
-                        .HasFilter("[NormalizedEmail] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .IsUnique();
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("User");
                 });

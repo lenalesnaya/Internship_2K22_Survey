@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ItechArt.Repositories;
 using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel;
 using Microsoft.AspNetCore.Identity;
@@ -179,46 +181,32 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
         var rolesRepository = _unitOfWork.GetRepository<Role>();
-        var userRoles = await userRolesRepository.GetWhereAsync(userRole => userRole.UserId == user.Id);
+        var userRoles = await userRolesRepository.GetWhereAsync(
+            userRole => userRole.UserId == user.Id,
+            new EntityLoadStrategy<UserRole>(ur => ur.Role));
+        var roleNames = userRoles.Select(ur => ur.Role.Name);
 
-        var roleNames = new List<string>();
-
-        foreach (var userRole in userRoles)
-        {
-            var roleName = (await rolesRepository.GetSingleOrDefaultAsync(role => role.Id == userRole.RoleId)).Name;
-            roleNames.Add(roleName);
-        }
-
-        return roleNames;
+        return roleNames.ToList();
     }
 
     public async Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken = default)
     {
-        var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
+        var userRoles = await userRolesRepository.GetWhereAsync(
+            ur => ur.UserId == user.Id,
+            new EntityLoadStrategy<UserRole>(ur => ur.Role));
+        var roleNames = userRoles.Select(ur => ur.Role.Name);
 
-        var role = await rolesRepository.GetSingleOrDefaultAsync(role => role.Name == roleName);
-        var result = await userRolesRepository.AnyAsync(
-            userRole => (userRole.UserId == user.Id) && (userRole.RoleId == role.Id));
-
-        return result;
+        return roleNames.Any(name => name == roleName);
     }
 
     public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default)
     {
-        var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
-        var usersRepository = _unitOfWork.GetRepository<User>();
-
-        var role = await rolesRepository.GetSingleOrDefaultAsync(role => role.Name == roleName);
-        var roleUsers = await userRolesRepository.GetWhereAsync(userRole => userRole.RoleId == role.Id);
-
-        var users = new List<User>();
-
-        foreach (var roleUser in roleUsers)
-        {
-            users.Add(await usersRepository.GetSingleOrDefaultAsync(user => user.Id == roleUser.UserId));
-        }
+        var userRoles = await userRolesRepository.GetWhereAsync(
+            ur => ur.Role.Name == roleName,
+            new EntityLoadStrategy<UserRole>(ur => ur.Role, ur => ur.User));
+        var users = userRoles.Select(ur => ur.User).ToList();
 
         return users;
     }

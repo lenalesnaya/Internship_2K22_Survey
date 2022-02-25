@@ -75,7 +75,7 @@ public class RoleStore : IRoleStore<Role>
 
     public async Task<Role> FindByIdAsync(string roleId, CancellationToken cancellationToken = default)
     {
-        int intRoleId = int.Parse(roleId);
+        var intRoleId = int.Parse(roleId);
         var repository = _unitOfWork.GetRepository<Role>();
         var role = await repository.GetSingleOrDefaultAsync(role => role.Id == intRoleId);
 

@@ -1,5 +1,6 @@
 using ItechArt.Survey.Repositories.Configurations;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace ItechArt.Survey.Repositories;
 
@@ -13,8 +14,6 @@ public class SurveyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
-        modelBuilder.ApplyConfiguration(new RoleConfiguration());
-        modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
