@@ -56,8 +56,7 @@ public static class ServiceCollectionExtensions
     }
 
     public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services)
-        => services
-        .Configure<RegistrationOptions>(options =>
+        => services.Configure<RegistrationOptions>(options =>
         {
             options.UserNameMinLength = 3;
             options.UserNameMaxLength = 30;

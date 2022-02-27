@@ -23,21 +23,21 @@ public class AuthenticateService : IAuthenticateService
 
     public async Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
-        var validationResult = ValidateUserName(user, password);
+        var validationResult = ValidateUserName(user.UserName);
 
         if (validationResult.HasError)
         {
             return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
         }
 
-        validationResult = ValidateEmail(user, password);
+        validationResult = ValidateEmail(user.Email);
 
         if (validationResult.HasError)
         {
             return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
         }
 
-        validationResult = ValidatePassword(user, password);
+        validationResult = ValidatePassword(password);
 
         if (validationResult.HasError)
         {
@@ -73,19 +73,19 @@ public class AuthenticateService : IAuthenticateService
     }
 
 
-    private ValidationResult<UserRegistrationErrors> ValidateUserName(User user, string password)
+    private ValidationResult<UserRegistrationErrors> ValidateUserName(string userName)
     {
-        if (string.IsNullOrEmpty(user.UserName))
+        if (string.IsNullOrEmpty(userName))
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.UserNameIsRequired);
         }
 
-        if (user.UserName.Length < _options.UserNameMinLength || user.UserName.Length > _options.UserNameMaxLength)
+        if (userName.Length < _options.UserNameMinLength || userName.Length > _options.UserNameMaxLength)
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.InvalidUserNameLength);
         }
 
-        var match = _options.UserNamePattern.Match(user.UserName);
+        var match = _options.UserNamePattern.Match(userName);
 
         if (string.IsNullOrEmpty(match.Value))
         {
@@ -95,14 +95,14 @@ public class AuthenticateService : IAuthenticateService
         return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
     }
 
-    private ValidationResult<UserRegistrationErrors> ValidateEmail(User user, string password)
+    private ValidationResult<UserRegistrationErrors> ValidateEmail(string email)
     {
-        if (string.IsNullOrEmpty(user.Email))
+        if (string.IsNullOrEmpty(email))
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.EmailIsRequired);
         }
 
-        var match = _options.EmailPattern.Match(user.Email);
+        var match = _options.EmailPattern.Match(email);
 
         if (string.IsNullOrEmpty(match.Value))
         {
@@ -112,7 +112,7 @@ public class AuthenticateService : IAuthenticateService
         return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
     }
 
-    private ValidationResult<UserRegistrationErrors> ValidatePassword(User user, string password)
+    private ValidationResult<UserRegistrationErrors> ValidatePassword(string password)
     {
         if (string.IsNullOrEmpty(password))
         {
