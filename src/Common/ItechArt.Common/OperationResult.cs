@@ -7,18 +7,8 @@ public class OperationResult<TResult, TError>
 {
     private readonly TError _error;
     private readonly TResult _result;
-
     private readonly bool _success;
 
-
-    public bool Success => _success;
-
-    public TResult Result
-    {
-        get => !_success
-            ? throw new Exception("Result was not set")
-            : _result;
-    }
 
     public TError Error
     {
@@ -27,11 +17,20 @@ public class OperationResult<TResult, TError>
             : _error;
     }
 
+    public TResult Result
+    {
+        get => !_success
+            ? throw new Exception("Result was not set")
+            : _result;
+    }
+
+    public bool Success => _success;
+
 
     private OperationResult(TResult result, TError error, bool seccess)
     {
-        _result = result;
         _error = error;
+        _result = result;
         _success = seccess;
     }
 
