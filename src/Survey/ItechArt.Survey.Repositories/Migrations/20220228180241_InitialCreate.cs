@@ -77,7 +77,7 @@ namespace ItechArt.Survey.Repositories.Migrations
             migrationBuilder.InsertData(
                 table: "Role",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "fc48dfdd-859e-4383-afe0-f2e4950c6adb", "User", "USER" });
+                values: new object[] { 1, "7612cd22-c0f0-4801-a3e5-ff7cd1a41302", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Role_Name",
