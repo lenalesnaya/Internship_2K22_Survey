@@ -180,11 +180,10 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken = default)
     {
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
-        var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRoles = await userRolesRepository.GetWhereAsync(
             userRole => userRole.UserId == user.Id,
-            new EntityLoadStrategy<UserRole>(ur => ur.Role));
-        var roleNames = userRoles.Select(ur => ur.Role.Name);
+            new EntityLoadStrategy<UserRole>(userRole => userRole.Role));
+        var roleNames = userRoles.Select(userRole => userRole.Role.Name);
 
         return roleNames.ToList();
     }
@@ -193,20 +192,20 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
     {
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
         var userRoles = await userRolesRepository.GetWhereAsync(
-            ur => ur.UserId == user.Id,
-            new EntityLoadStrategy<UserRole>(ur => ur.Role));
-        var roleNames = userRoles.Select(ur => ur.Role.Name);
+            userRole => userRole.UserId == user.Id,
+            new EntityLoadStrategy<UserRole>(userRole => userRole.Role));
+        var roleNames = userRoles.Select(userRole => userRole.Role.NormalizedName);
 
-        return roleNames.Any(name => name == roleName);
+        return roleNames.Any(name => name.Equals(roleName));
     }
 
     public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default)
     {
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
         var userRoles = await userRolesRepository.GetWhereAsync(
-            ur => ur.Role.Name == roleName,
-            new EntityLoadStrategy<UserRole>(ur => ur.Role, ur => ur.User));
-        var users = userRoles.Select(ur => ur.User).ToList();
+            userRole => userRole.Role.NormalizedName.Equals(roleName),
+            new EntityLoadStrategy<UserRole>(userRole => userRole.Role, userRole => userRole.User));
+        var users = userRoles.Select(userRole => userRole.User).ToList();
 
         return users;
     }
