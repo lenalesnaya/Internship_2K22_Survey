@@ -65,7 +65,7 @@ public class AuthenticateService : IAuthenticateService
             return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UnknownError);
         }
 
-        var roleResult = await _userManager.AddToRoleAsync(user, Role.DefaultRoleName);
+        var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
 
         return roleResult.Succeeded
             ? OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user)

@@ -10,10 +10,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\ItechArt.Repositories\ItechArt.Repositories.csproj" />
     <ProjectReference Include="..\ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj" />
   </ItemGroup>
 </Project>

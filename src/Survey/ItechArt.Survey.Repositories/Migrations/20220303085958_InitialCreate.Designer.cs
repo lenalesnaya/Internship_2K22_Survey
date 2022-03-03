@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItechArt.Survey.Repositories.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    [Migration("20220228180241_InitialCreate")]
+    [Migration("20220303085958_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

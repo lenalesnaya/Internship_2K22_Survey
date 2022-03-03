@@ -49,8 +49,7 @@ public static class ServiceCollectionExtensions
             })
             .AddRoles<Role>()
             .AddUserStore<UserStore>()
-            .AddRoleStore<RoleStore>()
-            .AddEntityFrameworkStores<SurveyDbContext>();
+            .AddRoleStore<RoleStore>();
 
         return services;
     }

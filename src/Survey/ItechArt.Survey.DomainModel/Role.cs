@@ -5,9 +5,8 @@ namespace ItechArt.Survey.DomainModel;
 
 public class Role : IdentityRole<int>
 {
-    public const string DefaultRoleName = "User";
-    public const string DefaultRoleNormalizedName = "USER";
-    public const int RoleNameMaxLength = 128;
+    public const string User = "User";
+    public const int NameMaxLength = 128;
 
 
     public ICollection<UserRole> UserRoles { get; set; }
