@@ -168,11 +168,9 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
 
     public async Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken = default)
     {
-        var rolesRepository = _unitOfWork.GetRepository<Role>();
         var userRolesRepository = _unitOfWork.GetRepository<UserRole>();
-        var role = await rolesRepository.GetSingleOrDefaultAsync(role => role.Name == roleName);
         var userRole = await userRolesRepository.GetSingleOrDefaultAsync(
-            userRole => (userRole.RoleId == role.Id) && (userRole.UserId == user.Id));
+            userRole => userRole.Role.Name == roleName && userRole.UserId == user.Id);
 
         userRolesRepository.Remove(userRole);
     }
