@@ -66,8 +66,6 @@ public class AccountController : Controller
             return View(model);
         }
 
-        await _signInManager.SignInAsync(user, false);
-
         return RedirectToAction("Profile");
     }
 

@@ -11,12 +11,14 @@ namespace ItechArt.Survey.Foundation.Authentication;
 public class AuthenticateService : IAuthenticateService
 {
     private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
     private readonly RegistrationOptions _options;
 
 
-    public AuthenticateService(UserManager<User> userManager, IOptions<RegistrationOptions> options)
+    public AuthenticateService(UserManager<User> userManager, SignInManager<User> signInManager, IOptions<RegistrationOptions> options)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
         _options = options.Value;
     }
 
@@ -67,9 +69,13 @@ public class AuthenticateService : IAuthenticateService
 
         var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
 
-        return roleResult.Succeeded
-            ? OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user)
-            : OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UnknownError);
+        if (roleResult.Succeeded)
+        {
+            await _signInManager.SignInAsync(user, false);
+            return OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user);
+        }
+
+        return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UnknownError);
     }
 
 
