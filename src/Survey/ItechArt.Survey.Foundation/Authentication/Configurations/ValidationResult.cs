@@ -10,11 +10,9 @@ public class ValidationResult<TError>
 
 
     public TError Error
-    {
-        get => _hasError
+        => _hasError
             ? _error
             : throw new InvalidOperationException("Has no error");
-    }
 
     public bool HasError => _hasError;
 

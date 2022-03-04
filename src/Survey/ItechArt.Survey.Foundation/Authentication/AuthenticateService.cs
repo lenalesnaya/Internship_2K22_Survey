@@ -25,35 +25,14 @@ public class AuthenticateService : IAuthenticateService
 
     public async Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
-        var validationResult = ValidateUserName(user.UserName);
+        var validateResult = ValidateUser(user, password);
 
-        if (validationResult.HasError)
+        if (validateResult.HasError)
         {
-            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validateResult.Error);
         }
 
-        validationResult = ValidateEmail(user.Email);
-
-        if (validationResult.HasError)
-        {
-            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
-        }
-
-        validationResult = ValidatePassword(password);
-
-        if (validationResult.HasError)
-        {
-            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
-        }
-
-        var userExists = await _userManager.FindByNameAsync(user.UserName);
-
-        if (userExists != null)
-        {
-            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UserNameAlreadyExists);
-        }
-
-        userExists = await _userManager.FindByEmailAsync(user.Email);
+        var userExists = await _userManager.FindByEmailAsync(user.Email);
 
         if (userExists != null)
         {
@@ -79,6 +58,32 @@ public class AuthenticateService : IAuthenticateService
     }
 
 
+    private ValidationResult<UserRegistrationErrors> ValidateUser(User user, string password)
+    {
+        var validationResult = ValidateUserName(user.UserName);
+
+        if (validationResult.HasError)
+        {
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectUserName);
+        }
+
+        validationResult = ValidateEmail(user.Email);
+
+        if (validationResult.HasError)
+        {
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectEmail);
+        }
+
+        validationResult = ValidatePassword(password);
+
+        if (validationResult.HasError)
+        {
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectPassword);
+        }
+
+        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
+    }
+
     private ValidationResult<UserRegistrationErrors> ValidateUserName(string userName)
     {
         if (string.IsNullOrEmpty(userName))
@@ -86,7 +91,7 @@ public class AuthenticateService : IAuthenticateService
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.UserNameIsRequired);
         }
 
-        if (userName.Length < _options.UserNameMinLength || userName.Length > _options.UserNameMaxLength)
+        if(_options.UserNameMaxLength < userName.Length || userName.Length < _options.UserNameMinLength)
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.InvalidUserNameLength);
         }

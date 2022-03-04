@@ -25,10 +25,12 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsUnique();
 
         builder
-            .HasData(new Role() {
+            .HasData(new Role
+            {
                 Id = 1,
                 Name = Role.User,
                 NormalizedName = Role.User.ToUpper(),
-                ConcurrencyStamp = "7612cd22-c0f0-4801-a3e5-ff7cd1a41302"});
+                ConcurrencyStamp = "7612cd22-c0f0-4801-a3e5-ff7cd1a41302"
+            });
     }
 }

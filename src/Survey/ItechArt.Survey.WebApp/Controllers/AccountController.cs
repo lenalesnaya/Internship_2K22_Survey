@@ -73,8 +73,8 @@ public class AccountController : Controller
     [Authorize]
     public async Task<IActionResult> Profile()
     {
-        var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var user = await _userService.GetCurrent(userId);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _userService.GetUserByIdAsync(userId);
         var model = _mapper.Map<ProfileViewModel>(user);
 
         return View(model);
