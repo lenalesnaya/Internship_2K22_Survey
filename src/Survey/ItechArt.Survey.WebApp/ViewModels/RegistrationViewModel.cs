@@ -4,23 +4,28 @@ namespace ItechArt.Survey.WebApp.ViewModels;
 
 public class RegistrationViewModel
 {
-    [StringLength(30, MinimumLength = 3, ErrorMessage = "User name must consist of 3-30 symbols")]
+    [StringLength(
+        Constants.RegistrationOptionsConstants.UserNameMaxLength,
+        MinimumLength = Constants.RegistrationOptionsConstants.UserNameMinLength,
+        ErrorMessage = "User name must consist of 3-30 symbols")]
     [RegularExpression(
-       @"^(?=.{3,30}$)(?![_0-9\s])[a-zA-ZА-Яа-я0-9\s_]+(?<![_\s])$",
+       Constants.RegistrationOptionsConstants.UserNamePattern,
        ErrorMessage = "Incorrect user name")]
     [Required(ErrorMessage = "User name is required")]
     public string UserName { get; set; }
 
     [RegularExpression(
-        @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
-        @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
-        @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
+        Constants.RegistrationOptionsConstants.EmailPattern,
         ErrorMessage = "Incorrect email address")]
     [Required(ErrorMessage = "Email is required")]
     public string Email { get; set; }
 
+    [StringLength(
+        Constants.RegistrationOptionsConstants.PasswordMaxLength,
+        MinimumLength = Constants.RegistrationOptionsConstants.PasswordMinLength,
+        ErrorMessage = "Password must consist of 8-20 symbols")]
     [RegularExpression(
-        @"^(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,20}$",
+        Constants.RegistrationOptionsConstants.PasswordPattern,
         ErrorMessage = "Incorrect password")]
     [Required(ErrorMessage = "Password is required")]
     public string Password { get; set; }

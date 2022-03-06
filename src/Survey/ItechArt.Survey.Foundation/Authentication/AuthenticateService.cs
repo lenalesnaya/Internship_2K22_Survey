@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ItechArt.Common;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
@@ -26,11 +25,25 @@ public class AuthenticateService : IAuthenticateService
 
     public async Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
-        var validationResult = await Validate(user, password);
+        var validationResult = Validate(user, password);
 
-        if (!validationResult.HasError)
+        if (validationResult.HasError)
         {
             return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
+        }
+
+        var userExists = await _userManager.FindByNameAsync(user.UserName);
+
+        if (userExists != null)
+        {
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UserNameAlreadyExists);
+        }
+
+        userExists = await _userManager.FindByEmailAsync(user.Email);
+
+        if (userExists != null)
+        {
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.EmailAlreadyExists);
         }
 
         var createResult = await _userManager.CreateAsync(user, password);
@@ -52,35 +65,27 @@ public class AuthenticateService : IAuthenticateService
     }
 
 
-    private async Task<ValidationResult<UserRegistrationErrors>> Validate (User user, string password)
+    private ValidationResult<UserRegistrationErrors> Validate (User user, string password)
     {
-        var validationResults = new List<ValidationResult<UserRegistrationErrors>>
-        {
-            ValidateUserName(user.UserName),
-            ValidateEmail(user.Email),
-            ValidatePassword(password)
-        };
+        var validationResult = ValidateUserName(user.UserName);
 
-        foreach (var result in validationResults)
+        if (validationResult.HasError)
         {
-            if (result.HasError)
-            {
-                return ValidationResult<UserRegistrationErrors>.CreateResultWithError(result.Error);
-            }
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
         }
 
-        var userExists = await _userManager.FindByNameAsync(user.UserName);
+        validationResult = ValidateEmail(user.Email);
 
-        if (userExists != null)
+        if (validationResult.HasError)
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.UserNameAlreadyExists);
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
         }
 
-        userExists = await _userManager.FindByEmailAsync(user.Email);
+        validationResult = ValidatePassword(password);
 
-        if (userExists != null)
+        if (validationResult.HasError)
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.EmailAlreadyExists);
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
         }
 
         return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
@@ -93,7 +98,7 @@ public class AuthenticateService : IAuthenticateService
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.UserNameIsRequired);
         }
 
-        if (!(_options.UserNameMinLength <= userName.Length || userName.Length <= _options.UserNameMaxLength))
+        if (!(_options.UserNameMinLength <= userName.Length && userName.Length <= _options.UserNameMaxLength))
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.InvalidUserNameLength);
         }
@@ -132,7 +137,7 @@ public class AuthenticateService : IAuthenticateService
              return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.PasswordIsRequired);
         }
 
-        if (!(_options.PasswordMinLength <= password.Length || password.Length <= _options.PasswordMaxLength))
+        if (!(_options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength))
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.InvalidPasswordLength);
         }
