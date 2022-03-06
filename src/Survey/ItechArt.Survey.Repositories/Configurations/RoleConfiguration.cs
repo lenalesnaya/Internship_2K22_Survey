@@ -25,7 +25,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsUnique();
 
         builder
-            .HasData(new Role() 
+            .HasData(new Role
             {
                 Id = 1,
                 Name = Role.User,

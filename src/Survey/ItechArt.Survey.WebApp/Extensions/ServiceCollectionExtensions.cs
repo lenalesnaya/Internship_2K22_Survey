@@ -20,8 +20,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAuthenticationService(this IServiceCollection services)
         => services
-        .AddScoped<IAuthenticateService, AuthenticateService>()
-        .AddScoped<IUserService, UserService>();
+            .AddScoped<IAuthenticateService, AuthenticateService>()
+            .AddScoped<IUserService, UserService>();
 
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -42,8 +42,9 @@ public static class ServiceCollectionExtensions
         services
             .AddIdentity<User, Role>(options =>
             {
-                options.User.AllowedUserNameCharacters = "0123456789_ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-                "àáâãäå¸æçèéêëìíîïðñòóôõö÷øùúûüýþÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß";
+                options.User.AllowedUserNameCharacters =
+                    "0123456789_ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                    "àáâãäå¸æçèéêëìíîïðñòóôõö÷øùúûüýþÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß";
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
             })
@@ -56,15 +57,15 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services)
         => services.Configure<RegistrationOptions>(options =>
-        {
-            options.UserNameMinLength = 3;
-            options.UserNameMaxLength = 30;
-            options.UserNamePattern = new Regex(@"^(?=.{3,30}$)(?![_0-9\s])[a-zA-ZÀ-ßà-ÿ0-9\s_]+(?<![_\s])$");
-            options.EmailPattern = new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
-                                             @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
-                                             @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
-            options.PasswordMinLength = 8;
-            options.PasswordMaxLength = 20;
-            options.PasswordPattern = new Regex(@"^(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,20}$");
-        });
+            {
+                options.UserNameMinLength = Constants.Constants.UserNameMinLength;
+                options.UserNameMaxLength = Constants.Constants.UserNameMaxLength;
+                options.UserNamePattern = new Regex(@"^(?=.{3,30}$)(?![_0-9\s])[a-zA-ZÀ-ßà-ÿ0-9\s_]+(?<![_\s])$");
+                options.EmailPattern = new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+                                                 @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+                                                 @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+                options.PasswordMinLength = Constants.Constants.PasswordMinLength;
+                options.PasswordMaxLength = Constants.Constants.PasswordMaxLength;
+                options.PasswordPattern = new Regex(@"^(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,20}$");
+            });
 }
