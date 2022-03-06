@@ -5,5 +5,5 @@ namespace ItechArt.Survey.Foundation.UserService;
 
 public interface IUserService
 {
-    Task<User> GetCurrent(string userId);
+    Task<User> GetUserByIdAsync(string userId);
 }

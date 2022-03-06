@@ -15,7 +15,7 @@ public class UserService : IUserService
     }
 
 
-    public async Task<User> GetCurrent(string userId)
+    public async Task<User> GetUserByIdAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
 

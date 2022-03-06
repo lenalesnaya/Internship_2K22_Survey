@@ -48,20 +48,7 @@ public class AccountController : Controller
 
         if (!result.Success)
         {
-            model.Error = result.Error switch
-            {
-                UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
-                UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
-                UserRegistrationErrors.UserNameIsRequired => "User name is required",
-                UserRegistrationErrors.InvalidUserNameLength => "User name must consist of 3-30 symbols",
-                UserRegistrationErrors.IncorrectUserName => "Incorrect user name",
-                UserRegistrationErrors.EmailIsRequired => "Email is required",
-                UserRegistrationErrors.IncorrectEmail => "Incorrect email",
-                UserRegistrationErrors.PasswordIsRequired => "Password is required",
-                UserRegistrationErrors.InvalidPasswordLength => "Password must consist of 8-20 symbols",
-                UserRegistrationErrors.IncorrectPassword => "Incorrect password",
-                _ => "Unknown error"
-            };
+            SetErrorMessage(model, result.Error);
 
             return View(model);
         }
@@ -73,8 +60,8 @@ public class AccountController : Controller
     [Authorize]
     public async Task<IActionResult> Profile()
     {
-        var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var user = await _userService.GetCurrent(userId);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _userService.GetUserByIdAsync(userId);
         var model = _mapper.Map<ProfileViewModel>(user);
 
         return View(model);
@@ -86,5 +73,24 @@ public class AccountController : Controller
         await _signInManager.SignOutAsync();
 
         return RedirectToAction("Registration");
+    }
+
+
+    private static void SetErrorMessage(RegistrationViewModel model, UserRegistrationErrors error)
+    {
+        model.Error = error switch
+        {
+            UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
+            UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
+            UserRegistrationErrors.UserNameIsRequired => "User name is required",
+            UserRegistrationErrors.InvalidUserNameLength => "User name must consist of 3-30 symbols",
+            UserRegistrationErrors.IncorrectUserName => "Incorrect user name",
+            UserRegistrationErrors.EmailIsRequired => "Email is required",
+            UserRegistrationErrors.IncorrectEmail => "Incorrect email",
+            UserRegistrationErrors.PasswordIsRequired => "Password is required",
+            UserRegistrationErrors.InvalidPasswordLength => "Password must consist of 8-20 symbols",
+            UserRegistrationErrors.IncorrectPassword => "Incorrect password",
+            _ => "Unknown error"
+        };
     }
 }
