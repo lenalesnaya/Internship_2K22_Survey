@@ -22,7 +22,7 @@ public class OperationResult<TResult, TError>
             : _error;
 
 
-    private OperationResult(bool success, TResult result, TError error)
+    private OperationResult(TResult result, TError error, bool success)
     {
         Success = success;
         _result = result;
@@ -32,11 +32,11 @@ public class OperationResult<TResult, TError>
 
     public static OperationResult<TResult, TError> CreateSuccessfulResult(TResult result)
     {
-        return new OperationResult<TResult, TError>(true, result, default);
+        return new OperationResult<TResult, TError>(result, default, true);
     }
 
     public static OperationResult<TResult, TError> CreateFailureResult(TError error)
     {
-        return new OperationResult<TResult, TError>(false, default, error);
+        return new OperationResult<TResult, TError>(default, error, false);
     }
 }

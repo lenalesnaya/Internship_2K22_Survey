@@ -16,7 +16,10 @@ public class AuthenticateService : IAuthenticateService
     private readonly RegistrationOptions _options;
 
 
-    public AuthenticateService(UserManager<User> userManager, SignInManager<User> signInManager, IOptions<RegistrationOptions> options)
+    public AuthenticateService(
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        IOptions<RegistrationOptions> options)
     {
         _userManager = userManager;
         _signInManager = signInManager;

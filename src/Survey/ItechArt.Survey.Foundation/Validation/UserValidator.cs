@@ -46,7 +46,7 @@ public class UserValidator : IValidator<User, RegistrationOptions, ValidationRes
     }
 
 
-    private static ValidationResult<UserRegistrationErrors> ValidateUserName(string userName, RegistrationOptions options)
+    private ValidationResult<UserRegistrationErrors> ValidateUserName(string userName, RegistrationOptions options)
     {
         if (string.IsNullOrEmpty(userName))
         {
@@ -68,7 +68,7 @@ public class UserValidator : IValidator<User, RegistrationOptions, ValidationRes
         return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
     }
 
-    private static ValidationResult<UserRegistrationErrors> ValidateEmail(string email, RegistrationOptions options)
+    private ValidationResult<UserRegistrationErrors> ValidateEmail(string email, RegistrationOptions options)
     {
         if (string.IsNullOrEmpty(email))
         {
@@ -85,7 +85,7 @@ public class UserValidator : IValidator<User, RegistrationOptions, ValidationRes
         return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
     }
 
-    private static ValidationResult<UserRegistrationErrors> ValidatePassword(string password, RegistrationOptions options)
+    private ValidationResult<UserRegistrationErrors> ValidatePassword(string password, RegistrationOptions options)
     {
         if (string.IsNullOrEmpty(password))
         {
