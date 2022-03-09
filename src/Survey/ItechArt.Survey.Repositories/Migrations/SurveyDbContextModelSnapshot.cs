@@ -79,7 +79,8 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -92,7 +93,8 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.Property<string>("NormalizedEmail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("NormalizedUserName")
                         .IsRequired()

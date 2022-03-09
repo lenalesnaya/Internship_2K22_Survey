@@ -26,6 +26,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .Property(u => u.Email)
+            .HasMaxLength(User.EmailMaxLength)
             .IsRequired();
         builder
             .HasIndex(u => u.Email)
@@ -33,6 +34,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .Property(u => u.NormalizedEmail)
+            .HasMaxLength(User.EmailMaxLength)
             .IsRequired();
         builder
             .HasIndex(u => u.NormalizedEmail)

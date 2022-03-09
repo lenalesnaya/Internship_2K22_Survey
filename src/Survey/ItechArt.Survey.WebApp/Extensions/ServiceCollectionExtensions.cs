@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAuthenticationService(this IServiceCollection services)
         => services
             .AddScoped<IAuthenticateService, AuthenticateService>()
+            .AddAuthenticationConfiguration()
             .AddScoped<IUserService, UserService>();
 
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)

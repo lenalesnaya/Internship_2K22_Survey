@@ -5,27 +5,26 @@ namespace ItechArt.Common;
 public class OperationResult<TResult, TError>
     where TError : Enum
 {
-    private readonly bool _success;
     private readonly TResult _result;
     private readonly TError _error;
 
 
-    public bool Success => _success;
+    public bool Success { get; }
 
     public TResult Result
-        => !_success
+        => Success
             ? throw new Exception("Result was not set")
             : _result;
 
     public TError Error
-        => _success
+        => Success
             ? throw new Exception("Successful result has no error")
             : _error;
 
 
     private OperationResult(bool success, TResult result, TError error)
     {
-        _success = success;
+        Success = success;
         _result = result;
         _error = error;
     }

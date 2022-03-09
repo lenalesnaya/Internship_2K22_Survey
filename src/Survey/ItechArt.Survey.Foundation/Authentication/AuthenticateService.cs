@@ -3,6 +3,7 @@ using ItechArt.Common;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
+using ItechArt.Survey.Foundation.Validation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
@@ -25,7 +26,8 @@ public class AuthenticateService : IAuthenticateService
 
     public async Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
-        var validationResult = Validate(user, password);
+        var userValidator = new UserValidator();
+        var validationResult = userValidator.Validate(user, password, _options);
 
         if (validationResult.HasError)
         {
@@ -55,100 +57,13 @@ public class AuthenticateService : IAuthenticateService
 
         var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
 
-        if (roleResult.Succeeded)
+        if (!roleResult.Succeeded)
         {
-            await _signInManager.SignInAsync(user, false);
-            return OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user);
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UnknownError);
         }
 
-        return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(UserRegistrationErrors.UnknownError);
-    }
+        await _signInManager.SignInAsync(user, true);
 
-
-    private ValidationResult<UserRegistrationErrors> Validate (User user, string password)
-    {
-        var validationResult = ValidateUserName(user.UserName);
-
-        if (validationResult.HasError)
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
-        }
-
-        validationResult = ValidateEmail(user.Email);
-
-        if (validationResult.HasError)
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
-        }
-
-        validationResult = ValidatePassword(password);
-
-        if (validationResult.HasError)
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
-        }
-
-        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
-    }
-
-    private ValidationResult<UserRegistrationErrors> ValidateUserName(string userName)
-    {
-        if (string.IsNullOrEmpty(userName))
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.UserNameIsRequired);
-        }
-
-        if (!(_options.UserNameMinLength <= userName.Length && userName.Length <= _options.UserNameMaxLength))
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.InvalidUserNameLength);
-        }
-
-        var match = _options.UserNamePattern.Match(userName);
-
-        if (string.IsNullOrEmpty(match.Value))
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectUserName);
-        }
-
-        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
-    }
-
-    private ValidationResult<UserRegistrationErrors> ValidateEmail(string email)
-    {
-        if (string.IsNullOrEmpty(email))
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.EmailIsRequired);
-        }
-
-        var match = _options.EmailPattern.Match(email);
-
-        if (string.IsNullOrEmpty(match.Value))
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectEmail);
-        }
-
-        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
-    }
-
-    private ValidationResult<UserRegistrationErrors> ValidatePassword(string password)
-    {
-        if (string.IsNullOrEmpty(password))
-        {
-             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.PasswordIsRequired);
-        }
-
-        if (!(_options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength))
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.InvalidPasswordLength);
-        }
-
-        var match = _options.PasswordPattern.Match(password);
-
-        if (string.IsNullOrEmpty(match.Value))
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectPassword);
-        }
-
-        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
+        return OperationResult<User, UserRegistrationErrors>.CreateSuccessfulResult(user);
     }
 }
