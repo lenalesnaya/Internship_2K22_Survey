@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ItechArt.Survey.Foundation.Authentication.Configuration;
+namespace ItechArt.Common.Validation;
 
 public class ValidationResult<TError>
     where TError : Enum
