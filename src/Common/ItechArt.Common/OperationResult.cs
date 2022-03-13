@@ -12,17 +12,17 @@ public class OperationResult<TResult, TError>
     public bool Success { get; }
 
     public TResult Result
-        => Success
+        => !Success
             ? throw new Exception("Result was not set")
             : _result;
 
     public TError Error
-        => Success
+        => !Success
             ? throw new Exception("Successful result has no error")
             : _error;
 
 
-    private OperationResult(TResult result, TError error, bool success)
+    private OperationResult(bool success, TResult result, TError error)
     {
         Success = success;
         _result = result;
@@ -32,11 +32,11 @@ public class OperationResult<TResult, TError>
 
     public static OperationResult<TResult, TError> CreateSuccessfulResult(TResult result)
     {
-        return new OperationResult<TResult, TError>(result, default, true);
+        return new OperationResult<TResult, TError>(true, result, default);
     }
 
     public static OperationResult<TResult, TError> CreateFailureResult(TError error)
     {
-        return new OperationResult<TResult, TError>(default, error, false);
+        return new OperationResult<TResult, TError>( false, default, error);
     }
 }

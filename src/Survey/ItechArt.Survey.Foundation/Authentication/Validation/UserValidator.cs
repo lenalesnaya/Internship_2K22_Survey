@@ -1,22 +1,30 @@
-﻿using ItechArt.Survey.DomainModel;
+﻿using ItechArt.Common.Validation;
+using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
-using ItechArt.Survey.Foundation.Validation.Abstractions;
+using ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
+using Microsoft.Extensions.Options;
 
-namespace ItechArt.Survey.Foundation.Validation;
+namespace ItechArt.Survey.Foundation.Authentication.Validation;
 
-public class UserValidator : IValidator<User, RegistrationOptions, ValidationResult<UserRegistrationErrors>>
+public class UserValidator : IUserValidator
 {
-    public ValidationResult<UserRegistrationErrors> Validate(User user, RegistrationOptions options)
+    private RegistrationOptions _options;
+
+    public UserValidator(IOptions<RegistrationOptions> options)
     {
-        var validationResult = ValidateUserName(user.UserName, options);
+        _options = options.Value;
+    }
+    public ValidationResult<UserRegistrationErrors> Validate(User user)
+    {
+        var validationResult = ValidateUserName(user.UserName, _options);
 
         if (validationResult.HasError)
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
         }
 
-        validationResult = ValidateEmail(user.Email, options);
+        validationResult = ValidateEmail(user.Email, _options);
 
         if (validationResult.HasError)
         {
@@ -26,22 +34,22 @@ public class UserValidator : IValidator<User, RegistrationOptions, ValidationRes
         return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
     }
 
-    public ValidationResult<UserRegistrationErrors> Validate(User user, string password, RegistrationOptions options)
+    public ValidationResult<UserRegistrationErrors> Validate(User user, string password)
     {
-        var validationResult = Validate(user, options);
-
+        var validationResult = Validate(user);
+    
         if (validationResult.HasError)
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
         }
-
-        validationResult = ValidatePassword(password, options);
-
+    
+        validationResult = ValidatePassword(password, _options);
+    
         if (validationResult.HasError)
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
         }
-
+    
         return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
     }
 

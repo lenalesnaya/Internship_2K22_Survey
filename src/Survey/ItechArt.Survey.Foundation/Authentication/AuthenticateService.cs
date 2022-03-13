@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
 using ItechArt.Common;
+using ItechArt.Common.Validation;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
-using ItechArt.Survey.Foundation.Validation;
+using ItechArt.Survey.Foundation.Authentication.Validation;
+using ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
@@ -13,24 +15,23 @@ public class AuthenticateService : IAuthenticateService
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly RegistrationOptions _options;
+    private readonly IUserValidator _userValidator;
 
 
     public AuthenticateService(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
-        IOptions<RegistrationOptions> options)
+        IUserValidator userValidator)
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _options = options.Value;
+        _userValidator = userValidator;
     }
 
 
     public async Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
-        var userValidator = new UserValidator();
-        var validationResult = userValidator.Validate(user, password, _options);
+        var validationResult = _userValidator.Validate(user, password);
 
         if (validationResult.HasError)
         {

@@ -13,6 +13,9 @@ using UserStore = ItechArt.Survey.Foundation.Authentication.Stores.UserStore;
 using RoleStore = ItechArt.Survey.Foundation.Authentication.Stores.RoleStore;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
 using System.Text.RegularExpressions;
+using ItechArt.Common.Validation.Abstractions;
+using ItechArt.Survey.Foundation.Authentication.Validation;
+using ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
 
 namespace ItechArt.Survey.WebApp.Extensions;
 
@@ -21,8 +24,19 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAuthenticationService(this IServiceCollection services)
         => services
             .AddScoped<IAuthenticateService, AuthenticateService>()
-            .AddAuthenticationConfiguration()
-            .AddScoped<IUserService, UserService>();
+            .AddScoped<RegistrationOptions>()
+            .Configure<RegistrationOptions>(options =>
+            {
+                options.UserNameMinLength = Constants.RegistrationOptionsConstants.UserNameMinLength;
+                options.UserNameMaxLength = Constants.RegistrationOptionsConstants.UserNameMaxLength;
+                options.UserNamePattern = new Regex(Constants.RegistrationOptionsConstants.UserNamePattern);
+                options.EmailPattern = new Regex(Constants.RegistrationOptionsConstants.EmailPattern);
+                options.PasswordMinLength = Constants.RegistrationOptionsConstants.PasswordMinLength;
+                options.PasswordMaxLength = Constants.RegistrationOptionsConstants.PasswordMaxLength;
+                options.PasswordPattern = new Regex(Constants.RegistrationOptionsConstants.PasswordPattern);
+            })
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IUserValidator, UserValidator>();
 
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -55,16 +69,4 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-
-    public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services)
-        => services.Configure<RegistrationOptions>(options =>
-            {
-                options.UserNameMinLength = Constants.RegistrationOptionsConstants.UserNameMinLength;
-                options.UserNameMaxLength = Constants.RegistrationOptionsConstants.UserNameMaxLength;
-                options.UserNamePattern = new Regex(Constants.RegistrationOptionsConstants.UserNamePattern);
-                options.EmailPattern = new Regex(Constants.RegistrationOptionsConstants.EmailPattern);
-                options.PasswordMinLength = Constants.RegistrationOptionsConstants.PasswordMinLength;
-                options.PasswordMaxLength = Constants.RegistrationOptionsConstants.PasswordMaxLength;
-                options.PasswordPattern = new Regex(Constants.RegistrationOptionsConstants.PasswordPattern);
-            });
 }
