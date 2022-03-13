@@ -1,13 +1,9 @@
 ﻿using System.Threading.Tasks;
 using ItechArt.Common;
-using ItechArt.Common.Validation;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
-using ItechArt.Survey.Foundation.Authentication.Configuration;
-using ItechArt.Survey.Foundation.Authentication.Validation;
 using ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 
 namespace ItechArt.Survey.Foundation.Authentication;
 
@@ -16,22 +12,32 @@ public class AuthenticateService : IAuthenticateService
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly IUserValidator _userValidator;
+    private readonly IPasswordValidator _passwordValidator;
 
 
     public AuthenticateService(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
-        IUserValidator userValidator)
+        IUserValidator userValidator,
+        IPasswordValidator passwordValidator)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _userValidator = userValidator;
+        _passwordValidator = passwordValidator;
     }
 
 
     public async Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
-        var validationResult = _userValidator.Validate(user, password);
+        var validationResult = _userValidator.Validate(user);
+
+        if (validationResult.HasError)
+        {
+            return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
+        }
+
+        validationResult = _passwordValidator.Validate(password);
 
         if (validationResult.HasError)
         {

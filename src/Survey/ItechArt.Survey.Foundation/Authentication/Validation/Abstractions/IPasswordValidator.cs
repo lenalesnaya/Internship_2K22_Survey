@@ -1,11 +1,10 @@
 ﻿using ItechArt.Common.Validation;
 using ItechArt.Common.Validation.Abstractions;
-using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 
 namespace ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
 
-public interface IUserValidator : IValidator<User, UserRegistrationErrors>
+public interface IPasswordValidator : IValidator<string, UserRegistrationErrors>
 {
-    new ValidationResult<UserRegistrationErrors> Validate(User user);
+    new ValidationResult<UserRegistrationErrors> Validate(string password);
 }

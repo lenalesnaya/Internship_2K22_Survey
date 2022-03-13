@@ -17,7 +17,7 @@ public class OperationResult<TResult, TError>
             : _result;
 
     public TError Error
-        => !Success
+        => Success
             ? throw new Exception("Successful result has no error")
             : _error;
 
@@ -37,6 +37,6 @@ public class OperationResult<TResult, TError>
 
     public static OperationResult<TResult, TError> CreateFailureResult(TError error)
     {
-        return new OperationResult<TResult, TError>( false, default, error);
+        return new OperationResult<TResult, TError>(false, default, error);
     }
 }

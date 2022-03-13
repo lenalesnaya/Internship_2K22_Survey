@@ -48,7 +48,7 @@ public class AccountController : Controller
 
         if (!result.Success)
         {
-            SetErrorMessage(model, result.Error);
+            model.Error = GetErrorMessage(result.Error);
 
             return View(model);
         }
@@ -76,9 +76,9 @@ public class AccountController : Controller
     }
 
 
-    private static void SetErrorMessage(RegistrationViewModel model, UserRegistrationErrors error)
+    private static string GetErrorMessage(UserRegistrationErrors error)
     {
-        model.Error = error switch
+        var message = error switch
         {
             UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
             UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
@@ -92,5 +92,7 @@ public class AccountController : Controller
             UserRegistrationErrors.IncorrectPassword => "Incorrect password",
             _ => "Unknown error"
         };
+
+        return message;
     }
 }
