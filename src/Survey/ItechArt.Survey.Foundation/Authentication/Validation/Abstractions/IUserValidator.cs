@@ -7,5 +7,5 @@ namespace ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
 
 public interface IUserValidator : IValidator<User, UserRegistrationErrors>
 {
-    new ValidationResult<UserRegistrationErrors> Validate(User user);
+    ValidationResult<UserRegistrationErrors> Validate(string password);
 }

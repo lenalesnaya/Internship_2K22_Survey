@@ -12,19 +12,16 @@ public class AuthenticateService : IAuthenticateService
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly IUserValidator _userValidator;
-    private readonly IPasswordValidator _passwordValidator;
 
 
     public AuthenticateService(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
-        IUserValidator userValidator,
-        IPasswordValidator passwordValidator)
+        IUserValidator userValidator)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _userValidator = userValidator;
-        _passwordValidator = passwordValidator;
     }
 
 
@@ -37,7 +34,7 @@ public class AuthenticateService : IAuthenticateService
             return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
         }
 
-        validationResult = _passwordValidator.Validate(password);
+        validationResult = _userValidator.Validate(password);
 
         if (validationResult.HasError)
         {

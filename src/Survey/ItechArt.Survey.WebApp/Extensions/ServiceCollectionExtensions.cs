@@ -34,8 +34,7 @@ public static class ServiceCollectionExtensions
                 options.PasswordPattern = new Regex(Constants.RegistrationOptionsConstants.PasswordPattern);
             })
             .AddScoped<IUserService, UserService>()
-            .AddScoped<IUserValidator, UserValidator>()
-            .AddScoped<IPasswordValidator, PasswordValidator>();
+            .AddScoped<IUserValidator, UserValidator>();
 
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());

@@ -37,6 +37,18 @@ public class UserValidator : IUserValidator
         return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
     }
 
+    public ValidationResult<UserRegistrationErrors> Validate(string password)
+    {
+        var validationResult = ValidatePassword(password);
+
+        if (validationResult.HasError)
+        {
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
+        }
+
+        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
+    }
+
 
     private ValidationResult<UserRegistrationErrors> ValidateUserName(string userName)
     {
@@ -72,6 +84,28 @@ public class UserValidator : IUserValidator
         if (string.IsNullOrEmpty(match.Value))
         {
             return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectEmail);
+        }
+
+        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
+    }
+
+    private ValidationResult<UserRegistrationErrors> ValidatePassword(string password)
+    {
+        if (string.IsNullOrEmpty(password))
+        {
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.PasswordIsRequired);
+        }
+
+        if (!(_options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength))
+        {
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.InvalidPasswordLength);
+        }
+
+        var match = _options.PasswordPattern.Match(password);
+
+        if (string.IsNullOrEmpty(match.Value))
+        {
+            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectPassword);
         }
 
         return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
