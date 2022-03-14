@@ -1,4 +1,5 @@
 ﻿using ItechArt.Common.Validation;
+using ItechArt.Common.Validation.Abstractions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
@@ -7,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace ItechArt.Survey.Foundation.Authentication.Validation;
 
-public class UserValidator : IUserValidator
+public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValidator
 {
     private readonly RegistrationOptions _options;
 
@@ -18,96 +19,93 @@ public class UserValidator : IUserValidator
     }
 
 
-    public ValidationResult<UserRegistrationErrors> Validate(User user)
+    public ValidationResult<UserRegistrationErrors> ValidatePassword(string password)
     {
-        var validationResult = ValidateUserName(user.UserName);
+        var error = ValidateUserPassword(password);
 
-        if (validationResult.HasError)
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
-        }
-
-        validationResult = ValidateEmail(user.Email);
-
-        if (validationResult.HasError)
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
-        }
-
-        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
-    }
-
-    public ValidationResult<UserRegistrationErrors> Validate(string password)
-    {
-        var validationResult = ValidatePassword(password);
-
-        if (validationResult.HasError)
-        {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(validationResult.Error);
-        }
-
-        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
+        return error.HasValue
+            ? ValidationResult<UserRegistrationErrors>.CreateUnsuccessful(error.Value)
+            : ValidationResult<UserRegistrationErrors>.CreateSuccessful();
     }
 
 
-    private ValidationResult<UserRegistrationErrors> ValidateUserName(string userName)
+    protected override UserRegistrationErrors? ValidateWithErrorReturning(User user)
+    {
+        var error = ValidateUserName(user.UserName);
+
+        if (error != null)
+        {
+            return error;
+        }
+
+        error = ValidateUserEmail(user.Email);
+
+        return error;
+    }
+
+
+    private UserRegistrationErrors? ValidateUserName(string userName)
     {
         if (string.IsNullOrEmpty(userName))
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.UserNameIsRequired);
+            return UserRegistrationErrors.UserNameIsRequired;
         }
 
-        if (!(_options.UserNameMinLength <= userName.Length && userName.Length <= _options.UserNameMaxLength))
+        var isNameLengthValid = _options.UserNameMinLength <= userName.Length && userName.Length <= _options.UserNameMaxLength;
+
+        if (!isNameLengthValid)
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.InvalidUserNameLength);
+            return UserRegistrationErrors.InvalidUserNameLength;
         }
 
         var match = _options.UserNamePattern.Match(userName);
 
         if (string.IsNullOrEmpty(match.Value))
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectUserName);
+            return UserRegistrationErrors.IncorrectUserName;
         }
 
-        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
+        return null;
     }
 
-    private ValidationResult<UserRegistrationErrors> ValidateEmail(string email)
+    private UserRegistrationErrors? ValidateUserEmail(string email)
     {
         if (string.IsNullOrEmpty(email))
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.EmailIsRequired);
+            return UserRegistrationErrors.EmailIsRequired;
         }
 
         var match = _options.EmailPattern.Match(email);
 
         if (string.IsNullOrEmpty(match.Value))
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectEmail);
+            return UserRegistrationErrors.IncorrectEmail;
         }
 
-        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
+        return null;
     }
 
-    private ValidationResult<UserRegistrationErrors> ValidatePassword(string password)
+    private UserRegistrationErrors? ValidateUserPassword(string password)
     {
         if (string.IsNullOrEmpty(password))
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.PasswordIsRequired);
+            return UserRegistrationErrors.PasswordIsRequired;
         }
 
-        if (!(_options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength))
+        var isPasswordLengthValid = _options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength;
+
+        if (!isPasswordLengthValid)
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.InvalidPasswordLength);
+            return UserRegistrationErrors.InvalidPasswordLength;
         }
 
         var match = _options.PasswordPattern.Match(password);
 
         if (string.IsNullOrEmpty(match.Value))
         {
-            return ValidationResult<UserRegistrationErrors>.CreateResultWithError(UserRegistrationErrors.IncorrectPassword);
+            return UserRegistrationErrors.IncorrectPassword;
         }
 
-        return ValidationResult<UserRegistrationErrors>.CreateResultWithoutError();
+        return null;
     }
 }

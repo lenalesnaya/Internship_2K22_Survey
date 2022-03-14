@@ -3,11 +3,13 @@ using ItechArt.Survey.DomainModel;
 
 namespace ItechArt.Survey.WebApp.ViewModels.Mapping;
 
-public class UserProfile : Profile
+public class ProfileViewModelProfile : Profile
 {
-    public UserProfile()
+    public ProfileViewModelProfile()
     {
-        CreateMap<ProfileViewModel, User>();
-        CreateMap<User, ProfileViewModel>();
+        CreateMap<User, ProfileViewModel>()
+            .ForMember(p => p.User,
+                opt => opt.MapFrom(src => src))
+            .ReverseMap();
     }
 }

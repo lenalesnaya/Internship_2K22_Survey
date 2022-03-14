@@ -6,22 +6,14 @@
 
 <div>
   <div>
-    <div>
-      <div>
-        <div>
-          <div>
-            <img class="profile_img" src="https://source.unsplash.com/600x300/?student" alt="student dp">
-            <h3>@Model.UserName</h3>
-          </div>
-          <div class="card-body">
-            <p class="mb-0">
-              <strong class="pr-1">Email:</strong>@Model.Email
-            </p>
-            <p class="mb-0"><strong class="pr-1">Class:</strong>4</p>
-            <p class="mb-0"><strong class="pr-1">Section:</strong>A</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <img class="profile_img" src="https://source.unsplash.com/600x300/?student" alt="student dp">
+    <h3>@Model.User.UserName</h3>
+  </div>
+  <div class="card-body">
+    <p class="mb-0">
+      <strong class="pr-1">Email:</strong>@Model.User.Email
+    </p>
+    <p class="mb-0"><strong class="pr-1">Class:</strong>4</p>
+    <p class="mb-0"><strong class="pr-1">Section:</strong>A</p>
   </div>
 </div>

@@ -3,39 +3,37 @@
 namespace ItechArt.Common;
 
 public class OperationResult<TResult, TError>
-    where TError : Enum
+    where TError : struct, Enum
 {
     private readonly TResult _result;
-    private readonly TError _error;
 
 
-    public bool Success { get; }
+    public bool IsSuccessful { get; }
 
     public TResult Result
-        => !Success
+        => !IsSuccessful
             ? throw new Exception("Result was not set")
             : _result;
 
-    public TError Error
-        => Success
-            ? throw new Exception("Successful result has no error")
-            : _error;
+    public TError? Error { get; }
 
-
-    private OperationResult(bool success, TResult result, TError error)
+    private OperationResult(
+        bool isSuccessful,
+        TResult result,
+        TError? error)
     {
-        Success = success;
+        IsSuccessful = isSuccessful;
         _result = result;
-        _error = error;
+        Error = error;
     }
 
 
-    public static OperationResult<TResult, TError> CreateSuccessfulResult(TResult result)
+    public static OperationResult<TResult, TError> CreateSuccessful(TResult result)
     {
-        return new OperationResult<TResult, TError>(true, result, default);
+        return new OperationResult<TResult, TError>(true, result, null);
     }
 
-    public static OperationResult<TResult, TError> CreateFailureResult(TError error)
+    public static OperationResult<TResult, TError> CreateUnsuccessful(TError? error)
     {
         return new OperationResult<TResult, TError>(false, default, error);
     }
