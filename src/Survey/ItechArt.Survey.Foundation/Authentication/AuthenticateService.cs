@@ -29,14 +29,14 @@ public class AuthenticateService : IAuthenticateService
     {
         var validationResult = _userValidator.Validate(user);
 
-        if (validationResult.HasError)
+        if (!validationResult.Success)
         {
             return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
         }
 
-        validationResult = _userValidator.Validate(password);
+        validationResult = _userValidator.ValidatePassword(password);
 
-        if (validationResult.HasError)
+        if (!validationResult.Success)
         {
             return OperationResult<User, UserRegistrationErrors>.CreateFailureResult(validationResult.Error);
         }

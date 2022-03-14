@@ -6,31 +6,30 @@ public class ValidationResult<TError>
     where TError : Enum
 {
     private readonly TError _error;
-    private readonly bool _hasError;
 
+
+    public bool Success { get; }
 
     public TError Error
-        => _hasError
+        => !Success
             ? _error
-            : throw new InvalidOperationException("Has no error");
-
-    public bool HasError => _hasError;
+            : throw new InvalidOperationException("Successful result has no error");
 
 
-    private ValidationResult (bool hasError, TError error)
+    private ValidationResult (bool success, TError error)
     {
+        Success = success;
         _error = error;
-        _hasError = hasError;
     }
 
 
-    public static ValidationResult<TError> CreateResultWithoutError()
+    public static ValidationResult<TError> CreateSuccessfulResult()
     {
-        return new ValidationResult<TError>(false, default);
+        return new ValidationResult<TError>(true, default);
     }
 
-    public static ValidationResult<TError> CreateResultWithError(TError error)
+    public static ValidationResult<TError> CreateFailureResult(TError error)
     {
-        return new ValidationResult<TError>(true, error);
+        return new ValidationResult<TError>(false, error);
     }
 }
