@@ -12,7 +12,7 @@ public class ValidationResult<TError>
 
     private ValidationResult (
         bool isSuccessful,
-        TError? error = null)
+        TError? error)
     {
         IsSuccessful = isSuccessful;
         Error = error;
@@ -21,10 +21,10 @@ public class ValidationResult<TError>
 
     public static ValidationResult<TError> CreateSuccessful()
     {
-        return new ValidationResult<TError>(true);
+        return new ValidationResult<TError>(true, null);
     }
 
-    public static ValidationResult<TError> CreateUnsuccessful(TError error)
+    public static ValidationResult<TError> CreateUnsuccessful(TError? error)
     {
         return new ValidationResult<TError>(false, error);
     }

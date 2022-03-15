@@ -29,7 +29,7 @@ public class AuthenticateService : IAuthenticateService
     {
         var validationResult = _userValidator.Validate(user);
 
-        if (!validationResult.IsSuccessful && validationResult.Error.HasValue)
+        if (!validationResult.IsSuccessful)
         {
             return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(validationResult.Error);
         }
