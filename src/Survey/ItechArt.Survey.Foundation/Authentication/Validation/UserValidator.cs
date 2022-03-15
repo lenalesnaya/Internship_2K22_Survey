@@ -1,4 +1,5 @@
 ﻿using ItechArt.Common.Validation;
+using ItechArt.Common.Validation.Abstractions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
@@ -7,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace ItechArt.Survey.Foundation.Authentication.Validation;
 
-public class UserValidator :Validator, IUserValidator
+public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValidator
 {
     private readonly RegistrationOptions _options;
 
@@ -24,10 +25,10 @@ public class UserValidator :Validator, IUserValidator
 
         if (error.HasValue)
         {
-            return ValidationResult<UserRegistrationErrors>.CreateFailureResult(error.Value);
+            return ValidationResult<UserRegistrationErrors>.CreateUnsuccessful(error.Value);
         }
 
-        return ValidationResult<UserRegistrationErrors>.CreateSuccessfulResult();
+        return ValidationResult<UserRegistrationErrors>.CreateSuccessful();
     }
 
 
@@ -53,12 +54,12 @@ public class UserValidator :Validator, IUserValidator
 
     private UserRegistrationErrors? ValidateUserName(string userName)
     {
-        var isNameLengthValid = _options.UserNameMinLength <= userName.Length && userName.Length <= _options.UserNameMaxLength;
-
         if (string.IsNullOrEmpty(userName))
         {
             return UserRegistrationErrors.UserNameIsRequired;
         }
+
+        var isNameLengthValid = _options.UserNameMinLength <= userName.Length && userName.Length <= _options.UserNameMaxLength;
 
         if (!isNameLengthValid)
         {
@@ -94,12 +95,12 @@ public class UserValidator :Validator, IUserValidator
 
     private UserRegistrationErrors? ValidateUserPassword(string password)
     {
-        var isPasswordLengthValid = _options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength;
-
         if (string.IsNullOrEmpty(password))
         {
             return UserRegistrationErrors.PasswordIsRequired;
         }
+
+        var isPasswordLengthValid = _options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength;
 
         if (!isPasswordLengthValid)
         {

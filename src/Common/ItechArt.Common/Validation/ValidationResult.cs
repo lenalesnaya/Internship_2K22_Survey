@@ -3,32 +3,26 @@
 namespace ItechArt.Common.Validation;
 
 public class ValidationResult<TError>
-    where TError : Enum
+    where TError : struct, Enum
 {
-    private readonly TError _error;
+    public bool IsSuccessful { get; }
+
+    public TError? Error { get; }
 
 
-    public bool Success { get; }
-
-    public TError Error
-        => !Success
-            ? _error
-            : throw new InvalidOperationException("Successful result has no error");
-
-
-    private ValidationResult (bool success, TError error)
+    private ValidationResult (bool isSuccessful, TError? error)
     {
-        Success = success;
-        _error = error;
+        IsSuccessful = isSuccessful;
+        Error = error;
     }
 
 
-    public static ValidationResult<TError> CreateSuccessfulResult()
+    public static ValidationResult<TError> CreateSuccessful()
     {
-        return new ValidationResult<TError>(true, default);
+        return new ValidationResult<TError>(true, null);
     }
 
-    public static ValidationResult<TError> CreateFailureResult(TError error)
+    public static ValidationResult<TError> CreateUnsuccessful(TError? error)
     {
         return new ValidationResult<TError>(false, error);
     }

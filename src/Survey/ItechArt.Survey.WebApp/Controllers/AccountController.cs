@@ -46,7 +46,7 @@ public class AccountController : Controller
         var user = _mapper.Map<User>(model);
         var result = await _authenticateService.RegisterAsync(user, model.Password);
 
-        if (!result.Success)
+        if (!result.IsSuccessful)
         {
             model.Error = GetErrorMessage(result.Error);
 
@@ -76,7 +76,7 @@ public class AccountController : Controller
     }
 
 
-    private static string GetErrorMessage(UserRegistrationErrors error)
+    private static string GetErrorMessage(UserRegistrationErrors? error)
     {
         var message = error switch
         {
