@@ -27,46 +27,39 @@ public class AuthenticateService : IAuthenticateService
 
     public async Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
-        var validationResult = _userValidator.Validate(user);
-
+        var validationResult = _userValidator.Validate(user, password);
         if (!validationResult.IsSuccessful)
         {
-            return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(validationResult.Error);
+            return OperationResult<User, UserRegistrationErrors>
+                .CreateUnsuccessful(validationResult.Error.GetValueOrDefault());
         }
 
-        validationResult = _userValidator.ValidatePassword(password);
-
-        if (!validationResult.IsSuccessful)
+        var usernameExists = await _userManager.FindByNameAsync(user.UserName);
+        if (usernameExists != null)
         {
-            return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(validationResult.Error);
+            return OperationResult<User, UserRegistrationErrors>
+                .CreateUnsuccessful(UserRegistrationErrors.UserNameAlreadyExists);
         }
-
-        var userExists = await _userManager.FindByNameAsync(user.UserName);
-
-        if (userExists != null)
+        
+        var userEmailExists = await _userManager.FindByEmailAsync(user.Email);
+        if (userEmailExists != null)
         {
-            return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(UserRegistrationErrors.UserNameAlreadyExists);
-        }
-
-        userExists = await _userManager.FindByEmailAsync(user.Email);
-
-        if (userExists != null)
-        {
-            return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(UserRegistrationErrors.EmailAlreadyExists);
+            return OperationResult<User, UserRegistrationErrors>
+                .CreateUnsuccessful(UserRegistrationErrors.EmailAlreadyExists);
         }
 
         var createResult = await _userManager.CreateAsync(user, password);
-
         if (!createResult.Succeeded)
         {
-            return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(UserRegistrationErrors.UnknownError);
+            return OperationResult<User, UserRegistrationErrors>
+                .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
         }
 
         var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
-
         if (!roleResult.Succeeded)
         {
-            return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(UserRegistrationErrors.UnknownError);
+            return OperationResult<User, UserRegistrationErrors>
+                .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
         }
 
         await _signInManager.SignInAsync(user, true);

@@ -33,7 +33,7 @@ public class OperationResult<TResult, TError>
         return new OperationResult<TResult, TError>(true, result, null);
     }
 
-    public static OperationResult<TResult, TError> CreateUnsuccessful(TError? error)
+    public static OperationResult<TResult, TError> CreateUnsuccessful(TError error)
     {
         return new OperationResult<TResult, TError>(false, default, error);
     }

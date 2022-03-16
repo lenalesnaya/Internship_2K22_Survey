@@ -3,9 +3,9 @@ using ItechArt.Survey.DomainModel;
 
 namespace ItechArt.Survey.WebApp.ViewModels.Mapping;
 
-public class ProfileViewModelProfile : Profile
+public class UserProfile : Profile
 {
-    public ProfileViewModelProfile()
+    public UserProfile()
     {
         CreateMap<User, ProfileViewModel>()
             .ForMember(p => p.User,

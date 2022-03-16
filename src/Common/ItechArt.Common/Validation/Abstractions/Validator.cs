@@ -7,7 +7,7 @@ public abstract class Validator<TEntity, TError> : IValidator<TEntity, TError>
 {
     public ValidationResult<TError> Validate(TEntity entity)
     {
-        var error = ValidateWithErrorReturning(entity);
+        var error = HandleValidate(entity);
 
         return error.HasValue
             ? ValidationResult<TError>.CreateUnsuccessful(error.Value)
@@ -15,5 +15,5 @@ public abstract class Validator<TEntity, TError> : IValidator<TEntity, TError>
     }
 
 
-    protected abstract TError? ValidateWithErrorReturning(TEntity entity);
+    protected abstract TError? HandleValidate(TEntity entity);
 }

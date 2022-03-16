@@ -11,7 +11,7 @@ namespace ItechArt.Survey.Foundation.Authentication.Validation;
 public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValidator
 {
     private readonly RegistrationOptions _options;
-
+    private string _password;
 
     public UserValidator(IOptions<RegistrationOptions> options)
     {
@@ -19,28 +19,31 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
     }
 
 
-    public ValidationResult<UserRegistrationErrors> ValidatePassword(string password)
+    public ValidationResult<UserRegistrationErrors> Validate(User user, string password)
     {
-        var error = ValidateUserPassword(password);
+        _password = password;
 
-        return error.HasValue
-            ? ValidationResult<UserRegistrationErrors>.CreateUnsuccessful(error.Value)
-            : ValidationResult<UserRegistrationErrors>.CreateSuccessful();
+        return Validate(user);
     }
 
 
-    protected override UserRegistrationErrors? ValidateWithErrorReturning(User user)
+    protected override UserRegistrationErrors? HandleValidate(User user)
     {
-        var error = ValidateUserName(user.UserName);
-
-        if (error != null)
+        var userNameError = ValidateUserName(user.UserName);
+        if (userNameError != null)
         {
-            return error;
+            return userNameError;
         }
 
-        error = ValidateUserEmail(user.Email);
+        var userEmailError = ValidateUserEmail(user.Email);
+        if (userEmailError != null)
+        {
+            return userEmailError;
+        }
 
-        return error;
+        var userPasswordError = ValidateUserPassword(_password);
+
+        return userPasswordError;
     }
 
 
@@ -52,14 +55,12 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
         }
 
         var isNameLengthValid = _options.UserNameMinLength <= userName.Length && userName.Length <= _options.UserNameMaxLength;
-
         if (!isNameLengthValid)
         {
             return UserRegistrationErrors.InvalidUserNameLength;
         }
 
         var match = _options.UserNamePattern.Match(userName);
-
         if (string.IsNullOrEmpty(match.Value))
         {
             return UserRegistrationErrors.IncorrectUserName;
@@ -76,7 +77,6 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
         }
 
         var match = _options.EmailPattern.Match(email);
-
         if (string.IsNullOrEmpty(match.Value))
         {
             return UserRegistrationErrors.IncorrectEmail;
@@ -93,14 +93,12 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
         }
 
         var isPasswordLengthValid = _options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength;
-
         if (!isPasswordLengthValid)
         {
             return UserRegistrationErrors.InvalidPasswordLength;
         }
 
         var match = _options.PasswordPattern.Match(password);
-
         if (string.IsNullOrEmpty(match.Value))
         {
             return UserRegistrationErrors.IncorrectPassword;

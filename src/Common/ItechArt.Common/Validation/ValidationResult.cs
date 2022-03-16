@@ -24,7 +24,7 @@ public class ValidationResult<TError>
         return new ValidationResult<TError>(true, null);
     }
 
-    public static ValidationResult<TError> CreateUnsuccessful(TError? error)
+    public static ValidationResult<TError> CreateUnsuccessful(TError error)
     {
         return new ValidationResult<TError>(false, error);
     }
