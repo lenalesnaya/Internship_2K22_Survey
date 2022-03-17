@@ -39,9 +39,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-    public static IServiceCollection AddDatabase(
-        this IServiceCollection services,
-        IConfiguration configuration)
+    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<SurveyDbContext>(options
             => options.UseSqlServer(configuration.GetConnectionString("SurveyItechArt")));

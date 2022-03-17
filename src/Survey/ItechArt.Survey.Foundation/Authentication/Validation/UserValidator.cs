@@ -12,7 +12,6 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
 {
     private readonly RegistrationOptions _options;
 
-    private string _password;
 
     public UserValidator(IOptions<RegistrationOptions> options)
     {
@@ -22,9 +21,17 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
 
     public ValidationResult<UserRegistrationErrors> Validate(User user, string password)
     {
-        _password = password;
+        var userValidationResult = Validate(user);
+        if (!userValidationResult.IsSuccessful)
+        {
+            return userValidationResult;
+        }
 
-        return Validate(user);
+        var passwordValidationError = ValidatePassword(password);
+
+        return !passwordValidationError.HasValue
+            ? ValidationResult<UserRegistrationErrors>.CreateSuccessful()
+            : ValidationResult<UserRegistrationErrors>.CreateUnsuccessful(passwordValidationError.Value);
     }
 
 
@@ -36,15 +43,9 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
             return userNameError;
         }
 
-        var userEmailError = ValidateUserEmail(user.Email);
-        if (userEmailError != null)
-        {
-            return userEmailError;
-        }
+        var userEmailError = ValidateEmail(user.Email);
 
-        var userPasswordError = ValidateUserPassword(_password);
-
-        return userPasswordError;
+        return userEmailError;
     }
 
 
@@ -55,7 +56,8 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
             return UserRegistrationErrors.UserNameIsRequired;
         }
 
-        var isNameLengthValid = _options.UserNameMinLength <= userName.Length && userName.Length <= _options.UserNameMaxLength;
+        var isNameLengthValid =
+            _options.UserNameMinLength <= userName.Length && userName.Length <= _options.UserNameMaxLength;
         if (!isNameLengthValid)
         {
             return UserRegistrationErrors.InvalidUserNameLength;
@@ -70,7 +72,7 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
         return null;
     }
 
-    private UserRegistrationErrors? ValidateUserEmail(string email)
+    private UserRegistrationErrors? ValidateEmail(string email)
     {
         if (string.IsNullOrEmpty(email))
         {
@@ -86,14 +88,15 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
         return null;
     }
 
-    private UserRegistrationErrors? ValidateUserPassword(string password)
+    private UserRegistrationErrors? ValidatePassword(string password)
     {
         if (string.IsNullOrEmpty(password))
         {
             return UserRegistrationErrors.PasswordIsRequired;
         }
 
-        var isPasswordLengthValid = _options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength;
+        var isPasswordLengthValid =
+            _options.PasswordMinLength <= password.Length && password.Length <= _options.PasswordMaxLength;
         if (!isPasswordLengthValid)
         {
             return UserRegistrationErrors.InvalidPasswordLength;

@@ -22,7 +22,8 @@ public class AccountController : Controller
     public AccountController(
         IAuthenticateService authenticateService,
         IMapper mapper,
-        SignInManager<User> signInManager, IUserService userService)
+        SignInManager<User> signInManager, 
+        IUserService userService)
     {
         _signInManager = signInManager;
         _authenticateService = authenticateService;

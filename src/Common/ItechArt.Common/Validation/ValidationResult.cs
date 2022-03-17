@@ -10,9 +10,7 @@ public class ValidationResult<TError>
     public TError? Error { get; }
 
 
-    private ValidationResult (
-        bool isSuccessful,
-        TError? error)
+    private ValidationResult (bool isSuccessful, TError? error)
     {
         IsSuccessful = isSuccessful;
         Error = error;

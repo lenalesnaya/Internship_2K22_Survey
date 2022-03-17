@@ -42,7 +42,10 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         return Task.FromResult(user.NormalizedUserName);
     }
 
-    public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken = default)
+    public Task SetNormalizedUserNameAsync(
+        User user,
+        string normalizedName,
+        CancellationToken cancellationToken = default)
     {
         user.NormalizedUserName = normalizedName;
 
@@ -127,7 +130,10 @@ public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserR
         return Task.FromResult(user.NormalizedEmail);
     }
 
-    public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken = default)
+    public Task SetNormalizedEmailAsync(
+        User user,
+        string normalizedEmail,
+        CancellationToken cancellationToken = default)
     {
         user.NormalizedEmail = normalizedEmail;
 

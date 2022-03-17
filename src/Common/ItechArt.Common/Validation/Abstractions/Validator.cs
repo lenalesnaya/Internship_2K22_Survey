@@ -9,9 +9,9 @@ public abstract class Validator<TEntity, TError> : IValidator<TEntity, TError>
     {
         var error = HandleValidate(entity);
 
-        return error.HasValue
-            ? ValidationResult<TError>.CreateUnsuccessful(error.Value)
-            : ValidationResult<TError>.CreateSuccessful();
+        return !error.HasValue
+            ? ValidationResult<TError>.CreateSuccessful()
+            : ValidationResult<TError>.CreateUnsuccessful(error.Value);
     }
 
 

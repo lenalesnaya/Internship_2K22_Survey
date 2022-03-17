@@ -66,7 +66,9 @@ public class RoleStore : IRoleStore<Role>
         return Task.FromResult(role.NormalizedName);
     }
 
-    public Task SetNormalizedRoleNameAsync(Role role, string normalizedName, CancellationToken cancellationToken = default)
+    public Task SetNormalizedRoleNameAsync(
+        Role role, string normalizedName,
+        CancellationToken cancellationToken = default)
     {
         role.NormalizedName = normalizedName;
 
