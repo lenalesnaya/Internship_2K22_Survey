@@ -11,6 +11,7 @@ namespace ItechArt.Survey.Foundation.Authentication.Validation;
 public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValidator
 {
     private readonly RegistrationOptions _options;
+
     private string _password;
 
     public UserValidator(IOptions<RegistrationOptions> options)

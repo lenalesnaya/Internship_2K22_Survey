@@ -7,11 +7,11 @@ public class RegistrationViewModel
     [StringLength(
         Constants.RegistrationOptionsConstants.UserNameMaxLength,
         MinimumLength = Constants.RegistrationOptionsConstants.UserNameMinLength,
-        ErrorMessage = "UserViewModelProfileViewModelProfile name must consist of 3-30 symbols")]
+        ErrorMessage = "Username name must consist of 3-30 symbols")]
     [RegularExpression(
        Constants.RegistrationOptionsConstants.UserNamePattern,
        ErrorMessage = "Incorrect user name")]
-    [Required(ErrorMessage = "UserViewModelProfileViewModelProfile name is required")]
+    [Required(ErrorMessage = "Username name is required")]
     public string UserName { get; set; }
 
     [RegularExpression(
@@ -33,6 +33,4 @@ public class RegistrationViewModel
     [Required(ErrorMessage = "Please, repeat password")]
     [Compare("Password", ErrorMessage = "Password doesn't match, try again !")]
     public string RepeatPassword { get; set; }
-
-    public string Error { get; set; }
 }

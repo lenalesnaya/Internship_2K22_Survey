@@ -17,10 +17,8 @@ public class OperationResult<TResult, TError>
 
     public TError? Error { get; }
 
-    private OperationResult(
-        bool isSuccessful,
-        TResult result,
-        TError? error)
+
+    private OperationResult(bool isSuccessful, TResult result, TError? error)
     {
         IsSuccessful = isSuccessful;
         _result = result;

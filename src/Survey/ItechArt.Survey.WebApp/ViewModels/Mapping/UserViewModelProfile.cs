@@ -7,7 +7,6 @@ public class UserViewModelProfile : Profile
 {
     public UserViewModelProfile()
     {
-        CreateMap<UserViewModel, User>();
         CreateMap<User, UserViewModel>();
     }
 }

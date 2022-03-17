@@ -46,15 +46,14 @@ public class AccountController : Controller
         var user = new User
         {
             UserName = model.UserName,
-            Email = model.Email,
-            PasswordHash = model.Password
+            Email = model.Email
         };
 
         var result = await _authenticateService.RegisterAsync(user, model.Password);
 
         if (!result.IsSuccessful)
         {
-            model.Error = GetErrorMessage(result.Error);
+            ViewData["Error"] = GetErrorMessage(result.Error);
 
             return View(model);
         }
@@ -68,7 +67,10 @@ public class AccountController : Controller
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userService.GetUserByIdAsync(userId);
-        var model = _mapper.Map<ProfileViewModel>(user);
+        var model = new ProfileViewModel
+        {
+            User = _mapper.Map<UserViewModel>(user)
+        };
 
         return View(model);
     }
@@ -88,8 +90,8 @@ public class AccountController : Controller
         {
             UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
             UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
-            UserRegistrationErrors.UserNameIsRequired => "UserViewModelProfileViewModelProfile name is required",
-            UserRegistrationErrors.InvalidUserNameLength => "UserViewModelProfileViewModelProfile name must consist of 3-30 symbols",
+            UserRegistrationErrors.UserNameIsRequired => "Username name is required",
+            UserRegistrationErrors.InvalidUserNameLength => "Username name must consist of 3-30 symbols",
             UserRegistrationErrors.IncorrectUserName => "Incorrect user name",
             UserRegistrationErrors.EmailIsRequired => "Email is required",
             UserRegistrationErrors.IncorrectEmail => "Incorrect email",
