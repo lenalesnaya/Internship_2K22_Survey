@@ -39,11 +39,6 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Registration(RegistrationViewModel model)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(model);
-        }
-
         var user = new User
         {
             UserName = model.UserName,
@@ -54,7 +49,7 @@ public class AccountController : Controller
 
         if (!result.IsSuccessful)
         {
-            ViewData["Error"] = GetErrorMessage(result.Error);
+            ModelState.AddModelError("", GetErrorMessage(result.Error));
 
             return View(model);
         }
