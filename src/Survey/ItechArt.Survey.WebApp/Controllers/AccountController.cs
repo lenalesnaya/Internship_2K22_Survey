@@ -54,8 +54,7 @@ public class AccountController : Controller
 
         if (!result.IsSuccessful)
         {
-            ViewData["Error"] = GetErrorMessage(result.Error);
-
+            ModelState.AddModelError(GetErrorKey(result.Error), GetErrorMessage(result.Error));
             return View(model);
         }
 
@@ -85,7 +84,27 @@ public class AccountController : Controller
     }
 
 
-    private static string GetErrorMessage(UserRegistrationErrors? error)
+    private string GetErrorKey(UserRegistrationErrors? error)
+    {
+        var message = error switch
+        {
+            UserRegistrationErrors.UserNameAlreadyExists => "UserError",
+            UserRegistrationErrors.EmailAlreadyExists => "EmailError",
+            UserRegistrationErrors.UserNameIsRequired => "UserError",
+            UserRegistrationErrors.InvalidUserNameLength => "UserError",
+            UserRegistrationErrors.IncorrectUserName => "UserError",
+            UserRegistrationErrors.EmailIsRequired => "EmailError",
+            UserRegistrationErrors.IncorrectEmail => "EmailError",
+            UserRegistrationErrors.PasswordIsRequired => "PasswordError",
+            UserRegistrationErrors.InvalidPasswordLength => "PasswordError",
+            UserRegistrationErrors.IncorrectPassword => "PasswordError",
+            _ => "UnknownError"
+        };
+    
+        return message;
+    }
+    
+    private string GetErrorMessage(UserRegistrationErrors? error)
     {
         var message = error switch
         {
@@ -101,7 +120,7 @@ public class AccountController : Controller
             UserRegistrationErrors.IncorrectPassword => "Incorrect password",
             _ => "Unknown error"
         };
-
+    
         return message;
     }
 }
