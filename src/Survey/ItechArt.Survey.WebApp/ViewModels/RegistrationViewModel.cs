@@ -13,7 +13,7 @@ public class RegistrationViewModel
     [StringLength(
         Constants.RegistrationOptionsConstants.UserNameMaxLength,
         MinimumLength = Constants.RegistrationOptionsConstants.UserNameMinLength,
-        ErrorMessage = "Username name must consist of 3-30 symbols")]
+        ErrorMessage = "User name must consist of {2}-{1} symbols")]
     [RegularExpression(
        Constants.RegistrationOptionsConstants.UserNamePattern,
        ErrorMessage = "Incorrect user name")]
@@ -34,7 +34,7 @@ public class RegistrationViewModel
     [StringLength(
         Constants.RegistrationOptionsConstants.PasswordMaxLength,
         MinimumLength = Constants.RegistrationOptionsConstants.PasswordMinLength,
-        ErrorMessage = "Password must consist of 8-20 symbols")]
+        ErrorMessage = "Password must consist of {2}-{1} symbols")]
     [RegularExpression(
         Constants.RegistrationOptionsConstants.PasswordPattern,
         ErrorMessage = "Incorrect password")]
