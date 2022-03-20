@@ -17,18 +17,21 @@ public class AccountController : Controller
     private readonly IAuthenticateService _authenticateService;
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
+    private readonly UserManager<User> _userManager;
 
 
     public AccountController(
         IAuthenticateService authenticateService,
         IMapper mapper,
-        SignInManager<User> signInManager, 
-        IUserService userService)
+        SignInManager<User> signInManager,
+        IUserService userService,
+        UserManager<User> userManager)
     {
         _signInManager = signInManager;
         _authenticateService = authenticateService;
         _mapper = mapper;
         _userService = userService;
+        _userManager = userManager;
     }
 
 
@@ -37,21 +40,21 @@ public class AccountController : Controller
         => View(new RegistrationViewModel());
 
     [HttpPost]
-    public async Task<IActionResult> Registration(RegistrationViewModel model)
+    public async Task<IActionResult> Registration(RegistrationViewModel registrationViewModel)
     {
         var user = new User
         {
-            UserName = model.UserName,
-            Email = model.Email
+            UserName = registrationViewModel.UserName,
+            Email = registrationViewModel.Email
         };
 
-        var result = await _authenticateService.RegisterAsync(user, model.Password);
+        var result = await _authenticateService.RegisterAsync(user, registrationViewModel.Password);
 
         if (!result.IsSuccessful)
         {
             ModelState.AddModelError("", GetErrorMessage(result.Error));
 
-            return View(model);
+            return View(registrationViewModel);
         }
 
         return RedirectToAction("Profile");
@@ -63,12 +66,12 @@ public class AccountController : Controller
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userService.GetUserByIdAsync(userId);
-        var model = new ProfileViewModel
+        var profileViewModel = new ProfileViewModel
         {
             User = _mapper.Map<UserViewModel>(user)
         };
 
-        return View(model);
+        return View(profileViewModel);
     }
 
     [HttpGet]
@@ -77,6 +80,26 @@ public class AccountController : Controller
         await _signInManager.SignOutAsync();
 
         return RedirectToAction("Registration");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> IsUserNameExists(string userName)
+    {
+        var userNameExists = await _userManager.FindByNameAsync(userName);
+
+        return userNameExists == null
+            ? Json(true)
+            : Json(false);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> IsEmailExists(string email)
+    {
+        var userEmailExists = await _userManager.FindByEmailAsync(email);
+
+        return userEmailExists == null
+            ? Json(true)
+            : Json(false);
     }
 
 
