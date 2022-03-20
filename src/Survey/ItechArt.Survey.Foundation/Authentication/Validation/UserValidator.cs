@@ -21,10 +21,10 @@ public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValid
 
     public ValidationResult<UserRegistrationErrors> Validate(User user, string password)
     {
-        var userValidatioResult = Validate(user);
-        if (!userValidatioResult.IsSuccessful)
+        var userValidationResult = Validate(user);
+        if (!userValidationResult.IsSuccessful)
         {
-            return userValidatioResult;
+            return userValidationResult;
         }
 
         var passwordValidationError = ValidatePassword(password);
