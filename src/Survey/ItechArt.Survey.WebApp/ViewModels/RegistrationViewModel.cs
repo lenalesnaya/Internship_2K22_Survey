@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ItechArt.Survey.WebApp.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace ItechArt.Survey.WebApp.ViewModels;
@@ -6,9 +7,8 @@ namespace ItechArt.Survey.WebApp.ViewModels;
 public class RegistrationViewModel
 {
     [Remote(
-        "IsUserNameExists",
+        nameof(AccountController.CheckIfUserNameExists),
         "Account",
-        HttpMethod = "POST",
         ErrorMessage = "This user name already exists")]
     [StringLength(
         Constants.RegistrationOptionsConstants.UserNameMaxLength,
@@ -21,9 +21,8 @@ public class RegistrationViewModel
     public string UserName { get; set; }
 
     [Remote(
-        "IsEmailExists",
+        nameof(AccountController.CheckIfEmailExists),
         "Account",
-        HttpMethod = "POST",
         ErrorMessage = "This email already exists")]
     [RegularExpression(
         Constants.RegistrationOptionsConstants.EmailPattern,

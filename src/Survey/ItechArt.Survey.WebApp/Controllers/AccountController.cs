@@ -17,21 +17,18 @@ public class AccountController : Controller
     private readonly IAuthenticateService _authenticateService;
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
-    private readonly UserManager<User> _userManager;
 
 
     public AccountController(
+        SignInManager<User> signInManager,
         IAuthenticateService authenticateService,
         IMapper mapper,
-        SignInManager<User> signInManager,
-        IUserService userService,
-        UserManager<User> userManager)
+        IUserService userService)
     {
         _signInManager = signInManager;
         _authenticateService = authenticateService;
         _mapper = mapper;
         _userService = userService;
-        _userManager = userManager;
     }
 
 
@@ -48,11 +45,10 @@ public class AccountController : Controller
             Email = registrationViewModel.Email
         };
 
-        var result = await _authenticateService.RegisterAsync(user, registrationViewModel.Password);
-
-        if (!result.IsSuccessful)
+        var registrationResult = await _authenticateService.RegisterAsync(user, registrationViewModel.Password);
+        if (!registrationResult.IsSuccessful)
         {
-            ModelState.AddModelError("", GetErrorMessage(result.Error));
+            ModelState.AddModelError("", GetErrorMessage(registrationResult.Error));
 
             return View(registrationViewModel);
         }
@@ -74,7 +70,7 @@ public class AccountController : Controller
         return View(profileViewModel);
     }
 
-    [HttpGet]
+    [HttpPost]
     public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();
@@ -82,30 +78,28 @@ public class AccountController : Controller
         return RedirectToAction("Registration");
     }
 
-    [HttpPost]
-    public async Task<IActionResult> IsUserNameExists(string userName)
+    [HttpGet]
+    public async Task<IActionResult> CheckIfUserNameExists(string userName)
     {
-        var userNameExists = await _userManager.FindByNameAsync(userName);
+        var user = await _authenticateService.FindByUserNameAsync(userName);
+        var userNameExists = user != null;
 
-        return userNameExists == null
-            ? Json(true)
-            : Json(false);
+        return Json(!userNameExists);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> IsEmailExists(string email)
+    [HttpGet]
+    public async Task<IActionResult> CheckIfEmailExists(string email)
     {
-        var userEmailExists = await _userManager.FindByEmailAsync(email);
+        var user = await _authenticateService.FindByEmailAsync(email);
+        var userEmailExists = user != null;
 
-        return userEmailExists == null
-            ? Json(true)
-            : Json(false);
+        return Json(!userEmailExists);
     }
 
 
     private static string GetErrorMessage(UserRegistrationErrors? error)
     {
-        var message = error switch
+        var errorMessage = error switch
         {
             UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
             UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
@@ -120,6 +114,6 @@ public class AccountController : Controller
             _ => "Unknown error"
         };
 
-        return message;
+        return errorMessage;
     }
 }
