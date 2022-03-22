@@ -81,7 +81,7 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> CheckIfUserNameExists(string userName)
     {
-        var user = await _authenticateService.FindByUserNameAsync(userName);
+        var user = await _userService.FindByUserNameAsync(userName);
         var userNameExists = user != null;
 
         return Json(!userNameExists);
@@ -90,7 +90,7 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> CheckIfEmailExists(string email)
     {
-        var user = await _authenticateService.FindByEmailAsync(email);
+        var user = await _userService.FindByEmailAsync(email);
         var userEmailExists = user != null;
 
         return Json(!userEmailExists);
