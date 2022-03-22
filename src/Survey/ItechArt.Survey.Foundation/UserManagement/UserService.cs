@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using Microsoft.AspNetCore.Identity;
 
-namespace ItechArt.Survey.Foundation.UserService;
+namespace ItechArt.Survey.Foundation.UserManagement;
 
 public class UserService : IUserService
 {
@@ -22,14 +23,14 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<User> FindByUserNameAsync(string userName)
+    public async Task<User> GetUserByNameAsync(string userName)
     {
         var user = await _userManager.FindByNameAsync(userName);
 
         return user;
     }
 
-    public async Task<User> FindByEmailAsync(string email)
+    public async Task<User> GetUserByEmailAsync(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
 

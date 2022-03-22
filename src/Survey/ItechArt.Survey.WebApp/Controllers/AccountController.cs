@@ -3,29 +3,25 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
-using ItechArt.Survey.Foundation.UserService;
+using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItechArt.Survey.WebApp.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly SignInManager<User> _signInManager;
     private readonly IAuthenticateService _authenticateService;
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
 
 
     public AccountController(
-        SignInManager<User> signInManager,
         IAuthenticateService authenticateService,
         IMapper mapper,
         IUserService userService)
     {
-        _signInManager = signInManager;
         _authenticateService = authenticateService;
         _mapper = mapper;
         _userService = userService;
@@ -73,7 +69,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> LogOut()
     {
-        await _signInManager.SignOutAsync();
+        await _authenticateService.SignOutAsync();
 
         return RedirectToAction("Registration");
     }
@@ -81,19 +77,19 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> CheckIfUserNameExists(string userName)
     {
-        var user = await _userService.FindByUserNameAsync(userName);
-        var userNameExists = user != null;
+        var user = await _userService.GetUserByNameAsync(userName);
+        var userNameIsClear = user == null;
 
-        return Json(!userNameExists);
+        return Json(userNameIsClear);
     }
 
     [HttpGet]
     public async Task<IActionResult> CheckIfEmailExists(string email)
     {
-        var user = await _userService.FindByEmailAsync(email);
-        var userEmailExists = user != null;
+        var user = await _userService.GetUserByEmailAsync(email);
+        var emailIsClear = user == null;
 
-        return Json(!userEmailExists);
+        return Json(emailIsClear);
     }
 
 

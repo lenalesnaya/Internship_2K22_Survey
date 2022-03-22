@@ -67,17 +67,8 @@ public class AuthenticateService : IAuthenticateService
         return OperationResult<User, UserRegistrationErrors>.CreateSuccessful(user);
     }
 
-    public async Task<User> FindByUserNameAsync(string userName)
+    public async Task SignOutAsync()
     {
-        var user = await _userManager.FindByNameAsync(userName);
-
-        return user;
-    }
-
-    public async Task<User> FindByEmailAsync(string email)
-    {
-        var user = await _userManager.FindByEmailAsync(email);
-
-        return user;
+        await _signInManager.SignOutAsync();
     }
 }
