@@ -4,7 +4,6 @@ using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
-using ItechArt.Survey.Foundation.UserService;
 using ItechArt.Survey.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +14,8 @@ using ItechArt.Survey.Foundation.Authentication.Configuration;
 using System.Text.RegularExpressions;
 using ItechArt.Survey.Foundation.Authentication.Validation;
 using ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
+using ItechArt.Survey.Foundation.UserManagement.Abstractions;
+using ItechArt.Survey.Foundation.UserManagement;
 
 namespace ItechArt.Survey.WebApp.Extensions;
 

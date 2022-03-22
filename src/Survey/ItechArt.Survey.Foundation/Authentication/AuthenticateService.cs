@@ -34,29 +34,29 @@ public class AuthenticateService : IAuthenticateService
                 .CreateUnsuccessful(validationResult.Error.GetValueOrDefault());
         }
 
-        var usernameExists = await _userManager.FindByNameAsync(user.UserName);
-        if (usernameExists != null)
+        var userWithGivenName = await _userManager.FindByNameAsync(user.UserName);
+        if (userWithGivenName != null)
         {
             return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UserNameAlreadyExists);
         }
         
-        var userEmailExists = await _userManager.FindByEmailAsync(user.Email);
-        if (userEmailExists != null)
+        var userWithGivenEmail = await _userManager.FindByEmailAsync(user.Email);
+        if (userWithGivenEmail != null)
         {
             return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.EmailAlreadyExists);
         }
 
-        var createResult = await _userManager.CreateAsync(user, password);
-        if (!createResult.Succeeded)
+        var creationResult = await _userManager.CreateAsync(user, password);
+        if (!creationResult.Succeeded)
         {
             return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
         }
 
-        var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
-        if (!roleResult.Succeeded)
+        var addingToRoleResult = await _userManager.AddToRoleAsync(user, Role.User);
+        if (!addingToRoleResult.Succeeded)
         {
             return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UnknownError);

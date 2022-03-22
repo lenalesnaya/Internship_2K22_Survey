@@ -11,9 +11,9 @@ public class OperationResult<TResult, TError>
     public bool IsSuccessful { get; }
 
     public TResult Result
-        => !IsSuccessful
-            ? throw new Exception("Result was not set")
-            : _result;
+        => IsSuccessful
+            ? _result
+            : throw new Exception("Result was not set");
 
     public TError? Error { get; }
 
