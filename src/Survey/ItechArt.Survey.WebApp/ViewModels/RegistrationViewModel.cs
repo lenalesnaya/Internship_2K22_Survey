@@ -16,8 +16,8 @@ public class RegistrationViewModel
         ErrorMessage = "User name must consist of {2}-{1} symbols")]
     [RegularExpression(
        Constants.RegistrationOptionsConstants.UserNamePattern,
-       ErrorMessage = "User name must not begin with a number, and begin or end with a space or an underscore")]
-    [Required(ErrorMessage = "Username name is required")]
+       ErrorMessage = "User name must not begin with a number, or begin/end with a space or an underscore")]
+    [Required(ErrorMessage = "User name is required")]
     public string UserName { get; set; }
 
     [Remote(

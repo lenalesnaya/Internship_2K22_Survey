@@ -9,26 +9,26 @@
           <dd>
               <figcaption asp-for="UserName">User name</figcaption>
               <input type="text" asp-for="UserName" id="username" placeholder="Enter user name"/>
-              <span class="text-danger small" asp-validation-for="UserName"></span>
+              <span class="text-danger" asp-validation-for="UserName"></span>
           </dd>
           <dd>
               <figcaption asp-for="Email" text="Email">Email</figcaption>
-              <input asp-for="Email" id="email" placeholder="Enter Email"/>
-              <span class="text-danger small" asp-validation-for="Email"></span>
+              <input asp-for="Email" id="email" placeholder="Enter email"/>
+              <span class="text-danger" asp-validation-for="Email"></span>
           </dd>
           <dd>
               <figcaption asp-for="Password" text="Password">Password</figcaption>
-              <input asp-for="Password" id="password" type="password" placeholder="Enter Password"/>
-              <span class="text-danger small" asp-validation-for="Password"></span>
+              <input asp-for="Password" id="password" type="password" placeholder="Enter password"/>
+              <span class="text-danger" asp-validation-for="Password"></span>
           </dd>
           <dd>
               <figcaption asp-for="RepeatPassword" text="Repeat password">Repeat password</figcaption>
-              <input asp-for="RepeatPassword" id="repeatpassword" type="password" placeholder="Repeat Password"/>
-              <span class="text-danger small" asp-validation-for="RepeatPassword"></span>
+              <input asp-for="RepeatPassword" id="repeatpassword" type="password" placeholder="Repeat password"/>
+              <span class="text-danger" asp-validation-for="RepeatPassword"></span>
           </dd>
       </div>
-      <input type="submit" value="Register"/>
-      <div class="text-danger small" asp-validation-summary="ModelOnly"></div>
+      <input type="submit" class="nav-link text-dark" value="Register"/>
+      <div class="text-danger" asp-validation-summary="ModelOnly"></div>
   </div>
 </form>
 

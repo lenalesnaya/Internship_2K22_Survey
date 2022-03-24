@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using ItechArt.Common.Logging.Abstractions;
+using ItechArt.Common.Logging.Extensions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement.Abstractions;
@@ -15,16 +17,19 @@ public class AccountController : Controller
     private readonly IAuthenticateService _authenticateService;
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
+    private readonly ILogger _logger;
 
 
     public AccountController(
         IAuthenticateService authenticateService,
         IMapper mapper,
-        IUserService userService)
+        IUserService userService,
+        ILogger logger)
     {
         _authenticateService = authenticateService;
         _mapper = mapper;
         _userService = userService;
+        _logger = logger;
     }
 
 
@@ -44,10 +49,14 @@ public class AccountController : Controller
         var registrationResult = await _authenticateService.RegisterAsync(user, registrationViewModel.Password);
         if (!registrationResult.IsSuccessful)
         {
-            ModelState.AddModelError("", GetErrorMessage(registrationResult.Error));
+            var errorMessage = GetErrorMessage(registrationResult.Error);
+            _logger.LogWarning($"Registration is failed: {errorMessage}");
+            ModelState.AddModelError("", errorMessage);
 
             return View(registrationViewModel);
         }
+
+        _logger.LogInformation($"Registration of a user {user.UserName} completed successfully");
 
         return RedirectToAction("Profile");
     }
@@ -99,10 +108,10 @@ public class AccountController : Controller
         {
             UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
             UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
-            UserRegistrationErrors.UserNameIsRequired => "Username name is required",
+            UserRegistrationErrors.UserNameIsRequired => "User name is required",
             UserRegistrationErrors.InvalidUserNameLength => "Username name must consist of 3-30 symbols",
             UserRegistrationErrors.IncorrectUserName
-                => "User name must not begin with a number, and begin or end with a space or an underscore",
+                => "User name must not begin with a number, or begin/end with a space or an underscore",
             UserRegistrationErrors.EmailIsRequired => "Email is required",
             UserRegistrationErrors.IncorrectEmail => "Incorrect email",
             UserRegistrationErrors.PasswordIsRequired => "Password is required",
