@@ -71,7 +71,7 @@ public class AccountController : Controller
     {
         await _authenticateService.SignOutAsync();
 
-        return RedirectToAction("Registration");
+        return RedirectToAction("Home", "Home");
     }
 
     [HttpGet]
@@ -101,12 +101,14 @@ public class AccountController : Controller
             UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
             UserRegistrationErrors.UserNameIsRequired => "Username name is required",
             UserRegistrationErrors.InvalidUserNameLength => "Username name must consist of 3-30 symbols",
-            UserRegistrationErrors.IncorrectUserName => "Incorrect user name",
+            UserRegistrationErrors.IncorrectUserName
+                => "User name must not begin with a number, and begin or end with a space or an underscore",
             UserRegistrationErrors.EmailIsRequired => "Email is required",
             UserRegistrationErrors.IncorrectEmail => "Incorrect email",
             UserRegistrationErrors.PasswordIsRequired => "Password is required",
             UserRegistrationErrors.InvalidPasswordLength => "Password must consist of 8-20 symbols",
-            UserRegistrationErrors.IncorrectPassword => "Incorrect password",
+            UserRegistrationErrors.IncorrectPassword
+                => "Password must contain at least 1 letter, 1 number and 1 special symbol",
             _ => "Unknown error"
         };
 

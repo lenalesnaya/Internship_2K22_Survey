@@ -16,7 +16,7 @@ public class RegistrationViewModel
         ErrorMessage = "User name must consist of {2}-{1} symbols")]
     [RegularExpression(
        Constants.RegistrationOptionsConstants.UserNamePattern,
-       ErrorMessage = "Incorrect user name")]
+       ErrorMessage = "User name must not begin with a number, and begin or end with a space or an underscore")]
     [Required(ErrorMessage = "Username name is required")]
     public string UserName { get; set; }
 
@@ -36,7 +36,7 @@ public class RegistrationViewModel
         ErrorMessage = "Password must consist of {2}-{1} symbols")]
     [RegularExpression(
         Constants.RegistrationOptionsConstants.PasswordPattern,
-        ErrorMessage = "Incorrect password")]
+        ErrorMessage = "Password must contain at least 1 letter, 1 number and 1 special symbol")]
     [Required(ErrorMessage = "Password is required")]
     public string Password { get; set; }
 
