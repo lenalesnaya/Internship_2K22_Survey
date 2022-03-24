@@ -71,7 +71,7 @@ public class AccountController : Controller
     {
         await _authenticateService.SignOutAsync();
 
-        return RedirectToAction("Registration");
+        return RedirectToAction("Home", "Home");
     }
 
     [HttpGet]

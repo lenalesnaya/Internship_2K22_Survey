@@ -1,15 +1,30 @@
 ﻿@model ItechArt.Survey.WebApp.ViewModels.ProfileViewModel
 
-<div>
-  <div>
-    <img class="profile_img" src="https://source.unsplash.com/600x300/?student" alt="student dp">
-    <h3>@Model.User.UserName</h3>
-  </div>
-  <div class="card-body">
-    <p class="mb-0">
-      <strong class="pr-1">Email:</strong>@Model.User.Email
-    </p>
-    <p class="mb-0"><strong class="pr-1">Class:</strong>4</p>
-    <p class="mb-0"><strong class="pr-1">Section:</strong>A</p>
-  </div>
+
+<link rel="stylesheet" href="~/css/Profile.css">
+<div class ="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <img src="~/image/DefaultAvatar.png" class="img-thumbnail avatar">
+        </div>
+        <div class="col">
+            <div>
+                <h3>Username: </h3><p>@Model.User.UserName</p>
+            </div>
+            <div>
+                <p>
+                    <h3>Email: </h3><p>@Model.User.Email</p>
+                </p>
+            </div>
+            <div style="list-style-type: none">
+                <li>
+                    <form asp-controller="Account" asp-action="LogOut" method="post">
+                        <p>
+                            <input class="nav-link text-dark" type="submit" value="Log out">
+                        </p>
+                    </form>
+                </li>
+            </div>
+        </div>
+    </div>
 </div>
