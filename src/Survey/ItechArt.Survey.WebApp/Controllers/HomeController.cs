@@ -5,7 +5,5 @@ namespace ItechArt.Survey.WebApp.Controllers;
 public class HomeController : Controller
 {
     public IActionResult Home()
-    {
-        return View();
-    }
+        => View();
 }
