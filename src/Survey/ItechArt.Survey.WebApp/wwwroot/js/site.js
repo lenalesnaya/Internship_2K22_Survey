@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    $('#username').keypress(function NumericText() {
+    $('#username').keypress(function () {
         var key = window.event.key;
         if (!((key >= '0' && key <= '9') || (key >= 'a' && key <= 'z') || (key >= 'а' && key <= 'я') ||
             (key >= 'A' && key <= 'Z') || (key >= 'А' && key <= 'Я') || key == '_' || key == ' ' ||
