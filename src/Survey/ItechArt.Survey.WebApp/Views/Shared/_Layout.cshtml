@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true">
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+        <link rel="stylesheet" href="~/css/Layout.css">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -38,22 +39,17 @@
                         }
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <div class="row w-25">
-                                <div class="col-sm-5">
-                                    <img src="~/images/DefaultAvatar.png" class="img-thumbnail avatar">
-                                    <figcaption>@*@Model.User.UserName*@Username</figcaption>
+                            <div class="layout-links-to-pages">
+                                <div >
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Profile">
+                                        <img src="~/images/DefaultAvatar.png" class="mini-avatar" alt="">
+                                        <span>username</span>
+                                    </a>
                                 </div>
-                                <div class="col">
-                                    <div>
-                                        <a class="nav-link text-dark" asp-controller="Account" asp-action="Profile">
-                                            <span>Profile</span>
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <form asp-controller="Account" asp-action="LogOut" method="post">
-                                            <input class="btn text-dark" type="submit" value="Log out">
-                                        </form>
-                                    </div>
+                                <div style="padding-right: 50px">
+                                    <form asp-controller="Account" asp-action="LogOut" method="post">
+                                        <input class="btn text-dark" type="submit" value="Log out">
+                                    </form>
                                 </div>
                             </div>
                         }
@@ -64,10 +60,10 @@
         <div>
             @RenderBody()
         </div>
-        <footer class="border-top footer text-muted">
-            <div class="container">
-               &copy; 2022 - SurveyItechArt - <a asp-area="" asp-page="/Privacy">Privacy</a>
-            </div>
+        <footer class="bg-light text-center text-lg-start footer fixed-bottom">
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+              &copy; 2022 - SurveyItechArt
+          </div>
         </footer>
     </body>
 </html>

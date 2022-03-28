@@ -1,0 +1,11 @@
+.mini-avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+
+.layout-links-to-pages{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
