@@ -96,7 +96,7 @@ public class AccountController : Controller
             var errorMessage = result.Error switch
             {
                 UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password",
-                _ => "Unknown error"
+                _ => "Unexpected errors. Reload the page"
             };
             ModelState.AddModelError("", errorMessage);
 
