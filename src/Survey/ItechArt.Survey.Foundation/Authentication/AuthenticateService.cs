@@ -55,16 +55,30 @@ public class AuthenticateService : IAuthenticateService
                 .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
         }
 
-        var addingToRoleResult = await _userManager.AddToRoleAsync(user, Role.User);
-        if (!addingToRoleResult.Succeeded)
+        var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
+
+        if (roleResult.Succeeded)
         {
-            return OperationResult<User, UserRegistrationErrors>
-                .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
+            await _signInManager.SignInAsync(user, false);
+            return OperationResult<User, UserRegistrationErrors>.CreateSuccessful(user);
         }
 
-        await _signInManager.SignInAsync(user, true);
+        return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(UserRegistrationErrors.UnknownError);
+    }
 
-        return OperationResult<User, UserRegistrationErrors>.CreateSuccessful(user);
+    public async Task<OperationResult<User, UserAuthenticationErrors>> AuthenticateAsync(User user, string password)
+    {
+        var existingUser = await _userManager.FindByEmailAsync(user.Email);
+
+        if (existingUser == null || !await _userManager.CheckPasswordAsync(existingUser, password))
+        {
+            return OperationResult<User, UserAuthenticationErrors>
+                .CreateUnsuccessful(UserAuthenticationErrors.InvalidEmailOrPassword);
+        }
+
+        await _signInManager.SignInAsync(existingUser, false);
+
+        return OperationResult<User, UserAuthenticationErrors>.CreateSuccessful(user);
     }
 
     public async Task SignOutAsync()

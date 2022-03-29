@@ -75,6 +75,37 @@ public class AccountController : Controller
         return View(profileViewModel);
     }
 
+    [HttpGet]
+    public IActionResult SignIn()
+    {
+        return View(new SignInViewModel());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SignIn(SignInViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var user = _mapper.Map<User>(model);
+        var result = await _authenticateService.AuthenticateAsync(user, model.Password);
+
+        if (!result.IsSuccessful)
+        {
+            model.Error = result.Error switch
+            {
+                UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password",
+                _ => "Unknown error"
+            };
+
+            return View(model);
+        }
+
+        return RedirectToAction("Profile");
+    }
+
     [HttpPost]
     public async Task<IActionResult> LogOut()
     {
