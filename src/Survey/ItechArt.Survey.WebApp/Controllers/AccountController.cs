@@ -76,29 +76,29 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public IActionResult SignIn()
+    public IActionResult Login()
     {
-        return View(new SignInViewModel());
+        return View(new LoginViewModel());
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignIn(SignInViewModel model)
+    public async Task<IActionResult> Login(LoginViewModel model)
     {
-        if (!ModelState.IsValid)
+        var user = new User
         {
-            return View(model);
-        }
+            Email = model.Email
+        };
 
-        var user = _mapper.Map<User>(model);
         var result = await _authenticateService.AuthenticateAsync(user, model.Password);
 
         if (!result.IsSuccessful)
         {
-            model.Error = result.Error switch
+            var errorMessage = result.Error switch
             {
                 UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password",
                 _ => "Unknown error"
             };
+            ModelState.AddModelError("", errorMessage);
 
             return View(model);
         }
