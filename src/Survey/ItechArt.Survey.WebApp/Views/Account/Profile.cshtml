@@ -1,0 +1,23 @@
+﻿@model ItechArt.Survey.WebApp.ViewModels.ProfileViewModel
+
+<link rel="stylesheet" href="~/css/Profile.css">
+<div class ="container d-flex justify-content-left">
+    <div class="row w-50">
+        <div class="col-sm-6">
+            <img src="~/images/DefaultAvatar.png" class="img-thumbnail avatar">
+        </div>
+        <div class="col">
+            <div>
+                <h3>Username: </h3><p>@Model.User.UserName</p>
+            </div>
+            <div>
+                <h3>Email: </h3><p>@Model.User.Email</p>
+            </div>
+            <div>
+                <form asp-controller="Account" asp-action="LogOut" method="post">
+                    <input class="nav-link text-dark" type="submit" value="Log out">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

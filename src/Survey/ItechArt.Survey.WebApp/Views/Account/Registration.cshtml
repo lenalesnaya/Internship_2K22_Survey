@@ -1,0 +1,37 @@
+﻿@model ItechArt.Survey.WebApp.ViewModels.RegistrationViewModel
+
+<form asp-antiforgery="true" asp-action="Registration" asp-controller="Account">
+  <div class="container d-flex justify-content-center">
+      <div class="table w-50">
+          <h1>Register</h1>
+          <p>Please fill in this form to create an account.</p>
+          <hr>
+          <dd>
+              <caption asp-for="UserName">Username</caption>
+              <input type="text" class="form-control w-50" asp-for="UserName" placeholder="Enter user name"/>
+              <span class="text-danger small" asp-validation-for="UserName"></span>
+          </dd>
+          <dd>
+              <caption asp-for="Email" text="Email">Email</caption>
+              <input type="text" class="form-control w-50" asp-for="Email" placeholder="Enter email"/>
+              <span class="text-danger small" asp-validation-for="Email"></span>
+          </dd>
+          <dd>
+              <caption asp-for="Password" text="Password">Password</caption>
+              <input type="password" class="form-control w-50" asp-for="Password" placeholder="Enter password"/>
+              <span class="text-danger small" asp-validation-for="Password"></span>
+          </dd>
+          <dd>
+              <caption asp-for="RepeatPassword" text="Repeat password">Repeat password</caption>
+              <input type="password" class="form-control w-50" asp-for="RepeatPassword" placeholder="Repeat password"/>
+              <span class="text-danger small" asp-validation-for="RepeatPassword"></span>
+          </dd>
+          <input type="submit" class="nav-link text-dark" value="Register"/>
+          <div class="text-danger small" asp-validation-summary="ModelOnly"></div>
+      </div>
+  </div>
+</form>
+
+@section Script {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

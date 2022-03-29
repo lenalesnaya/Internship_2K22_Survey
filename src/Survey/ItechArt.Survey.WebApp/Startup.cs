@@ -23,7 +23,9 @@ public class Startup
     {
         services.AddDatabase(Configuration);
         services.AddLogger();
-        services.AddCounter();
+        services.AddIdentity();
+        services.AddServicesMapper();
+        services.AddAuthenticationService();
         services.AddControllersWithViews();
     }
 
@@ -35,19 +37,20 @@ public class Startup
         }
         else
         {
-            app.UseExceptionHandler("/Home/Error");
+            app.UseExceptionHandler("/Registration/Error");
             app.UseHsts();
         }
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=HomePage}/{id?}");
+                pattern: "{controller=Home}/{action=Home}/{id?}");
         });
     }
 }
