@@ -56,7 +56,6 @@ public class AuthenticateService : IAuthenticateService
         }
 
         var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
-
         if (roleResult.Succeeded)
         {
             await _signInManager.SignInAsync(user, false);
@@ -69,7 +68,6 @@ public class AuthenticateService : IAuthenticateService
     public async Task<OperationResult<User, UserAuthenticationErrors>> AuthenticateAsync(User user, string password)
     {
         var existingUser = await _userManager.FindByEmailAsync(user.Email);
-
         if (existingUser == null || !await _userManager.CheckPasswordAsync(existingUser, password))
         {
             return OperationResult<User, UserAuthenticationErrors>
