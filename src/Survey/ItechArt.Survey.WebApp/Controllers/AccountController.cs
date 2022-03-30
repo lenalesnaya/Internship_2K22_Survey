@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Common.Logging.Abstractions;
@@ -88,11 +89,7 @@ public class AccountController : Controller
 
         if (!result.IsSuccessful)
         {
-            var errorMessage = result.Error switch
-            {
-                UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password",
-                _ => "Unexpected errors. Reload the page"
-            };
+            var errorMessage = GetErrorMessage(authenticationResult.Error);
             ModelState.AddModelError("", errorMessage);
 
             return View(model);
@@ -128,10 +125,12 @@ public class AccountController : Controller
     }
 
 
-    private static string GetErrorMessage(UserRegistrationErrors? error)
+    private static string GetErrorMessage<TError>(TError? error)
+        where TError : struct, Enum
     {
         var errorMessage = error switch
         {
+            UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password",
             UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
             UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
             UserRegistrationErrors.UserNameIsRequired => "User name is required",
@@ -144,7 +143,7 @@ public class AccountController : Controller
             UserRegistrationErrors.InvalidPasswordLength => "Password must consist of 8-20 symbols",
             UserRegistrationErrors.IncorrectPassword
                 => "Password must contain at least 1 letter, 1 number and 1 special symbol",
-            _ => "Unknown error"
+            _ => "Unexpected error, please, reload the page"
         };
 
         return errorMessage;
