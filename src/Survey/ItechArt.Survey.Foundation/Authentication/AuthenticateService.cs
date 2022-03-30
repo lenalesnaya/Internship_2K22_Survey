@@ -66,23 +66,16 @@ public class AuthenticateService : IAuthenticateService
         return OperationResult<User, UserRegistrationErrors>.CreateSuccessful(user);
     }
 
-    public async Task<OperationResult<User, UserAuthenticationErrors>> AuthenticateAsync(string email, string password)
+    public async Task<OperationResult<string, UserAuthenticationErrors>> AuthenticateAsync(string userName, string password)
     {
-        var existingUser = await _userManager.FindByEmailAsync(email);
-        if (existingUser == null)
-        {
-            return OperationResult<User, UserAuthenticationErrors>
-                .CreateUnsuccessful(UserAuthenticationErrors.InvalidEmailOrPassword);
-        }
-
-        var signInResult = await _signInManager.PasswordSignInAsync(existingUser, password, false, false);
+        var signInResult = await _signInManager.PasswordSignInAsync(userName, password, false, false);
         if (!signInResult.Succeeded)
         {
-            return OperationResult<User, UserAuthenticationErrors>
+            return OperationResult<string, UserAuthenticationErrors>
                 .CreateUnsuccessful(UserAuthenticationErrors.InvalidEmailOrPassword);
         }
 
-        return OperationResult<User, UserAuthenticationErrors>.CreateSuccessful(existingUser);
+        return OperationResult<string, UserAuthenticationErrors>.CreateSuccessful(userName);
     }
 
     public async Task SignOutAsync()

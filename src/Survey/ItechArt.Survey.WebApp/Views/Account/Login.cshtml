@@ -11,12 +11,12 @@
             <h1>Sign in</h1>
             <p>Please fill in this form to login your account.</p>
             <hr>
-            <div style="padding-bottom: 10px">
+            <div class ="pb-2">
                 <caption asp-for="UserName">Username</caption>
-                <input type="text" class="form-control w-50" asp-for="Email" placeholder="Enter email"/>
-                <span class="text-danger small" asp-validation-for="Email"></span>
+                <input type="text" class="form-control w-50" asp-for="UserName" placeholder="Enter username"/>
+                <span class="text-danger small" asp-validation-for="UserName"></span>
             </div>
-            <div style="padding-bottom: 10px">
+            <div class ="pb-2">
                 <caption asp-for="Password" text="Password">Password</caption>
                 <input type="password" class="form-control w-50" asp-for="Password" placeholder="Enter password"/>
                 <span class="text-danger small" asp-validation-for="Password"></span>

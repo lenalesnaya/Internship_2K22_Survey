@@ -28,18 +28,18 @@
                 <div class="w-40">
                     @if (!User.Identity.IsAuthenticated)
                     {
-                        <div class="layout-links-to-pages flex-row-reverse">
-                            <div>
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Registration">
-                                    <span class="fs-6">Registration</span>
-                                </a>
+                            <div class="layout-links-to-pages flex-row-reverse">
+                                <div>
+                                    <a class="nav-link btn text-dark fs-6" asp-controller="Account" asp-action="Registration">
+                                        <span class="fs-6">Registration</span>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="nav-link btn text-dark fs-6" asp-controller="Account" asp-action="Login">
+                                        <span class="fs-6">Sing in</span>
+                                    </a>
+                                </div>
                             </div>
-                            <div>
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">
-                                    <span class="fs-6">Sign in</span>
-                                </a>
-                            </div>
-                        </div>
                     }
                     @if (User.Identity.IsAuthenticated)
                     {

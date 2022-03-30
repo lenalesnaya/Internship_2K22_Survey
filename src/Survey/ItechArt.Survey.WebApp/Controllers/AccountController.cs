@@ -50,7 +50,7 @@ public class AccountController : Controller
         var registrationResult = await _authenticateService.RegisterAsync(user, registrationViewModel.Password);
         if (!registrationResult.IsSuccessful)
         {
-            var errorMessage = GetErrorMessage(registrationResult.Error);
+            var errorMessage = GetUserRegistrationErrorMessage(registrationResult.Error);
             _logger.LogWarning($"Registration is failed: {errorMessage}");
             ModelState.AddModelError("", errorMessage);
 
@@ -85,11 +85,11 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
-        var result = await _authenticateService.AuthenticateAsync(model.Email, model.Password);
+        var authenticationResult = await _authenticateService.AuthenticateAsync(model.UserName, model.Password);
 
-        if (!result.IsSuccessful)
+        if (!authenticationResult.IsSuccessful)
         {
-            var errorMessage = GetErrorMessage(authenticationResult.Error);
+            var errorMessage = GetUserAuthenticationErrorMessage(authenticationResult.Error);
             ModelState.AddModelError("", errorMessage);
 
             return View(model);
@@ -125,12 +125,10 @@ public class AccountController : Controller
     }
 
 
-    private static string GetErrorMessage<TError>(TError? error)
-        where TError : struct, Enum
+    private static string GetUserRegistrationErrorMessage(UserRegistrationErrors? error)
     {
         var errorMessage = error switch
         {
-            UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password",
             UserRegistrationErrors.UserNameAlreadyExists => "This user name already exists",
             UserRegistrationErrors.EmailAlreadyExists => "This email already exists",
             UserRegistrationErrors.UserNameIsRequired => "User name is required",
@@ -143,7 +141,18 @@ public class AccountController : Controller
             UserRegistrationErrors.InvalidPasswordLength => "Password must consist of 8-20 symbols",
             UserRegistrationErrors.IncorrectPassword
                 => "Password must contain at least 1 letter, 1 number and 1 special symbol",
-            _ => "Unexpected error, please, reload the page"
+            _ => "Unknown error"
+        };
+
+        return errorMessage;
+    }
+
+    private static string GetUserAuthenticationErrorMessage(UserAuthenticationErrors? error)
+    {
+        var errorMessage = error switch
+        {
+            UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password.",
+            _ => "Unknown error"
         };
 
         return errorMessage;
