@@ -8,14 +8,14 @@ using ItechArt.Survey.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using UserStore = ItechArt.Survey.Foundation.Authentication.Stores.UserStore;
-using RoleStore = ItechArt.Survey.Foundation.Authentication.Stores.RoleStore;
+using UserStore = ItechArt.Survey.Foundation.UserManagement.Stores.UserStore;
+using RoleStore = ItechArt.Survey.Foundation.UserManagement.Stores.RoleStore;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
 using System.Text.RegularExpressions;
-using ItechArt.Survey.Foundation.Authentication.Validation;
-using ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement;
+using ItechArt.Survey.Foundation.UserManagement.Validation;
+using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
 
 namespace ItechArt.Survey.WebApp.Extensions;
 

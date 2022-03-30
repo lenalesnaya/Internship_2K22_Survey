@@ -2,7 +2,7 @@
 using ItechArt.Common;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
-using ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
+using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
 using Microsoft.AspNetCore.Identity;
 
 namespace ItechArt.Survey.Foundation.Authentication;
@@ -57,28 +57,32 @@ public class AuthenticateService : IAuthenticateService
 
         var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
 
-        if (roleResult.Succeeded)
+        if (!roleResult.Succeeded)
         {
-            await _signInManager.SignInAsync(user, false);
-            return OperationResult<User, UserRegistrationErrors>.CreateSuccessful(user);
+            return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(UserRegistrationErrors.UnknownError);
         }
 
-        return OperationResult<User, UserRegistrationErrors>.CreateUnsuccessful(UserRegistrationErrors.UnknownError);
+        await _signInManager.SignInAsync(user, false);
+        return OperationResult<User, UserRegistrationErrors>.CreateSuccessful(user);
     }
 
-    public async Task<OperationResult<User, UserAuthenticationErrors>> AuthenticateAsync(User user, string password)
+    public async Task<OperationResult<User, UserAuthenticationErrors>> AuthenticateAsync(string email, string password)
     {
-        var existingUser = await _userManager.FindByEmailAsync(user.Email);
-
-        if (existingUser == null || !await _userManager.CheckPasswordAsync(existingUser, password))
+        var existingUser = await _userManager.FindByEmailAsync(email);
+        if (existingUser == null)
         {
             return OperationResult<User, UserAuthenticationErrors>
                 .CreateUnsuccessful(UserAuthenticationErrors.InvalidEmailOrPassword);
         }
 
-        await _signInManager.SignInAsync(existingUser, false);
+        var signInResult = await _signInManager.PasswordSignInAsync(existingUser, password, false, false);
+        if (!signInResult.Succeeded)
+        {
+            return OperationResult<User, UserAuthenticationErrors>
+                .CreateUnsuccessful(UserAuthenticationErrors.InvalidEmailOrPassword);
+        }
 
-        return OperationResult<User, UserAuthenticationErrors>.CreateSuccessful(user);
+        return OperationResult<User, UserAuthenticationErrors>.CreateSuccessful(existingUser);
     }
 
     public async Task SignOutAsync()

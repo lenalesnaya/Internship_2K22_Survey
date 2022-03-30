@@ -84,12 +84,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
-        var user = new User
-        {
-            Email = model.Email
-        };
-
-        var result = await _authenticateService.AuthenticateAsync(user, model.Password);
+        var result = await _authenticateService.AuthenticateAsync(model.Email, model.Password);
 
         if (!result.IsSuccessful)
         {
