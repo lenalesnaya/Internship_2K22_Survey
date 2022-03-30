@@ -19,5 +19,11 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
             .WithMany(u => u.UserRoles)
             .HasForeignKey(u => u.UserId)
             .IsRequired();
+
+        builder.HasData(new UserRole
+        {
+            RoleId = 1,
+            UserId = 1
+        });
     }
 }

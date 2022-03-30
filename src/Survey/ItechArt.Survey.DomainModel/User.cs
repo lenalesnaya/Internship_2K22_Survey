@@ -5,6 +5,7 @@ namespace ItechArt.Survey.DomainModel;
 
 public class User : IdentityUser<int>
 {
+    public const string UserAdmin = "Admin";
     public const int UserNameMaxLength = 128;
     public const int EmailMaxLength = 128;
 
