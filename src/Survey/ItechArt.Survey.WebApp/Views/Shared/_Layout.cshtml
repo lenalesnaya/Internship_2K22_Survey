@@ -53,6 +53,10 @@
                                 <a class="nav-link text-dark hstack" asp-controller="Account" asp-action="Profile">
                                     <img src="~/images/DefaultAvatar.png" class="mini-avatar" alt="">
                                     <span class="fs-6">@User.Identity.Name</span>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div><span>Admin</span></div>
+                                    }
                                 </a>
                             </div>
                         </div>
