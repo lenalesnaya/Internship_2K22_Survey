@@ -2,6 +2,5 @@
 
 public enum UserAuthenticationErrors
 {
-    InvalidEmailOrPassword,
-    UnknownError
+    InvalidEmailOrPassword
 }

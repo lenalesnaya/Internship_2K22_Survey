@@ -9,10 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ItechArt.Survey.Foundation.UserManagement.Stores;
 
-public class UserStore
-    : IUserEmailStore<User>, 
-      IUserPasswordStore<User>,
-      IUserRoleStore<User>
+public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserRoleStore<User>
 {
     private readonly IUnitOfWork _unitOfWork;
 

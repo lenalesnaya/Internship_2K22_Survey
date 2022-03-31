@@ -50,7 +50,7 @@ public class AccountController : Controller
         var registrationResult = await _authenticateService.RegisterAsync(user, registrationViewModel.Password);
         if (!registrationResult.IsSuccessful)
         {
-            var errorMessage = GetUserRegistrationErrorMessage(registrationResult.Error);
+            var errorMessage = GetErrorMessage(registrationResult.Error.GetValueOrDefault());
             _logger.LogWarning($"Registration is failed: {errorMessage}");
             ModelState.AddModelError("", errorMessage);
 
@@ -89,7 +89,7 @@ public class AccountController : Controller
 
         if (!authenticationResult.IsSuccessful)
         {
-            var errorMessage = GetUserAuthenticationErrorMessage(authenticationResult.Error);
+            var errorMessage = GetErrorMessage(authenticationResult.Error.GetValueOrDefault());
             ModelState.AddModelError("", errorMessage);
 
             return View(model);
@@ -125,7 +125,7 @@ public class AccountController : Controller
     }
 
 
-    private static string GetUserRegistrationErrorMessage(UserRegistrationErrors? error)
+    private static string GetErrorMessage(UserRegistrationErrors error)
     {
         var errorMessage = error switch
         {
@@ -147,12 +147,12 @@ public class AccountController : Controller
         return errorMessage;
     }
 
-    private static string GetUserAuthenticationErrorMessage(UserAuthenticationErrors? error)
+    private static string GetErrorMessage(UserAuthenticationErrors error)
     {
         var errorMessage = error switch
         {
             UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password.",
-            _ => "Unknown error"
+            _ => throw new Exception("Unknown error")
         };
 
         return errorMessage;
