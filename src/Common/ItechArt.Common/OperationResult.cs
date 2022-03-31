@@ -19,11 +19,11 @@ public class OperationResult<TError>
 
     public static OperationResult<TError> CreateSuccessful()
     {
-        return new OperationResult<TError>(true,null);
+        return new OperationResult<TError>(true, null);
     }
 
     public static OperationResult<TError> CreateUnsuccessful(TError error)
     {
-        return new OperationResult<TError>(default, error);
+        return new OperationResult<TError>(false, error);
     }
 }
