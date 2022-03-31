@@ -1,4 +1,5 @@
 ﻿using ItechArt.Survey.DomainModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -47,13 +48,23 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasData(new User
             {
-                Id = 1,
-                UserName = User.UserAdmin,
-                NormalizedUserName = User.UserAdmin.ToUpper(),
-                Email = "admin@mail.ru",
-                NormalizedEmail = "ADMIN@MAIL.RU",
-                PasswordHash = "AQAAAAEAACcQAAAAEIgYyAtD5WcSUQEn36VGTHQ/JThoBBhcNxyBe++i1eISwktB0UJAQXLvtUbin2Qf3A==",
+                Id = -1,
+                UserName = User.AdminName,
+                NormalizedUserName = User.AdminName.ToUpper(),
+                Email = User.AdminEmail,
+                NormalizedEmail = User.AdminEmail.ToUpper(),
+                PasswordHash = GetPasswordHash(User.AdminPassword),
                 ConcurrencyStamp = "85263788-277f-4f89-b8c4-a11ac465ed58"
             });
+    }
+
+
+    private static string GetPasswordHash(string password)
+    {
+        var user = new User();
+        var passwordHasher = new PasswordHasher<User>();
+        var passwordHash = passwordHasher.HashPassword(user, password);
+
+        return passwordHash;
     }
 }

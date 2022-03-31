@@ -23,7 +23,13 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
         builder.HasData(new UserRole
         {
             RoleId = 1,
-            UserId = 1
+            UserId = -1
+        });
+
+        builder.HasData(new UserRole
+        {
+            RoleId = 2,
+            UserId = -1
         });
     }
 }
