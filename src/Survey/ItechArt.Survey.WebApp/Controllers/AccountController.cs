@@ -86,7 +86,6 @@ public class AccountController : Controller
     public async Task<IActionResult> Login(LoginViewModel model)
     {
         var authenticationResult = await _authenticateService.AuthenticateAsync(model.UserName, model.Password);
-
         if (!authenticationResult.IsSuccessful)
         {
             var errorMessage = GetErrorMessage(authenticationResult.Error.GetValueOrDefault());
