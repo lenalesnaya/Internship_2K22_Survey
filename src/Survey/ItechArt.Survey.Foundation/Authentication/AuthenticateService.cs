@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ItechArt.Common;
+using ItechArt.Common.OperationResult;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
@@ -25,40 +26,40 @@ public class AuthenticateService : IAuthenticateService
     }
 
 
-    public async Task<OperationResult<UserRegistrationErrors>> RegisterAsync(User user, string password)
+    public async Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password)
     {
         var validationResult = _userValidator.Validate(user, password);
         if (!validationResult.IsSuccessful)
         {
-            return OperationResult<UserRegistrationErrors>
+            return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(validationResult.Error.GetValueOrDefault());
         }
 
         var userWithGivenName = await _userManager.FindByNameAsync(user.UserName);
         if (userWithGivenName != null)
         {
-            return OperationResult<UserRegistrationErrors>
+            return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UserNameAlreadyExists);
         }
         
         var userWithGivenEmail = await _userManager.FindByEmailAsync(user.Email);
         if (userWithGivenEmail != null)
         {
-            return OperationResult<UserRegistrationErrors>
+            return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.EmailAlreadyExists);
         }
 
         var creationResult = await _userManager.CreateAsync(user, password);
         if (!creationResult.Succeeded)
         {
-            return OperationResult<UserRegistrationErrors>
+            return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
         }
 
         var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
         if (!roleResult.Succeeded)
         {
-            return OperationResult<UserRegistrationErrors>
+            return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
         }
 

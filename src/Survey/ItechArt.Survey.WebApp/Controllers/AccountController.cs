@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -152,7 +153,8 @@ public class AccountController : Controller
         var errorMessage = error switch
         {
             UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password",
-            _ => throw new Exception("Unknown error")
+            _ => throw new InvalidEnumArgumentException(
+                $"Error({error}) passed to method does not exist in enum {typeof(UserAuthenticationErrors)}")
         };
 
         return errorMessage;
