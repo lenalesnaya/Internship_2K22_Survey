@@ -38,8 +38,8 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasData(new Role
             {
                 Id = 2,
-                Name = Role.Admin,
-                NormalizedName = Role.Admin.ToUpper(),
+                Name = Role.Administrator,
+                NormalizedName = Role.Administrator.ToUpper(),
                 ConcurrencyStamp = "7612cd22-c0f0-4801-a3e5-ff7cd1a41301"
             });
     }

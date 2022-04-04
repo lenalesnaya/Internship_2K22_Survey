@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using ItechArt.Survey.DomainModel
+
+<!DOCTYPE html>
 
 <html>
     <head>
@@ -39,29 +41,29 @@
                                     <span class="fs-6">Sing in</span>
                                 </a>
                             </div>
-                        </div>
-                    }
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <div class="layout-links-to-pages flex-row-reverse">
-                            <div>
-                                <form asp-controller="Account" asp-action="LogOut" method="post">
-                                    <input class="btn text-dark fs-6" type="submit" value="Log out">
-                                </form>
                             </div>
-                            <div>
-                                <a class="nav-link text-dark hstack" asp-controller="Account" asp-action="Profile">
-                                    <img src="~/images/DefaultAvatar.png" class="mini-avatar" alt="">
-                                    <span class="fs-6">@User.Identity.Name</span>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <div><span>Admin</span></div>
-                                    }
-                                </a>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="layout-links-to-pages">
+                                <div>
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Profile">
+                                        <img src="~/images/DefaultAvatar.png" class="mini-avatar" alt="">
+                                        <span>@User.Identity.Name</span>
+                                        @if (User.IsInRole(Role.Administrator))
+                                        {
+                                            <div><span>@Role.Administrator</span></div>
+                                        }
+                                    </a>
+                                </div>
+                                <div style="padding-right: 50px">
+                                    <form asp-controller="Account" asp-action="LogOut" method="post">
+                                        <input class="btn text-dark" type="submit" value="Log out">
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
             </nav>
         </header>
         <div>

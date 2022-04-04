@@ -51,7 +51,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.HasIndex("NormalizedName")
                         .IsUnique();
 
-                    b.ToTable("Role");
+                    b.ToTable("Role", (string)null);
 
                     b.HasData(
                         new
@@ -60,13 +60,6 @@ namespace ItechArt.Survey.Repositories.Migrations
                             ConcurrencyStamp = "7612cd22-c0f0-4801-a3e5-ff7cd1a41302",
                             Name = "User",
                             NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConcurrencyStamp = "7612cd22-c0f0-4801-a3e5-ff7cd1a41301",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -143,24 +136,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "85263788-277f-4f89-b8c4-a11ac465ed58",
-                            Email = "admin@mail.ru",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@MAIL.RU",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE24zYiQQyRYko3HPY5lfq277yOzxz5OdhjWl63FeDLp0TosF0DgnqgFuvDNhpWMUQ==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "Admin"
-                        });
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.UserRole", b =>
@@ -175,19 +151,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole");
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = 1,
-                            UserId = -1
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            UserId = -1
-                        });
+                    b.ToTable("UserRole", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.UserRole", b =>
