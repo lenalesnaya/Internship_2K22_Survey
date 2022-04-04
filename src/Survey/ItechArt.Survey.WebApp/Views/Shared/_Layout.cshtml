@@ -1,4 +1,4 @@
-﻿@using ItechArt.Survey.DomainModel
+﻿@using ItechArt.Survey.WebApp.Constants
 
 <!DOCTYPE html>
 
@@ -56,9 +56,9 @@
                                     <img src="~/images/DefaultAvatar.png" class="mini-avatar" alt="">
                                     <div>
                                         <span class="fs-6 d-block">@User.Identity.Name</span>
-                                        @if (User.IsInRole(Role.Administrator))
+                                        @if (User.IsInRole(RolesConstants.AdministratorRoleName))
                                         {
-                                            <span class="fs-7">@Role.Administrator</span>
+                                            <span class="fs-7">@RolesConstants.AdministratorRoleName</span>
                                         }
                                     </div>
                                 </a>
