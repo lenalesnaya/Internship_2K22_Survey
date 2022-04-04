@@ -142,7 +142,8 @@ public class AccountController : Controller
             UserRegistrationErrors.IncorrectPassword
                 => "Password must contain at least 1 letter, 1 number and 1 special symbol",
             UserRegistrationErrors.UnknownError => "Unknown error",
-            _ => throw new Exception("Unknown error")
+            _ => throw new ArgumentOutOfRangeException(
+                $"The value passed as an argument \"{nameof(error)}\" ({error}) is not valid for the method.")
         };
 
         return errorMessage;
@@ -152,9 +153,9 @@ public class AccountController : Controller
     {
         var errorMessage = error switch
         {
-            UserAuthenticationErrors.InvalidEmailOrPassword => "Invalid email or password",
-            _ => throw new InvalidEnumArgumentException(
-                $"Error({error}) passed to method does not exist in enum {typeof(UserAuthenticationErrors)}")
+            UserAuthenticationErrors.InvalidUsernameOrPassword => "Invalid username or password",
+            _ => throw new ArgumentOutOfRangeException(
+                $"The value passed as an argument \"{nameof(error)}\" (\"{error}\") is not valid for the method.")
         };
 
         return errorMessage;

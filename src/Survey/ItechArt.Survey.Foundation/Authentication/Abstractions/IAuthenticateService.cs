@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using ItechArt.Common;
-using ItechArt.Common.OperationResult;
 using ItechArt.Survey.DomainModel;
 
 namespace ItechArt.Survey.Foundation.Authentication.Abstractions;

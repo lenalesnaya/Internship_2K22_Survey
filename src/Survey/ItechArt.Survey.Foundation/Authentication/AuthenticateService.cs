@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using ItechArt.Common;
-using ItechArt.Common.OperationResult;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
@@ -56,8 +55,8 @@ public class AuthenticateService : IAuthenticateService
                 .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
         }
 
-        var roleResult = await _userManager.AddToRoleAsync(user, Role.User);
-        if (!roleResult.Succeeded)
+        var addingToRoleResult = await _userManager.AddToRoleAsync(user, Role.User);
+        if (!addingToRoleResult.Succeeded)
         {
             return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
@@ -74,10 +73,10 @@ public class AuthenticateService : IAuthenticateService
         if (!signInResult.Succeeded)
         {
             return OperationResult<UserAuthenticationErrors>
-                .CreateUnsuccessful(UserAuthenticationErrors.InvalidEmailOrPassword);
+                .CreateUnsuccessful(UserAuthenticationErrors.InvalidUsernameOrPassword);
         }
 
-        return OperationResult<string, UserAuthenticationErrors>.CreateSuccessful();
+        return OperationResult<UserAuthenticationErrors>.CreateSuccessful();
     }
 
     public async Task SignOutAsync()

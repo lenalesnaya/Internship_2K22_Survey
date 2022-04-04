@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ItechArt.Common.OperationResult;
+namespace ItechArt.Common;
 
 public class OperationResult<TError>
     where TError : struct, Enum
@@ -29,6 +29,7 @@ public class OperationResult<TError>
 }
 
 
+
 public class OperationResult<TResult, TError> : OperationResult<TError>
     where TError : struct, Enum
 {
@@ -52,6 +53,7 @@ public class OperationResult<TResult, TError> : OperationResult<TError>
     {
         return new OperationResult<TResult, TError>(true, result, null);
     }
+
     public new static OperationResult<TResult, TError> CreateUnsuccessful(TError error)
     {
         return new OperationResult<TResult, TError>(false,default, error);
