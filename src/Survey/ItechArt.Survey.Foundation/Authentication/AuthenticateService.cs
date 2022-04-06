@@ -2,7 +2,7 @@
 using ItechArt.Common;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
-using ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
+using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
 using Microsoft.AspNetCore.Identity;
 
 namespace ItechArt.Survey.Foundation.Authentication;
@@ -65,6 +65,18 @@ public class AuthenticateService : IAuthenticateService
         await _signInManager.SignInAsync(user, true);
 
         return OperationResult<User, UserRegistrationErrors>.CreateSuccessful(user);
+    }
+
+    public async Task<OperationResult<UserAuthenticationErrors>> AuthenticateAsync(string userName, string password)
+    {
+        var signInResult = await _signInManager.PasswordSignInAsync(userName, password, true, false);
+        if (!signInResult.Succeeded)
+        {
+            return OperationResult<UserAuthenticationErrors>
+                .CreateUnsuccessful(UserAuthenticationErrors.InvalidUsernameOrPassword);
+        }
+
+        return OperationResult<UserAuthenticationErrors>.CreateSuccessful();
     }
 
     public async Task SignOutAsync()

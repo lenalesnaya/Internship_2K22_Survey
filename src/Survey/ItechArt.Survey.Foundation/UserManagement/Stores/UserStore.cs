@@ -7,7 +7,7 @@ using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel;
 using Microsoft.AspNetCore.Identity;
 
-namespace ItechArt.Survey.Foundation.Authentication.Stores;
+namespace ItechArt.Survey.Foundation.UserManagement.Stores;
 
 public class UserStore : IUserEmailStore<User>, IUserPasswordStore<User>, IUserRoleStore<User>
 {

@@ -3,7 +3,7 @@ using ItechArt.Common.Validation.Abstractions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 
-namespace ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
+namespace ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
 
 public interface IUserValidator : IValidator<User, UserRegistrationErrors>
 {

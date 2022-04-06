@@ -3,10 +3,10 @@ using ItechArt.Common.Validation.Abstractions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
-using ItechArt.Survey.Foundation.Authentication.Validation.Abstractions;
+using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
 using Microsoft.Extensions.Options;
 
-namespace ItechArt.Survey.Foundation.Authentication.Validation;
+namespace ItechArt.Survey.Foundation.UserManagement.Validation;
 
 public class UserValidator : Validator<User, UserRegistrationErrors>, IUserValidator
 {

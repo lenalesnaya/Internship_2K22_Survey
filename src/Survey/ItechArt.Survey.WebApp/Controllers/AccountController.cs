@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.ComponentModel;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Common.Logging.Abstractions;
@@ -49,7 +51,7 @@ public class AccountController : Controller
         var registrationResult = await _authenticateService.RegisterAsync(user, registrationViewModel.Password);
         if (!registrationResult.IsSuccessful)
         {
-            var errorMessage = GetErrorMessage(registrationResult.Error);
+            var errorMessage = GetErrorMessage(registrationResult.Error.GetValueOrDefault());
             _logger.LogWarning($"Registration is failed: {errorMessage}");
             ModelState.AddModelError("", errorMessage);
 
@@ -73,6 +75,27 @@ public class AccountController : Controller
         };
 
         return View(profileViewModel);
+    }
+
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return View(new LoginViewModel());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        var authenticationResult = await _authenticateService.AuthenticateAsync(model.UserName, model.Password);
+        if (!authenticationResult.IsSuccessful)
+        {
+            var errorMessage = GetErrorMessage(authenticationResult.Error.GetValueOrDefault());
+            ModelState.AddModelError("", errorMessage);
+
+            return View(model);
+        }
+
+        return RedirectToAction("Profile");
     }
 
     [HttpPost]
@@ -102,7 +125,7 @@ public class AccountController : Controller
     }
 
 
-    private static string GetErrorMessage(UserRegistrationErrors? error)
+    private static string GetErrorMessage(UserRegistrationErrors error)
     {
         var errorMessage = error switch
         {
@@ -118,7 +141,21 @@ public class AccountController : Controller
             UserRegistrationErrors.InvalidPasswordLength => "Password must consist of 8-20 symbols",
             UserRegistrationErrors.IncorrectPassword
                 => "Password must contain at least 1 letter, 1 number and 1 special symbol",
-            _ => "Unknown error"
+            UserRegistrationErrors.UnknownError => "Unknown error",
+            _ => throw new ArgumentOutOfRangeException(
+                $"The value passed as an argument \"{nameof(error)}\" ({error}) is not valid for the method.")
+        };
+
+        return errorMessage;
+    }
+
+    private static string GetErrorMessage(UserAuthenticationErrors error)
+    {
+        var errorMessage = error switch
+        {
+            UserAuthenticationErrors.InvalidUsernameOrPassword => "Invalid username or password",
+            _ => throw new ArgumentOutOfRangeException(
+                $"The value passed as an argument \"{nameof(error)}\" (\"{error}\") is not valid for the method.")
         };
 
         return errorMessage;

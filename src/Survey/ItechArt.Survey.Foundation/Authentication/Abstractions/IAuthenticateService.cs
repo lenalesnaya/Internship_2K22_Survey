@@ -8,5 +8,7 @@ public interface IAuthenticateService
 {
     Task<OperationResult<User, UserRegistrationErrors>> RegisterAsync(User user, string password);
 
+    Task<OperationResult<UserAuthenticationErrors>> AuthenticateAsync(string userName, string password);
+
     Task SignOutAsync();
 }
