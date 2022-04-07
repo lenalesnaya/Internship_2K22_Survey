@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using ItechArt.Common.Logging.Abstractions;
-using ItechArt.Common.Logging.Extensions;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement.Abstractions;
@@ -19,19 +16,16 @@ public class AccountController : Controller
     private readonly IAuthenticateService _authenticateService;
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
-    private readonly ILogger _logger;
 
 
     public AccountController(
         IAuthenticateService authenticateService,
         IMapper mapper,
-        IUserService userService,
-        ILogger logger)
+        IUserService userService)
     {
         _authenticateService = authenticateService;
         _mapper = mapper;
         _userService = userService;
-        _logger = logger;
     }
 
 
@@ -52,13 +46,10 @@ public class AccountController : Controller
         if (!registrationResult.IsSuccessful)
         {
             var errorMessage = GetErrorMessage(registrationResult.Error.GetValueOrDefault());
-            _logger.LogWarning($"Registration is failed: {errorMessage}");
             ModelState.AddModelError("", errorMessage);
 
             return View(registrationViewModel);
         }
-
-        _logger.LogInformation($"Registration of a user {user.UserName} completed successfully");
 
         return RedirectToAction("Profile");
     }
