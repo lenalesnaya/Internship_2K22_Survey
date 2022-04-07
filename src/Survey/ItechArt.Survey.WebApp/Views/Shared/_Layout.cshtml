@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using ItechArt.Survey.WebApp.Constants
+
+<!DOCTYPE html>
 
 <html>
     <head>
@@ -52,7 +54,13 @@
                             <div>
                                 <a class="nav-link text-dark hstack" asp-controller="Account" asp-action="Profile">
                                     <img src="~/images/DefaultAvatar.png" class="mini-avatar" alt="">
-                                    <span class="fs-6">@User.Identity.Name</span>
+                                    <div>
+                                        <span class="fs-6 d-block">@User.Identity.Name</span>
+                                        @if (User.IsInRole(RolesConstants.AdministratorRoleName))
+                                        {
+                                            <span class="fs-7">@RolesConstants.AdministratorRoleName</span>
+                                        }
+                                    </div>
                                 </a>
                             </div>
                         </div>

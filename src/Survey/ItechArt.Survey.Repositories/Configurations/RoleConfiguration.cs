@@ -31,6 +31,16 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
                 Name = Role.User,
                 NormalizedName = Role.User.ToUpper(),
                 ConcurrencyStamp = "7612cd22-c0f0-4801-a3e5-ff7cd1a41302"
+
+            });
+
+        builder
+            .HasData(new Role
+            {
+                Id = 2,
+                Name = Role.Administrator,
+                NormalizedName = Role.Administrator.ToUpper(),
+                ConcurrencyStamp = "7612cd22-c0f0-4801-a3e5-ff7cd1a41301"
             });
     }
 }
