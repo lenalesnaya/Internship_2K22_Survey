@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace ItechArt.Survey.DomainModel;
+namespace ItechArt.Survey.DomainModel.UserModel;
 
 public class User : IdentityUser<int>
 {
@@ -19,4 +19,6 @@ public class User : IdentityUser<int>
     public int AmountOfSurvey { get; set; }
 
     public ICollection<UserRole> UserRoles { get; set; }
+
+    public ICollection<SurveyModel.Survey> Surveys { get; set; }
 }

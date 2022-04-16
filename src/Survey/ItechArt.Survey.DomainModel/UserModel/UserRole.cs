@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace ItechArt.Survey.DomainModel;
+namespace ItechArt.Survey.DomainModel.UserModel;
 
 public class UserRole : IdentityUserRole<int>
 {

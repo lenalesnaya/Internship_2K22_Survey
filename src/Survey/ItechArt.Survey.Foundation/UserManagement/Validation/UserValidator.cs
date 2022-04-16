@@ -1,6 +1,6 @@
 ﻿using ItechArt.Common.Validation;
 using ItechArt.Common.Validation.Abstractions;
-using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.DomainModel.UserModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
 using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;

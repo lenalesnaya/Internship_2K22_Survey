@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.DomainModel.UserModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;

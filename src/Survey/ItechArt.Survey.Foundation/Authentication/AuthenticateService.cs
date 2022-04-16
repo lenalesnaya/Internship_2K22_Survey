@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ItechArt.Common;
 using ItechArt.Common.Logging.Abstractions;
 using ItechArt.Common.Logging.Extensions;
-using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.DomainModel.UserModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
 using Microsoft.AspNetCore.Identity;

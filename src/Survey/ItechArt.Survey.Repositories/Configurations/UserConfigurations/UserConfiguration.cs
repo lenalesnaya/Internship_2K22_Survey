@@ -1,9 +1,9 @@
-﻿using ItechArt.Survey.DomainModel;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ItechArt.Survey.DomainModel.UserModel;
 
-namespace ItechArt.Survey.Repositories.Configurations;
+namespace ItechArt.Survey.Repositories.Configurations.UserConfigurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {

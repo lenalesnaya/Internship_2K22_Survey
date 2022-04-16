@@ -1,8 +1,8 @@
-﻿using ItechArt.Survey.DomainModel;
+﻿using ItechArt.Survey.DomainModel.UserModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ItechArt.Survey.Repositories.Configurations;
+namespace ItechArt.Survey.Repositories.Configurations.UserConfigurations;
 
 public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace ItechArt.Survey.DomainModel;
+namespace ItechArt.Survey.DomainModel.UserModel;
 
 public class Role : IdentityRole<int>
 {
