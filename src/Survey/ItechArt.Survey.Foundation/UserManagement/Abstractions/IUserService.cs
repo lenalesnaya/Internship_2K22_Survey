@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ItechArt.Common;
 using ItechArt.Survey.DomainModel;
 using Microsoft.AspNetCore.Identity;
 
@@ -13,7 +14,7 @@ public interface IUserService
 
     Task<User> GetUserByEmailAsync(string email);
 
-    Task<IList<User>> GetAllUsers();
+    Task<IList<User>> GetAllUsersAsync();
 
-    Task<IdentityResult> DeleteUser(int id);
+    Task<OperationResult<UserDeletionErrors>> DeleteUserAsync(int id);
 }

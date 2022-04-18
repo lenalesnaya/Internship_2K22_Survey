@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ItechArt.Survey.Repositories.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CountSurveys = table.Column<int>(type: "int", nullable: false),
+                    AmountOfSurvey = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
@@ -88,8 +88,8 @@ namespace ItechArt.Survey.Repositories.Migrations
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CountSurveys", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RegistrationDate", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { -1, 0, "85263788-277f-4f89-b8c4-a11ac465ed58", 0, "admin@mail.ru", false, false, null, "ADMIN@MAIL.RU", "ADMINISTRATOR", "AQAAAAEAACcQAAAAEFn5Nyewm6zJCLMfb1LmyXg3MVRTkY9dorBMpzofqF0E7G/vyUHwDBdjIBj9cTtWeQ==", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "Administrator" });
+                columns: new[] { "Id", "AccessFailedCount", "AmountOfSurvey", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RegistrationDate", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { -1, 0, 0, "85263788-277f-4f89-b8c4-a11ac465ed58", "admin@mail.ru", false, false, null, "ADMIN@MAIL.RU", "ADMINISTRATOR", "AQAAAAEAACcQAAAAELx9KTCniO6cGP0iS/TPb2wkDWaHLVa5NoEEkoSkNGJp6c3VIR9gi9aXN68aorJLag==", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "Administrator" });
 
             migrationBuilder.InsertData(
                 table: "UserRole",

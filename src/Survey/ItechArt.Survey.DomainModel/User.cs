@@ -16,7 +16,7 @@ public class User : IdentityUser<int>
 
     public DateTime RegistrationDate { get; set; }
 
-    public int CountSurveys { get; set; }
+    public int AmountOfSurvey { get; set; }
 
     public ICollection<UserRole> UserRoles { get; set; }
 }

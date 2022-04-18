@@ -95,7 +95,6 @@ public class AuthenticateService : IAuthenticateService
                     $"{error.Code} - {error.Description}");
             }
 
-
             return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UnknownError);
         }

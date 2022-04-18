@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItechArt.Survey.Repositories.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    [Migration("20220414174858_Init")]
-    partial class Init
+    [Migration("20220418161808_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,11 +83,11 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("AmountOfSurvey")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CountSurveys")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -158,14 +158,14 @@ namespace ItechArt.Survey.Repositories.Migrations
                         {
                             Id = -1,
                             AccessFailedCount = 0,
+                            AmountOfSurvey = 0,
                             ConcurrencyStamp = "85263788-277f-4f89-b8c4-a11ac465ed58",
-                            CountSurveys = 0,
                             Email = "admin@mail.ru",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.RU",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFn5Nyewm6zJCLMfb1LmyXg3MVRTkY9dorBMpzofqF0E7G/vyUHwDBdjIBj9cTtWeQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELx9KTCniO6cGP0iS/TPb2wkDWaHLVa5NoEEkoSkNGJp6c3VIR9gi9aXN68aorJLag==",
                             PhoneNumberConfirmed = false,
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
