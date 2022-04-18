@@ -155,7 +155,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: -1,
                 column: "PasswordHash",
-                value: "AQAAAAEAACcQAAAAEL+wdIKSDIdwu/EXFL4yHRxnteaUANJXrB+BtR7VRuhlTiEi/ja0WGoXQP1/vS5P/g==");
+                value: "AQAAAAEAACcQAAAAECPJNd+tTRrdZWTAC6tQwLvVLTOCwFErrCgV2ubZHpVOzGihKCzl4PHtxGqc9E4WNA==");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AnswerVariant_QuestionId_SurveyId",
@@ -221,7 +221,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: -1,
                 column: "PasswordHash",
-                value: "AQAAAAEAACcQAAAAELfT5cA209WkUA68d/VfeM0qcd3nPcCAzWyPRqocEefzQ+bBcPH9NTW9RTxdxsyuCQ==");
+                value: "AQAAAAEAACcQAAAAELx9KTCniO6cGP0iS/TPb2wkDWaHLVa5NoEEkoSkNGJp6c3VIR9gi9aXN68aorJLag==");
         }
     }
 }

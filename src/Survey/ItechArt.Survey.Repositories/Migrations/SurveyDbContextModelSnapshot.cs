@@ -22,7 +22,171 @@ namespace ItechArt.Survey.Repositories.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ItechArt.Survey.DomainModel.Role", b =>
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Answers.AnswerVariant", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("QuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SurveyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id", "QuestionId", "SurveyId");
+
+                    b.HasIndex("QuestionId", "SurveyId");
+
+                    b.ToTable("AnswerVariant");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.AnswerVariantsQuestion", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SurveyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("CanChooseManyAnswers")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id", "SurveyId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("AnswerVariantsQuestion");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.FileAnswerQuestion", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SurveyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id", "SurveyId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("FileAnswerQuestion");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.ScaleAnswerQuestion", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SurveyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("ScaleMaxValue")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ScaleMinValue")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id", "SurveyId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("ScaleAnswerQuestion");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.StarRatingAnswerQuestion", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SurveyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("NumberOfStars")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id", "SurveyId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("StarRatingAnswerQuestion");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.TextAnswerQuestion", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SurveyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id", "SurveyId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("TextAnswerQuestion");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Survey", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAnonymous")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<int>("СreatorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("СreatorId");
+
+                    b.ToTable("Survey");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.UserModel.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,7 +234,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ItechArt.Survey.DomainModel.User", b =>
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.UserModel.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,7 +327,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.RU",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAELx9KTCniO6cGP0iS/TPb2wkDWaHLVa5NoEEkoSkNGJp6c3VIR9gi9aXN68aorJLag==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECPJNd+tTRrdZWTAC6tQwLvVLTOCwFErrCgV2ubZHpVOzGihKCzl4PHtxGqc9E4WNA==",
                             PhoneNumberConfirmed = false,
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
@@ -171,7 +335,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ItechArt.Survey.DomainModel.UserRole", b =>
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.UserModel.UserRole", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -198,15 +362,92 @@ namespace ItechArt.Survey.Repositories.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ItechArt.Survey.DomainModel.UserRole", b =>
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Answers.AnswerVariant", b =>
                 {
-                    b.HasOne("ItechArt.Survey.DomainModel.Role", "Role")
+                    b.HasOne("ItechArt.Survey.DomainModel.Survey.Questions.AnswerVariantsQuestion", "Question")
+                        .WithMany("AnswerVariants")
+                        .HasForeignKey("QuestionId", "SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.AnswerVariantsQuestion", b =>
+                {
+                    b.HasOne("ItechArt.Survey.DomainModel.SurveyModel.Survey", "Survey")
+                        .WithMany("AnswerVariantsQuestions")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.FileAnswerQuestion", b =>
+                {
+                    b.HasOne("ItechArt.Survey.DomainModel.SurveyModel.Survey", "Survey")
+                        .WithMany("FileAnswerQuestions")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.ScaleAnswerQuestion", b =>
+                {
+                    b.HasOne("ItechArt.Survey.DomainModel.SurveyModel.Survey", "Survey")
+                        .WithMany("ScaleAnswerQuestions")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.StarRatingAnswerQuestion", b =>
+                {
+                    b.HasOne("ItechArt.Survey.DomainModel.SurveyModel.Survey", "Survey")
+                        .WithMany("StarRatingAnswerQuestions")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.TextAnswerQuestion", b =>
+                {
+                    b.HasOne("ItechArt.Survey.DomainModel.SurveyModel.Survey", "Survey")
+                        .WithMany("TextAnswerQuestions")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Survey", b =>
+                {
+                    b.HasOne("ItechArt.Survey.DomainModel.UserModel.User", "Сreator")
+                        .WithMany("Surveys")
+                        .HasForeignKey("СreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Сreator");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.UserModel.UserRole", b =>
+                {
+                    b.HasOne("ItechArt.Survey.DomainModel.UserModel.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ItechArt.Survey.DomainModel.User", "User")
+                    b.HasOne("ItechArt.Survey.DomainModel.UserModel.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -217,13 +458,33 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ItechArt.Survey.DomainModel.Role", b =>
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.Survey.Questions.AnswerVariantsQuestion", b =>
+                {
+                    b.Navigation("AnswerVariants");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Survey", b =>
+                {
+                    b.Navigation("AnswerVariantsQuestions");
+
+                    b.Navigation("FileAnswerQuestions");
+
+                    b.Navigation("ScaleAnswerQuestions");
+
+                    b.Navigation("StarRatingAnswerQuestions");
+
+                    b.Navigation("TextAnswerQuestions");
+                });
+
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.UserModel.Role", b =>
                 {
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("ItechArt.Survey.DomainModel.User", b =>
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.UserModel.User", b =>
                 {
+                    b.Navigation("Surveys");
+
                     b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ItechArt.Common;
-using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.DomainModel.UserModel;
 using Microsoft.AspNetCore.Identity;
 
 namespace ItechArt.Survey.Foundation.UserManagement.Abstractions;
