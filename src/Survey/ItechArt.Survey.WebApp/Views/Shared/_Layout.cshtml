@@ -63,6 +63,16 @@
                                     </div>
                                 </a>
                             </div>
+                            <div>
+                                @if (User.IsInRole(RolesConstants.AdministratorRoleName))
+                                {
+                                    <a class="nav-link text-dark hstack" asp-controller="UserManagement" asp-action="UserManagement">
+                                        <span>
+                                            Users
+                                        </span>
+                                    </a>
+                                }
+                            </div>
                         </div>
                     }
                 </div>

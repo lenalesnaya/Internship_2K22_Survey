@@ -62,6 +62,7 @@ public class AuthenticateService : IAuthenticateService
                 .CreateUnsuccessful(UserRegistrationErrors.EmailAlreadyExists);
         }
 
+        user.RegistrationDate = DateTime.Now;
         var creationResult = await _userManager.CreateAsync(user, password);
         if (!creationResult.Succeeded)
         {

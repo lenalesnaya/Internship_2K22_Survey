@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItechArt.Survey.Repositories.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    [Migration("20220309172717_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220414174858_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,6 +62,13 @@ namespace ItechArt.Survey.Repositories.Migrations
                             ConcurrencyStamp = "7612cd22-c0f0-4801-a3e5-ff7cd1a41302",
                             Name = "User",
                             NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "7612cd22-c0f0-4801-a3e5-ff7cd1a41301",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
                         });
                 });
 
@@ -78,6 +85,9 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CountSurveys")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -113,6 +123,9 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -139,6 +152,25 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .IsUnique();
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "85263788-277f-4f89-b8c4-a11ac465ed58",
+                            CountSurveys = 0,
+                            Email = "admin@mail.ru",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@MAIL.RU",
+                            NormalizedUserName = "ADMINISTRATOR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFn5Nyewm6zJCLMfb1LmyXg3MVRTkY9dorBMpzofqF0E7G/vyUHwDBdjIBj9cTtWeQ==",
+                            PhoneNumberConfirmed = false,
+                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "Administrator"
+                        });
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.UserRole", b =>
@@ -154,6 +186,18 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1,
+                            UserId = -1
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            UserId = -1
+                        });
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.UserRole", b =>

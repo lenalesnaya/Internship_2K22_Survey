@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ItechArt.Survey.Repositories.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,6 +30,8 @@ namespace ItechArt.Survey.Repositories.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CountSurveys = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
@@ -78,6 +80,26 @@ namespace ItechArt.Survey.Repositories.Migrations
                 table: "Role",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[] { 1, "7612cd22-c0f0-4801-a3e5-ff7cd1a41302", "User", "USER" });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { 2, "7612cd22-c0f0-4801-a3e5-ff7cd1a41301", "Administrator", "ADMINISTRATOR" });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CountSurveys", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RegistrationDate", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { -1, 0, "85263788-277f-4f89-b8c4-a11ac465ed58", 0, "admin@mail.ru", false, false, null, "ADMIN@MAIL.RU", "ADMINISTRATOR", "AQAAAAEAACcQAAAAEFn5Nyewm6zJCLMfb1LmyXg3MVRTkY9dorBMpzofqF0E7G/vyUHwDBdjIBj9cTtWeQ==", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "Administrator" });
+
+            migrationBuilder.InsertData(
+                table: "UserRole",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { 1, -1 });
+
+            migrationBuilder.InsertData(
+                table: "UserRole",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { 2, -1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Role_Name",
