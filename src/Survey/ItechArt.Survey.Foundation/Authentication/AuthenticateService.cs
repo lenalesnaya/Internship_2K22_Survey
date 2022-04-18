@@ -62,6 +62,7 @@ public class AuthenticateService : IAuthenticateService
                 .CreateUnsuccessful(UserRegistrationErrors.EmailAlreadyExists);
         }
 
+        user.RegistrationDate = DateTime.Now;
         var creationResult = await _userManager.CreateAsync(user, password);
         if (!creationResult.Succeeded)
         {
@@ -93,7 +94,6 @@ public class AuthenticateService : IAuthenticateService
                 _logger.LogWarning(
                     $"{error.Code} - {error.Description}");
             }
-
 
             return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UnknownError);

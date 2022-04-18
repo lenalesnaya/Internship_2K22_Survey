@@ -81,6 +81,9 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("AmountOfSurvey")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -118,6 +121,9 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -150,14 +156,16 @@ namespace ItechArt.Survey.Repositories.Migrations
                         {
                             Id = -1,
                             AccessFailedCount = 0,
+                            AmountOfSurvey = 0,
                             ConcurrencyStamp = "85263788-277f-4f89-b8c4-a11ac465ed58",
                             Email = "admin@mail.ru",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.RU",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAELfT5cA209WkUA68d/VfeM0qcd3nPcCAzWyPRqocEefzQ+bBcPH9NTW9RTxdxsyuCQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELx9KTCniO6cGP0iS/TPb2wkDWaHLVa5NoEEkoSkNGJp6c3VIR9gi9aXN68aorJLag==",
                             PhoneNumberConfirmed = false,
+                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         });

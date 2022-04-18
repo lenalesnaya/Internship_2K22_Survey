@@ -1,0 +1,12 @@
+.rotate180deg{
+  transform:rotate(180deg);
+}
+
+.my-custom-scrollbar {
+  position: relative;
+  height: 700px;
+  overflow: auto;
+}
+.table-wrapper-scroll-y {
+  display: block;
+}

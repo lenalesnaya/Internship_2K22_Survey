@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
 namespace ItechArt.Survey.DomainModel;
@@ -12,6 +13,10 @@ public class User : IdentityUser<int>
     public const string AdminEmail = "admin@mail.ru";
     public const string AdminPassword = "admin111#";
 
+
+    public DateTime RegistrationDate { get; set; }
+
+    public int AmountOfSurvey { get; set; }
 
     public ICollection<UserRole> UserRoles { get; set; }
 }
