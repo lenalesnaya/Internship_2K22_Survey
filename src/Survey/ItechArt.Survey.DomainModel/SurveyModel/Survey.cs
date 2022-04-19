@@ -16,9 +16,9 @@ public class Survey
 
     public bool IsAnonymous { get; set; } = false;
 
-    public DateTime DateOfCreation { get; set; }
+    public DateTime CreationDate { get; set; }
 
-    public DateTime DateOfLastUpdating { get; set; }
+    public DateTime LastUpdateDate { get; set; }
 
     public int СreatorId { get; set; }
 

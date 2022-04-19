@@ -8,7 +8,7 @@ public class AnswerVariantConfiguration : IEntityTypeConfiguration<AnswerVariant
 {
     public void Configure(EntityTypeBuilder<AnswerVariant> builder)
     {
-        builder.HasKey(a => new { a.Id, a.QuestionId, a.SurveyId });
+        builder.HasKey(a => new { a.Id, a.QuestionId });
         builder
             .Property(a => a.Text)
             .HasMaxLength(AnswerVariant.TextMaxLength)

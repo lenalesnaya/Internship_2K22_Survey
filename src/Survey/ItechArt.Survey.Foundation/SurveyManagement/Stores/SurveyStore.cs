@@ -39,8 +39,8 @@ public class SurveyStore
     public async Task<OperationResult<SurveyManagementErrors>> CreateAsync(DomainModel.SurveyModel.Survey survey)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
-        survey.DateOfCreation = DateTime.Now;
-        survey.DateOfLastUpdating = DateTime.Now;
+        survey.CreationDate = DateTime.Now;
+        survey.LastUpdateDate = DateTime.Now;
         repository.Add(survey);
         await _unitOfWork.SaveChangesAsync();
 
@@ -50,7 +50,7 @@ public class SurveyStore
     public async Task<OperationResult<SurveyManagementErrors>> UpdateAsync(DomainModel.SurveyModel.Survey survey)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
-        survey.DateOfLastUpdating = DateTime.Now;
+        survey.LastUpdateDate = DateTime.Now;
         repository.Update(survey);
         await _unitOfWork.SaveChangesAsync();
 
@@ -95,12 +95,12 @@ public class SurveyStore
 
     public static Task<DateTime> GetDateOfCreationAsync(DomainModel.SurveyModel.Survey survey)
     {
-        return Task.FromResult(survey.DateOfCreation);
+        return Task.FromResult(survey.CreationDate);
     }
 
     public static Task<DateTime> GetDateOfLastUpdatingAsync(DomainModel.SurveyModel.Survey survey)
     {
-        return Task.FromResult(survey.DateOfLastUpdating);
+        return Task.FromResult(survey.LastUpdateDate);
     }
 
     public static Task SetCreatorIdAsync(DomainModel.SurveyModel.Survey survey, int creatorId)

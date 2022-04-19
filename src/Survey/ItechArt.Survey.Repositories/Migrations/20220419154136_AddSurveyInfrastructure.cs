@@ -9,6 +9,11 @@ namespace ItechArt.Survey.Repositories.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "AmountOfSurvey",
+                table: "User",
+                newName: "AmountOfSurveys");
+
             migrationBuilder.CreateTable(
                 name: "Survey",
                 columns: table => new
@@ -17,7 +22,8 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     IsAnonymous = table.Column<bool>(type: "bit", nullable: false),
-                    DateOfCreation = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     СreatorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -141,7 +147,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnswerVariant", x => new { x.Id, x.QuestionId, x.SurveyId });
+                    table.PrimaryKey("PK_AnswerVariant", x => new { x.Id, x.QuestionId });
                     table.ForeignKey(
                         name: "FK_AnswerVariant_AnswerVariantsQuestion_QuestionId_SurveyId",
                         columns: x => new { x.QuestionId, x.SurveyId },
@@ -155,7 +161,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: -1,
                 column: "PasswordHash",
-                value: "AQAAAAEAACcQAAAAECPJNd+tTRrdZWTAC6tQwLvVLTOCwFErrCgV2ubZHpVOzGihKCzl4PHtxGqc9E4WNA==");
+                value: "AQAAAAEAACcQAAAAEKdt/eZP4YeUj4Gs+LhM0I/t3f/1KKBYGbKlhVHbfwsHpvNNAMHjj7kZ+2Tr/dA7XQ==");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AnswerVariant_QuestionId_SurveyId",
@@ -215,6 +221,11 @@ namespace ItechArt.Survey.Repositories.Migrations
 
             migrationBuilder.DropTable(
                 name: "Survey");
+
+            migrationBuilder.RenameColumn(
+                name: "AmountOfSurveys",
+                table: "User",
+                newName: "AmountOfSurvey");
 
             migrationBuilder.UpdateData(
                 table: "User",

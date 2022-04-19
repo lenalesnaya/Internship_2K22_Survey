@@ -38,7 +38,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id", "QuestionId", "SurveyId");
+                    b.HasKey("Id", "QuestionId");
 
                     b.HasIndex("QuestionId", "SurveyId");
 
@@ -165,14 +165,14 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("DateOfCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateOfLastUpdating")
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsAnonymous")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -330,7 +330,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.RU",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGQiqgnDtkNDf1xMmH6zo6PuSWYQnfcMBEGV6y3TWtT/UThKoQDHdYxTGjlFOaGZ6w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKdt/eZP4YeUj4Gs+LhM0I/t3f/1KKBYGbKlhVHbfwsHpvNNAMHjj7kZ+2Tr/dA7XQ==",
                             PhoneNumberConfirmed = false,
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
