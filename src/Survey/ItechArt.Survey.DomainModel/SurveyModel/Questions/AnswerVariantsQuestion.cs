@@ -1,7 +1,7 @@
-﻿using ItechArt.Survey.DomainModel.Survey.Answers;
+﻿using ItechArt.Survey.DomainModel.SurveyModel.Answers;
 using System.Collections.Generic;
 
-namespace ItechArt.Survey.DomainModel.Survey.Questions;
+namespace ItechArt.Survey.DomainModel.SurveyModel.Questions;
 
 public class AnswerVariantsQuestion : Question
 {

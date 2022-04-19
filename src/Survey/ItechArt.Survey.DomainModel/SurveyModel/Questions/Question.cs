@@ -1,4 +1,4 @@
-﻿namespace ItechArt.Survey.DomainModel.Survey.Questions;
+﻿namespace ItechArt.Survey.DomainModel.SurveyModel.Questions;
 
 public class Question
 {
@@ -12,5 +12,5 @@ public class Question
     public string Text { get; set; }
 
 
-    public SurveyModel.Survey Survey { get; set; }
+    public Survey Survey { get; set; }
 }

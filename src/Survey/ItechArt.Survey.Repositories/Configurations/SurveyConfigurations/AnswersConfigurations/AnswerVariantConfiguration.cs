@@ -1,4 +1,4 @@
-﻿using ItechArt.Survey.DomainModel.Survey.Answers;
+﻿using ItechArt.Survey.DomainModel.SurveyModel.Answers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

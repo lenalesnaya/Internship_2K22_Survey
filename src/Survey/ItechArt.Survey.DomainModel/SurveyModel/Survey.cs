@@ -1,4 +1,4 @@
-﻿using ItechArt.Survey.DomainModel.Survey.Questions;
+﻿using ItechArt.Survey.DomainModel.SurveyModel.Questions;
 using ItechArt.Survey.DomainModel.UserModel;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,9 @@ public class Survey
 
     public bool IsAnonymous { get; set; } = false;
 
-    public DateTime DateOfCreation { get; set; } = DateTime.Now;
+    public DateTime DateOfCreation { get; set; }
+
+    public DateTime DateOfLastUpdating { get; set; }
 
     public int СreatorId { get; set; }
 

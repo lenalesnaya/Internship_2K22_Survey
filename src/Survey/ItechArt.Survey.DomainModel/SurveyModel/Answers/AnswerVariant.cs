@@ -1,6 +1,6 @@
-﻿using ItechArt.Survey.DomainModel.Survey.Questions;
+﻿using ItechArt.Survey.DomainModel.SurveyModel.Questions;
 
-namespace ItechArt.Survey.DomainModel.Survey.Answers;
+namespace ItechArt.Survey.DomainModel.SurveyModel.Answers;
 
 public class AnswerVariant
 {

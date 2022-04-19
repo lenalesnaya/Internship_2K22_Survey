@@ -45,6 +45,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .Property(u => u.PasswordHash)
             .IsRequired();
 
+
         builder
             .HasData(new User
             {

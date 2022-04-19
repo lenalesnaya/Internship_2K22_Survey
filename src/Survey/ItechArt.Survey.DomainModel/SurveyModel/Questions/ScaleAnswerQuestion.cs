@@ -1,4 +1,4 @@
-﻿namespace ItechArt.Survey.DomainModel.Survey.Questions;
+﻿namespace ItechArt.Survey.DomainModel.SurveyModel.Questions;
 
 public class ScaleAnswerQuestion : Question
 {
