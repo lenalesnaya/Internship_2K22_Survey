@@ -8,7 +8,7 @@ public class AnswerVariantsQuestion : Question
     public const int VariantsMaxQuantity = 20;
 
 
-    public bool CanChooseManyAnswers { get; set; } = false;
+    public bool CanChooseManyAnswers { get; set; }
 
 
     public ICollection<AnswerVariant> AnswerVariants { get; set; }

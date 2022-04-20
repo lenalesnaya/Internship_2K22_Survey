@@ -9,10 +9,9 @@ namespace ItechArt.Survey.Repositories.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
+            migrationBuilder.DropColumn(
                 name: "AmountOfSurvey",
-                table: "User",
-                newName: "AmountOfSurveys");
+                table: "User");
 
             migrationBuilder.CreateTable(
                 name: "Survey",
@@ -106,7 +105,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NumberOfStars = table.Column<int>(type: "int", nullable: false),
+                    AmountOfStars = table.Column<int>(type: "int", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -166,7 +165,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: -1,
                 column: "PasswordHash",
-                value: "AQAAAAEAACcQAAAAENV/G9KTYxBQhtuhBjdIAQVLpuV6ppHf7Moh38fb5SHHYL2+Nvl/reTcwF6QiM8C6Q==");
+                value: "AQAAAAEAACcQAAAAEMN9cPkirO4Bmrt8Gf/NKtSBPBN3FoDnteZ+5O7xmVxHoAGM1bXQXFAmMR5WvbJfwg==");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AnswerVariant_QuestionId",
@@ -227,10 +226,12 @@ namespace ItechArt.Survey.Repositories.Migrations
             migrationBuilder.DropTable(
                 name: "Survey");
 
-            migrationBuilder.RenameColumn(
-                name: "AmountOfSurveys",
+            migrationBuilder.AddColumn<int>(
+                name: "AmountOfSurvey",
                 table: "User",
-                newName: "AmountOfSurvey");
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.UpdateData(
                 table: "User",

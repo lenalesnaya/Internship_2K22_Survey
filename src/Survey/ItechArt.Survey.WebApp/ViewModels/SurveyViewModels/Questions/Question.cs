@@ -7,9 +7,9 @@ public class QuestionViewModel
 
     public long Id { get; set; }
 
-    public long SurveyId { get; set; }
-
     public string Text { get; set; }
+
+    public long SurveyId { get; set; }
 
 
     public DomainModel.SurveyModel.Survey Survey { get; set; }

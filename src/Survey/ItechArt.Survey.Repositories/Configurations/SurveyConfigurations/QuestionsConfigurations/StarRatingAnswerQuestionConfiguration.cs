@@ -13,7 +13,7 @@ public class StarRatingAnswerQuestionConfiguration : IEntityTypeConfiguration<St
             .HasMaxLength(Question.TextMaxLength)
             .IsRequired();
         builder
-            .Property(q => q.NumberOfStars)
+            .Property(q => q.AmountOfStars)
             .IsRequired();
         builder
             .HasOne(q => q.Survey)

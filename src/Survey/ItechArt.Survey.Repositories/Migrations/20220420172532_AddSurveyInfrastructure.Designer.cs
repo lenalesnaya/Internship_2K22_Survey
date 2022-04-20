@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItechArt.Survey.Repositories.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    [Migration("20220420125530_AddSurveyInfrastructure")]
+    [Migration("20220420172532_AddSurveyInfrastructure")]
     partial class AddSurveyInfrastructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,7 +133,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("NumberOfStars")
+                    b.Property<int>("AmountOfStars")
                         .HasColumnType("int");
 
                     b.Property<long>("SurveyId")
@@ -265,9 +265,6 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AmountOfSurveys")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -340,14 +337,13 @@ namespace ItechArt.Survey.Repositories.Migrations
                         {
                             Id = -1,
                             AccessFailedCount = 0,
-                            AmountOfSurveys = 0,
                             ConcurrencyStamp = "85263788-277f-4f89-b8c4-a11ac465ed58",
                             Email = "admin@mail.ru",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.RU",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAENV/G9KTYxBQhtuhBjdIAQVLpuV6ppHf7Moh38fb5SHHYL2+Nvl/reTcwF6QiM8C6Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMN9cPkirO4Bmrt8Gf/NKtSBPBN3FoDnteZ+5O7xmVxHoAGM1bXQXFAmMR5WvbJfwg==",
                             PhoneNumberConfirmed = false,
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,

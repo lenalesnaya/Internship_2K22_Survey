@@ -12,5 +12,5 @@ public class UserViewModel
 
     public DateTime RegistrationDate { get; set; }
 
-    public int CountSurveys { get; set; }
+    public int AmountOfSurveys { get; set; }
 }

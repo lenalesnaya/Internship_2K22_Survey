@@ -50,13 +50,13 @@
                     var regDateTime = date + "T" + user.RegistrationDate.ToString("hh:mm:ss");
                     var submitFormUserIdString = $"submitForm{user.Id}";
                     var userName = $"{user.UserName}";
-                    var countOfSurvey = $"{user.CountSurveys}";
+                    var countOfSurvey = $"{user.AmountOfSurveys}";
 
                     <tr id="user" data-username=@userName data-regdate=@regDateTime data-countofsurvey=@countOfSurvey>
                         <td>@user.UserName</td>
                         <td>@user.Email</td>
                         <td>@user.RegistrationDate</td>
-                        <td>@user.CountSurveys</td>
+                        <td>@user.AmountOfSurveys</td>
                         <td>
                             <form asp-controller="UserManagement" asp-action="DeleteUser" method="post">
                                 @Html.Hidden("id", user.Id)

@@ -1,6 +1,7 @@
 ﻿using ItechArt.Common;
 using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
+using ItechArt.Survey.Foundation.SurveyManagement.Stores.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,23 +20,6 @@ public class SurveyStore : ISurveyStore
     }
 
 
-    public Task<long> GetSurveyIdAsync(DomainModel.SurveyModel.Survey survey)
-    {
-        return Task.FromResult(survey.Id);
-    }
-
-    public Task<string> GetSurveyTitleAsync(DomainModel.SurveyModel.Survey survey)
-    {
-        return Task.FromResult(survey.Title);
-    }
-
-    public Task SetSurveyTitleAsync(DomainModel.SurveyModel.Survey survey, string title)
-    {
-        survey.Title = title;
-
-        return Task.CompletedTask;
-    }
-
     public async Task<OperationResult<SurveyManagementErrors>> CreateAsync(DomainModel.SurveyModel.Survey survey)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
@@ -49,9 +33,9 @@ public class SurveyStore : ISurveyStore
 
     public async Task<OperationResult<SurveyManagementErrors>> UpdateAsync(DomainModel.SurveyModel.Survey survey)
     {
-        var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
+        var survetRepository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
         survey.LastUpdateDate = DateTime.Now;
-        repository.Update(survey);
+        survetRepository.Update(survey);
         await _unitOfWork.SaveChangesAsync();
 
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
@@ -79,45 +63,6 @@ public class SurveyStore : ISurveyStore
         var surveyCollection = await repository.GetWhereAsync(s => s.Title == surveyTitle);
 
         return surveyCollection.ToList();
-    }
-
-    public Task<bool> GetIfSurveyAnonymousAsync(DomainModel.SurveyModel.Survey survey)
-    {
-        return Task.FromResult(survey.IsAnonymous);
-    }
-
-    public Task SetSurveyAnonymousAsync(DomainModel.SurveyModel.Survey survey, bool isAnonymous)
-    {
-        survey.IsAnonymous = isAnonymous;
-
-        return Task.CompletedTask;
-    }
-
-    public Task<DateTime> GetDateOfCreationAsync(DomainModel.SurveyModel.Survey survey)
-    {
-        return Task.FromResult(survey.CreationDate);
-    }
-
-    public Task<DateTime> GetDateOfLastUpdatingAsync(DomainModel.SurveyModel.Survey survey)
-    {
-        return Task.FromResult(survey.LastUpdateDate);
-    }
-
-    public Task SetCreatorIdAsync(DomainModel.SurveyModel.Survey survey, int creatorId)
-    {
-        survey.СreatorId = creatorId;
-
-        return Task.CompletedTask;
-    }
-
-    public Task<int> GetCreatorIdAsync(DomainModel.SurveyModel.Survey survey)
-    {
-        return Task.FromResult(survey.СreatorId);
-    }
-
-    public Task<string> GetCreatorNameAsync(DomainModel.SurveyModel.Survey survey)
-    {
-        return Task.FromResult(survey.Сreator.UserName);
     }
 
     public Task<int> GetQuantityOfQuestionsAsync(DomainModel.SurveyModel.Survey survey)
