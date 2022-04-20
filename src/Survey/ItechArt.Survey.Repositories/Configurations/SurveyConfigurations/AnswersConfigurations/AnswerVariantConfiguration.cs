@@ -8,7 +8,6 @@ public class AnswerVariantConfiguration : IEntityTypeConfiguration<AnswerVariant
 {
     public void Configure(EntityTypeBuilder<AnswerVariant> builder)
     {
-        builder.HasKey(a => new { a.Id, a.QuestionId });
         builder
             .Property(a => a.Text)
             .HasMaxLength(AnswerVariant.TextMaxLength)
@@ -16,7 +15,7 @@ public class AnswerVariantConfiguration : IEntityTypeConfiguration<AnswerVariant
         builder
             .HasOne(a => a.Question)
             .WithMany(q => q.AnswerVariants)
-            .HasForeignKey(a => new { a.QuestionId, a.SurveyId })
+            .HasForeignKey(a => new { a.QuestionId })
             .IsRequired();
     }
 }

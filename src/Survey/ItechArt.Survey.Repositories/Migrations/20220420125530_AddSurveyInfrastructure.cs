@@ -41,14 +41,15 @@ namespace ItechArt.Survey.Repositories.Migrations
                 name: "AnswerVariantsQuestion",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    SurveyId = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CanChooseManyAnswers = table.Column<bool>(type: "bit", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnswerVariantsQuestion", x => new { x.Id, x.SurveyId });
+                    table.PrimaryKey("PK_AnswerVariantsQuestion", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AnswerVariantsQuestion_Survey_SurveyId",
                         column: x => x.SurveyId,
@@ -61,13 +62,14 @@ namespace ItechArt.Survey.Repositories.Migrations
                 name: "FileAnswerQuestion",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    SurveyId = table.Column<long>(type: "bigint", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FileAnswerQuestion", x => new { x.Id, x.SurveyId });
+                    table.PrimaryKey("PK_FileAnswerQuestion", x => x.Id);
                     table.ForeignKey(
                         name: "FK_FileAnswerQuestion_Survey_SurveyId",
                         column: x => x.SurveyId,
@@ -80,15 +82,16 @@ namespace ItechArt.Survey.Repositories.Migrations
                 name: "ScaleAnswerQuestion",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    SurveyId = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ScaleMinValue = table.Column<int>(type: "int", nullable: false),
                     ScaleMaxValue = table.Column<int>(type: "int", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ScaleAnswerQuestion", x => new { x.Id, x.SurveyId });
+                    table.PrimaryKey("PK_ScaleAnswerQuestion", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ScaleAnswerQuestion_Survey_SurveyId",
                         column: x => x.SurveyId,
@@ -101,14 +104,15 @@ namespace ItechArt.Survey.Repositories.Migrations
                 name: "StarRatingAnswerQuestion",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    SurveyId = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     NumberOfStars = table.Column<int>(type: "int", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StarRatingAnswerQuestion", x => new { x.Id, x.SurveyId });
+                    table.PrimaryKey("PK_StarRatingAnswerQuestion", x => x.Id);
                     table.ForeignKey(
                         name: "FK_StarRatingAnswerQuestion_Survey_SurveyId",
                         column: x => x.SurveyId,
@@ -121,13 +125,14 @@ namespace ItechArt.Survey.Repositories.Migrations
                 name: "TextAnswerQuestion",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    SurveyId = table.Column<long>(type: "bigint", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TextAnswerQuestion", x => new { x.Id, x.SurveyId });
+                    table.PrimaryKey("PK_TextAnswerQuestion", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TextAnswerQuestion_Survey_SurveyId",
                         column: x => x.SurveyId,
@@ -140,19 +145,19 @@ namespace ItechArt.Survey.Repositories.Migrations
                 name: "AnswerVariant",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    QuestionId = table.Column<long>(type: "bigint", nullable: false),
-                    SurveyId = table.Column<long>(type: "bigint", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    QuestionId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnswerVariant", x => new { x.Id, x.QuestionId });
+                    table.PrimaryKey("PK_AnswerVariant", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AnswerVariant_AnswerVariantsQuestion_QuestionId_SurveyId",
-                        columns: x => new { x.QuestionId, x.SurveyId },
+                        name: "FK_AnswerVariant_AnswerVariantsQuestion_QuestionId",
+                        column: x => x.QuestionId,
                         principalTable: "AnswerVariantsQuestion",
-                        principalColumns: new[] { "Id", "SurveyId" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -161,12 +166,12 @@ namespace ItechArt.Survey.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: -1,
                 column: "PasswordHash",
-                value: "AQAAAAEAACcQAAAAEKdt/eZP4YeUj4Gs+LhM0I/t3f/1KKBYGbKlhVHbfwsHpvNNAMHjj7kZ+2Tr/dA7XQ==");
+                value: "AQAAAAEAACcQAAAAENV/G9KTYxBQhtuhBjdIAQVLpuV6ppHf7Moh38fb5SHHYL2+Nvl/reTcwF6QiM8C6Q==");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AnswerVariant_QuestionId_SurveyId",
+                name: "IX_AnswerVariant_QuestionId",
                 table: "AnswerVariant",
-                columns: new[] { "QuestionId", "SurveyId" });
+                column: "QuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AnswerVariantsQuestion_SurveyId",

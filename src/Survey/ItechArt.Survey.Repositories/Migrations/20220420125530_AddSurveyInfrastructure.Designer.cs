@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItechArt.Survey.Repositories.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    [Migration("20220419154136_AddSurveyInfrastructure")]
+    [Migration("20220420125530_AddSurveyInfrastructure")]
     partial class AddSurveyInfrastructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,12 +27,12 @@ namespace ItechArt.Survey.Repositories.Migrations
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Answers.AnswerVariant", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<long>("QuestionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Text")
@@ -40,9 +40,9 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id", "QuestionId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("QuestionId", "SurveyId");
+                    b.HasIndex("QuestionId");
 
                     b.ToTable("AnswerVariant");
                 });
@@ -50,20 +50,23 @@ namespace ItechArt.Survey.Repositories.Migrations
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.AnswerVariantsQuestion", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long>("SurveyId")
-                        .HasColumnType("bigint");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<bool>("CanChooseManyAnswers")
                         .HasColumnType("bit");
+
+                    b.Property<long>("SurveyId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id", "SurveyId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyId");
 
@@ -73,7 +76,10 @@ namespace ItechArt.Survey.Repositories.Migrations
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.FileAnswerQuestion", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
@@ -83,7 +89,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id", "SurveyId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyId");
 
@@ -93,10 +99,10 @@ namespace ItechArt.Survey.Repositories.Migrations
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.ScaleAnswerQuestion", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long>("SurveyId")
-                        .HasColumnType("bigint");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<int>("ScaleMaxValue")
                         .HasColumnType("int");
@@ -104,12 +110,15 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<int>("ScaleMinValue")
                         .HasColumnType("int");
 
+                    b.Property<long>("SurveyId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id", "SurveyId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyId");
 
@@ -119,20 +128,23 @@ namespace ItechArt.Survey.Repositories.Migrations
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.StarRatingAnswerQuestion", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long>("SurveyId")
-                        .HasColumnType("bigint");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<int>("NumberOfStars")
                         .HasColumnType("int");
+
+                    b.Property<long>("SurveyId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id", "SurveyId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyId");
 
@@ -142,7 +154,10 @@ namespace ItechArt.Survey.Repositories.Migrations
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.TextAnswerQuestion", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
@@ -152,7 +167,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id", "SurveyId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyId");
 
@@ -332,7 +347,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.RU",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKdt/eZP4YeUj4Gs+LhM0I/t3f/1KKBYGbKlhVHbfwsHpvNNAMHjj7kZ+2Tr/dA7XQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENV/G9KTYxBQhtuhBjdIAQVLpuV6ppHf7Moh38fb5SHHYL2+Nvl/reTcwF6QiM8C6Q==",
                             PhoneNumberConfirmed = false,
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
@@ -371,7 +386,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 {
                     b.HasOne("ItechArt.Survey.DomainModel.SurveyModel.Questions.AnswerVariantsQuestion", "Question")
                         .WithMany("AnswerVariants")
-                        .HasForeignKey("QuestionId", "SurveyId")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

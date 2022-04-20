@@ -9,11 +9,9 @@ public class AnswerVariant
 
     public long Id { get; set; }
 
-    public long QuestionId { get; set; }
-
-    public long SurveyId { get; set; }
-
     public string Text { get; set; }
+
+    public long QuestionId { get; set; }
 
 
     public AnswerVariantsQuestion Question { get; set; }

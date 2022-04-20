@@ -8,7 +8,6 @@ public class ScaleAnswerQuestionConfiguration : IEntityTypeConfiguration<ScaleAn
 {
     public void Configure(EntityTypeBuilder<ScaleAnswerQuestion> builder)
     {
-        builder.HasKey(q => new { q.Id, q.SurveyId });
         builder
             .Property(q => q.Text)
             .HasMaxLength(Question.TextMaxLength)

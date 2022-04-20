@@ -8,7 +8,6 @@ public class TextAnswerQuestionConfiguration : IEntityTypeConfiguration<TextAnsw
 {
     public void Configure(EntityTypeBuilder<TextAnswerQuestion> builder)
     {
-        builder.HasKey(q => new { q.Id, q.SurveyId });
         builder
             .Property(q => q.Text)
             .HasMaxLength(Question.TextMaxLength)

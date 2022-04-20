@@ -8,7 +8,6 @@ public class StarRatingAnswerQuestionConfiguration : IEntityTypeConfiguration<St
 {
     public void Configure(EntityTypeBuilder<StarRatingAnswerQuestion> builder)
     {
-        builder.HasKey(q => new { q.Id, q.SurveyId });
         builder
             .Property(q => q.Text)
             .HasMaxLength(Question.TextMaxLength)

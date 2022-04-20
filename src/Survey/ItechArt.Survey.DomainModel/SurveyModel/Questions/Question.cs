@@ -7,9 +7,9 @@ public class Question
 
     public long Id { get; set; }
 
-    public long SurveyId { get; set; }
-
     public string Text { get; set; }
+
+    public long SurveyId { get; set; }
 
 
     public Survey Survey { get; set; }
