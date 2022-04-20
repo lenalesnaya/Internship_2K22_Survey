@@ -14,6 +14,11 @@
                 <h3>Email: </h3><p>@Model.User.Email</p>
             </div>
             <div>
+                <a asp-controller="Survey" asp-action="CreatingASurvey">
+                    <input class="mb-3" type="submit" value="Create a survey">
+                </a>
+            </div>
+            <div>
                 <form asp-controller="Account" asp-action="LogOut" method="post">
                     <input class="nav-link text-dark" type="submit" value="Log out">
                 </form>

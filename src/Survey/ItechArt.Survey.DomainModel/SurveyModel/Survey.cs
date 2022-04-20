@@ -14,7 +14,7 @@ public class Survey
 
     public string Title { get; set; }
 
-    public bool IsAnonymous { get; set; } = false;
+    public bool IsAnonymous { get; set; }
 
     public DateTime CreationDate { get; set; }
 
