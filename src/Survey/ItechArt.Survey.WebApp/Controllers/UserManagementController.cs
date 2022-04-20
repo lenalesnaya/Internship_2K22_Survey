@@ -5,6 +5,7 @@ using AutoMapper;
 using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
+using ItechArt.Survey.WebApp.ViewModels.UserViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

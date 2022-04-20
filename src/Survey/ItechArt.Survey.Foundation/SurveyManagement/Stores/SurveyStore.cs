@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ItechArt.Survey.Foundation.SurveyManagement.Stores;
 
-public class SurveyStore
+public class SurveyStore : ISurveyStore
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -19,17 +19,17 @@ public class SurveyStore
     }
 
 
-    public static Task<long> GetSurveyIdAsync(DomainModel.SurveyModel.Survey survey)
+    public Task<long> GetSurveyIdAsync(DomainModel.SurveyModel.Survey survey)
     {
         return Task.FromResult(survey.Id);
     }
 
-    public static Task<string> GetSurveyTitleAsync(DomainModel.SurveyModel.Survey survey)
+    public Task<string> GetSurveyTitleAsync(DomainModel.SurveyModel.Survey survey)
     {
         return Task.FromResult(survey.Title);
     }
 
-    public static Task SetSurveyTitleAsync(DomainModel.SurveyModel.Survey survey, string title)
+    public Task SetSurveyTitleAsync(DomainModel.SurveyModel.Survey survey, string title)
     {
         survey.Title = title;
 
@@ -81,46 +81,46 @@ public class SurveyStore
         return surveyCollection.ToList();
     }
 
-    public static Task<bool> GetIfSurveyAnonymousAsync(DomainModel.SurveyModel.Survey survey)
+    public Task<bool> GetIfSurveyAnonymousAsync(DomainModel.SurveyModel.Survey survey)
     {
         return Task.FromResult(survey.IsAnonymous);
     }
 
-    public static Task SetSurveyAnonymousAsync(DomainModel.SurveyModel.Survey survey, bool isAnonymous)
+    public Task SetSurveyAnonymousAsync(DomainModel.SurveyModel.Survey survey, bool isAnonymous)
     {
         survey.IsAnonymous = isAnonymous;
 
         return Task.CompletedTask;
     }
 
-    public static Task<DateTime> GetDateOfCreationAsync(DomainModel.SurveyModel.Survey survey)
+    public Task<DateTime> GetDateOfCreationAsync(DomainModel.SurveyModel.Survey survey)
     {
         return Task.FromResult(survey.CreationDate);
     }
 
-    public static Task<DateTime> GetDateOfLastUpdatingAsync(DomainModel.SurveyModel.Survey survey)
+    public Task<DateTime> GetDateOfLastUpdatingAsync(DomainModel.SurveyModel.Survey survey)
     {
         return Task.FromResult(survey.LastUpdateDate);
     }
 
-    public static Task SetCreatorIdAsync(DomainModel.SurveyModel.Survey survey, int creatorId)
+    public Task SetCreatorIdAsync(DomainModel.SurveyModel.Survey survey, int creatorId)
     {
         survey.СreatorId = creatorId;
 
         return Task.CompletedTask;
     }
 
-    public static Task<int> GetCreatorIdAsync(DomainModel.SurveyModel.Survey survey)
+    public Task<int> GetCreatorIdAsync(DomainModel.SurveyModel.Survey survey)
     {
         return Task.FromResult(survey.СreatorId);
     }
 
-    public static Task<string> GetCreatorNameAsync(DomainModel.SurveyModel.Survey survey)
+    public Task<string> GetCreatorNameAsync(DomainModel.SurveyModel.Survey survey)
     {
         return Task.FromResult(survey.Сreator.UserName);
     }
 
-    public static Task<int> GetQuantityOfQuestionsAsync(DomainModel.SurveyModel.Survey survey)
+    public Task<int> GetQuantityOfQuestionsAsync(DomainModel.SurveyModel.Survey survey)
     {
         var quantityOfQuestions = survey.AnswerVariantsQuestions.Count + survey.FileAnswerQuestions.Count +
             survey.ScaleAnswerQuestions.Count + survey.StarRatingAnswerQuestions.Count + survey.TextAnswerQuestions.Count;

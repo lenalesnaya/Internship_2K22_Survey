@@ -1,8 +1,8 @@
-﻿using ItechArt.Survey.WebApp.Controllers;
+﻿using System.ComponentModel.DataAnnotations;
+using ItechArt.Survey.WebApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
-namespace ItechArt.Survey.WebApp.ViewModels;
+namespace ItechArt.Survey.WebApp.ViewModels.UserViewModels;
 
 public class RegistrationViewModel
 {
