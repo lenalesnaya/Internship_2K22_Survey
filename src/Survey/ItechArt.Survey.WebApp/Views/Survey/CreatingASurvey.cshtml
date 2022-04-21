@@ -1,4 +1,7 @@
-﻿<div class="text-center m-5">
+﻿@using System.Linq
+@model ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.SurveyViewModel;
+
+<div class="text-center m-5">
     <h1 class="display-6">Create your own survey!</h1>
 </div>
 
@@ -39,25 +42,25 @@
           <div class="form-group mb-2">
             <div>
               <label for="QuestionWithOneVariantAnswer1">Question title: </label>
-              <input class="form-control mb-2 mt-2" id="QuestionWithOneVariantAnswer1" placeholder="Enter title">
+              <input asp-for="Questions.FirstOrDefault().Title" class="form-control mb-2 mt-2" id="QuestionWithOneVariantAnswer1" placeholder="Enter title">
             </div>
             <div>
               <div class="form-check m-2">
                 <label class="form-check-label" for="Answer2">
                    <input class="form-check-input" type="radio" name="exampleRadios8" id="Answer2" value="option">
-                  <input class="form-control mb-2 mt-2" id="" placeholder="Enter title">
+                  <input asp-for="Questions.FirstOrDefault().Text" class="form-control mb-2 mt-2" id="" placeholder="Enter title">
                 </label>
               </div>
               <div class="form-check m-2">
                 <label class="form-check-label" for="Answer3">
                   <input class="form-check-input" type="radio" name="exampleRadios8" id="Answer3" value="option">
-                  <input class="form-control mb-2 mt-2" id="" placeholder="Enter title">
+                  <input asp-for="Questions.FirstOrDefault().Text" class="form-control mb-2 mt-2" id="" placeholder="Enter title">
                 </label>
               </div>
               <div class="form-check m-2">
                 <label class="form-check-label" for="Answer4">
                   <input class="form-check-input" type="radio" name="exampleRadios8" id="Answer4" value="option">
-                  <input class="form-control mb-2 mt-2" id="" placeholder="Enter title">
+                  <input asp-for="Questions.FirstOrDefault().Text" class="form-control mb-2 mt-2" id="" placeholder="Enter title">
                 </label>
               </div>
             </div>

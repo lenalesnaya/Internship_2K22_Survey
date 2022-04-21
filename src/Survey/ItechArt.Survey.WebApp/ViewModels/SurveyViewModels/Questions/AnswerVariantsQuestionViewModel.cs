@@ -6,9 +6,6 @@ namespace ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Questions;
 
 public class AnswerVariantsQuestionViewModel : Question
 {
-    public const int VariantsMaxQuantity = 20;
-
-
     public bool CanChooseManyAnswers { get; set; }
 
 

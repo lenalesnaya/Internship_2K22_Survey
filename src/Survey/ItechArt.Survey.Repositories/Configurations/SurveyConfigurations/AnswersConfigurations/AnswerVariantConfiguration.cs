@@ -15,7 +15,7 @@ public class AnswerVariantConfiguration : IEntityTypeConfiguration<AnswerVariant
         builder
             .HasOne(a => a.Question)
             .WithMany(q => q.AnswerVariants)
-            .HasForeignKey(a => new { a.QuestionId })
+            .HasForeignKey(a => a.QuestionId )
             .IsRequired();
     }
 }

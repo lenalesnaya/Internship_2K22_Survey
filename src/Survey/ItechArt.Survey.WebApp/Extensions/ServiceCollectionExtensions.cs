@@ -12,6 +12,10 @@ using UserStore = ItechArt.Survey.Foundation.UserManagement.Stores.UserStore;
 using RoleStore = ItechArt.Survey.Foundation.UserManagement.Stores.RoleStore;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
 using System.Text.RegularExpressions;
+using ItechArt.Survey.Foundation.SurveyManagement;
+using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
+using ItechArt.Survey.Foundation.SurveyManagement.Stores;
+using ItechArt.Survey.Foundation.SurveyManagement.Stores.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement;
 using ItechArt.Survey.Foundation.UserManagement.Validation;
@@ -37,7 +41,15 @@ public static class ServiceCollectionExtensions
             .AddScoped<IUserService, UserService>()
             .AddScoped<IUserValidator, UserValidator>();
 
-    public static IServiceCollection AddServicesMapper(this IServiceCollection services)
+    public static IServiceCollection AddSurveyService(this IServiceCollection service)
+    {
+        service.AddScoped<ISurveyStore, SurveyStore>();
+        service.AddScoped<ISurveyService, SurveyService>();
+
+        return service;
+    } 
+
+        public static IServiceCollection AddServicesMapper(this IServiceCollection services)
         => services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
     public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)

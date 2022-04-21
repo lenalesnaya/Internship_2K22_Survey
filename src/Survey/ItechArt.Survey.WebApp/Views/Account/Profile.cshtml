@@ -1,19 +1,47 @@
 ﻿@model ItechArt.Survey.WebApp.ViewModels.UserViewModels.ProfileViewModel
 
 <link rel="stylesheet" href="~/css/Profile.css">
-<div class ="container d-flex justify-content-left">
+<script src="~/js/CreatingSurvey.js"></script>
+
+<div class="container d-flex justify-content-left">
     <div class="row w-50">
         <div class="col-sm-6">
             <img src="~/images/DefaultAvatar.png" class="img-thumbnail avatar">
         </div>
         <div class="col">
             <div>
-                <h3>Username: </h3><p>@Model.User.UserName</p>
+                <h3>Username: </h3>
+                <p>@Model.User.UserName</p>
             </div>
             <div>
-                <h3>Email: </h3><p>@Model.User.Email</p>
+                <h3>Email: </h3>
+                <p>@Model.User.Email</p>
             </div>
             <div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="showPopup()">
+                    Creating a survey
+                </button>
+                <div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Creating your own survey</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hidePopup()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group mb-5">
+                                    <label for="InputSurveyTitle">Survey title: </label>
+                                    <input class="form-control mb-2 mt-2" id="InputSurveyTitle" placeholder="Enter title">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="saveSurvey()">Save survey</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <a asp-controller="Survey" asp-action="CreatingASurvey">
                     <input class="mb-3" type="submit" value="Create a survey">
                 </a>

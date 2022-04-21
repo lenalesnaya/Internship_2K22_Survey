@@ -26,6 +26,7 @@ public class Startup
         services.AddIdentity();
         services.AddServicesMapper();
         services.AddAuthenticationService();
+        services.AddSurveyService();
         services.AddControllersWithViews();
     }
 
