@@ -12,9 +12,9 @@ namespace ItechArt.Survey.WebApp.Controllers;
 
 public class SurveyController : Controller
 {
-    private ISurveyService _surveyService;
-    private IMapper _mapper;
-    private IHttpContextAccessor _httpContextAccessor;
+    private readonly ISurveyService _surveyService;
+    private readonly IMapper _mapper;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public SurveyController(
         ISurveyService surveyService,

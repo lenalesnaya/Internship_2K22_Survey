@@ -16,7 +16,7 @@ public class SurveyApiController : ControllerBase
         _surveyService = surveyService;
     }
 
-
+    [Route("{title}")]
     [HttpPost]
     public async Task<IActionResult> Create(string title)
     {
