@@ -5,28 +5,34 @@ using ItechArt.Survey.Foundation.SurveyManagement.Stores.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace ItechArt.Survey.Foundation.SurveyManagement.Stores;
 
 public class SurveyStore : ISurveyStore
 {
     private readonly IUnitOfWork _unitOfWork;
+    private IHttpContextAccessor _httpContextAccessor;
 
-
-    public SurveyStore(IUnitOfWork unitOfWork)
+    public SurveyStore(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
     {
         _unitOfWork = unitOfWork;
+        _httpContextAccessor = httpContextAccessor;
     }
 
 
-    public async Task<OperationResult<SurveyManagementErrors>> CreateAsync()
+    public async Task<OperationResult<SurveyManagementErrors>> CreateAsync(string title)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
+        var userId = Int32.Parse( _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         var survey = new DomainModel.SurveyModel.Survey
         {
+            Title = title,
             CreationDate = DateTime.Now,
-            LastUpdateDate = DateTime.Now
+            LastUpdateDate = DateTime.Now,
+            CreatorId = userId
         };
         repository.Add(survey);
         await _unitOfWork.SaveChangesAsync();
@@ -36,9 +42,9 @@ public class SurveyStore : ISurveyStore
 
     public async Task<OperationResult<SurveyManagementErrors>> UpdateAsync(DomainModel.SurveyModel.Survey survey)
     {
-        var survetRepository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
+        var surveyRepository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
         survey.LastUpdateDate = DateTime.Now;
-        survetRepository.Update(survey);
+        surveyRepository.Update(survey);
         await _unitOfWork.SaveChangesAsync();
 
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
@@ -74,5 +80,13 @@ public class SurveyStore : ISurveyStore
             survey.ScaleAnswerQuestions.Count + survey.StarRatingAnswerQuestions.Count + survey.TextAnswerQuestions.Count;
 
         return Task.FromResult(quantityOfQuestions);
+    }
+
+    public async Task<IList<DomainModel.SurveyModel.Survey>> GetSurveysByUserId(int id)
+    {
+        var surveyRepository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
+        var surveys = await surveyRepository.GetWhereAsync(s => s.CreatorId == id);
+
+        return surveys.ToList();
     }
 }

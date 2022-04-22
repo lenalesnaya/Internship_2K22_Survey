@@ -1,5 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AutoMapper;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
+using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItechArt.Survey.WebApp.Controllers;
@@ -8,11 +14,16 @@ public class SurveyController : Controller
 {
     private ISurveyService _surveyService;
     private IMapper _mapper;
+    private IHttpContextAccessor _httpContextAccessor;
 
-    public SurveyController(ISurveyService surveyService, IMapper mapper)
+    public SurveyController(
+        ISurveyService surveyService,
+        IMapper mapper,
+        IHttpContextAccessor httpContextAccessor)
     {
         _surveyService = surveyService;
         _mapper = mapper;
+        _httpContextAccessor = httpContextAccessor;
     }
 
 
@@ -22,21 +33,15 @@ public class SurveyController : Controller
         return View();
     }
 
-    // public IActionResult AllSurvey()
-    // {
-    //     
-    // }
-    // [HttpPost]
-    // public async Task<IActionResult> CreatingASurvey(SurveyViewModel surveyViewModel)
-    // {
-    //     var survey = _mapper.Map<DomainModel.SurveyModel.Survey>(surveyViewModel); 
-    //     var creatingResult = await _surveyService.CreateSurvey();
-    //     if (!creatingResult.IsSuccessful)
-    //     {
-    //         //tut error
-    //         return View();
-    //     }
-    //
-    //     return View();
-    // }
+    [HttpGet]
+    public async Task<IActionResult> DisplayAllSurveys()
+    {
+        var userId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var surveysViewModels = (await _surveyService
+            .GetAllSurveyByUserId(userId))
+                .Select(dbModel => _mapper.Map<SurveyViewModel>(dbModel))
+                .ToList();
+
+        return View(surveysViewModels);
+    }
 }

@@ -20,7 +20,7 @@ public class Survey
 
     public DateTime LastUpdateDate { get; set; }
 
-    public int СreatorId { get; set; }
+    public int CreatorId { get; set; }
 
 
     public User Сreator { get; set; }

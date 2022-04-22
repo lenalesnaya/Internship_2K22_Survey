@@ -14,7 +14,7 @@ public class SurveyConfiguration : IEntityTypeConfiguration<DomainModel.SurveyMo
         builder
             .HasOne(s => s.Сreator)
             .WithMany(u => u.Surveys)
-            .HasForeignKey(u => u.СreatorId)
+            .HasForeignKey(u => u.CreatorId)
             .IsRequired();
     }
 }

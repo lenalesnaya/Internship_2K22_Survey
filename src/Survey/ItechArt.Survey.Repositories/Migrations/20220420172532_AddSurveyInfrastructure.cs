@@ -23,14 +23,14 @@ namespace ItechArt.Survey.Repositories.Migrations
                     IsAnonymous = table.Column<bool>(type: "bit", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    СreatorId = table.Column<int>(type: "int", nullable: false)
+                    CreatorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Survey", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Survey_User_СreatorId",
-                        column: x => x.СreatorId,
+                        name: "FK_Survey_User_CreatorId",
+                        column: x => x.CreatorId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -193,9 +193,9 @@ namespace ItechArt.Survey.Repositories.Migrations
                 column: "SurveyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Survey_СreatorId",
+                name: "IX_Survey_CreatorId",
                 table: "Survey",
-                column: "СreatorId");
+                column: "CreatorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TextAnswerQuestion_SurveyId",

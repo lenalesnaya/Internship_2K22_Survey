@@ -7,7 +7,7 @@ namespace ItechArt.Survey.Foundation.SurveyManagement.Stores.Abstractions;
 
 public interface ISurveyStore
 {
-    Task<OperationResult<SurveyManagementErrors>> CreateAsync();
+    Task<OperationResult<SurveyManagementErrors>> CreateAsync(string title);
 
     Task<OperationResult<SurveyManagementErrors>> UpdateAsync(DomainModel.SurveyModel.Survey survey);
 
@@ -18,4 +18,6 @@ public interface ISurveyStore
     Task<IList<DomainModel.SurveyModel.Survey>> FindByTitleAsync(string surveyTitle);
 
     Task<int> GetQuantityOfQuestionsAsync(DomainModel.SurveyModel.Survey survey);
+
+    Task<IList<DomainModel.SurveyModel.Survey>> GetSurveysByUserId(int id);
 }
