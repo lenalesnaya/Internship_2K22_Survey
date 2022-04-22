@@ -18,3 +18,15 @@ function saveSurvey() {
         }
     });
 }
+
+function deleteSurvey(id){
+    var request = $.ajax({
+        url: "/api/SurveyApi/Delete/" + id,
+        method: 'post'
+    });
+    request.done((result)=>{
+        if (result.isSuccessful){
+            location.reload();
+        }
+    });
+}

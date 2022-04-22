@@ -37,4 +37,15 @@ public class SurveyService : ISurveyService
 
         return surveys;
     }
+
+    public async Task<OperationResult<SurveyManagementErrors>> DeleteSurveyById(long id)
+    {
+        var deletionResult = await _surveyStore.DeleteByIdAsync(id);
+        if (!deletionResult.IsSuccessful)
+        {
+            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(SurveyManagementErrors.DeletionIsFailed);
+        }
+        
+        return OperationResult<SurveyManagementErrors>.CreateSuccessful();
+    }
 }

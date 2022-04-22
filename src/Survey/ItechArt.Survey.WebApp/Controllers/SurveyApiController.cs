@@ -28,4 +28,17 @@ public class SurveyApiController : ControllerBase
 
         return Ok(result);
     }
+
+    [Route("{id:long}")]
+    [HttpPost]
+    public async Task<IActionResult> Delete(long id)
+    {
+        var result = await _surveyService.DeleteSurveyById(id);
+        if (!result.IsSuccessful)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
 }

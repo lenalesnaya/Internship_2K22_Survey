@@ -2,5 +2,6 @@
 
 public enum SurveyManagementErrors
 {
-    CreationIsFailed
+    CreationIsFailed,
+    DeletionIsFailed
 }

@@ -9,4 +9,6 @@ public interface ISurveyService
     Task<OperationResult<SurveyManagementErrors>> CreateSurvey(string title);
 
     Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveyByUserId(int id);
+
+    Task<OperationResult<SurveyManagementErrors>> DeleteSurveyById(long id);
 }

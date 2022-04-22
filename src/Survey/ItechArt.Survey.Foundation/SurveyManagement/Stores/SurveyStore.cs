@@ -59,6 +59,16 @@ public class SurveyStore : ISurveyStore
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
 
+    public async Task<OperationResult<SurveyManagementErrors>> DeleteByIdAsync(long id)
+    {
+        var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
+        var survey = await FindByIdAsync(id);
+        repository.Remove(survey);
+        await _unitOfWork.SaveChangesAsync();
+
+        return OperationResult<SurveyManagementErrors>.CreateSuccessful();
+    }
+
     public async Task<DomainModel.SurveyModel.Survey> FindByIdAsync(long surveyId)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
