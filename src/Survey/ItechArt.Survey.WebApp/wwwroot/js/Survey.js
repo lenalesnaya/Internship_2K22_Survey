@@ -8,8 +8,9 @@ function hidePopup() {
 
 function saveSurvey() {
     const title = $("[id=InputSurveyTitle]").val();
+    const param = $("input[name=radio]:checked").val();
     var request = $.ajax({
-        url: "/api/SurveyApi/Create/" + title,
+        url: `/api/SurveyApi/Create/${title}/${param}`,
         method: 'post'
     });
     request.done((result)=> {

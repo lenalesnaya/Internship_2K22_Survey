@@ -31,6 +31,13 @@ public class SurveyService : ISurveyService
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
 
+    public async Task<DomainModel.SurveyModel.Survey> GetSurveyById(long id)
+    {
+        var survey = await _surveyStore.FindByIdAsync(id);
+
+        return survey;
+    }
+
     public async Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveyByUserId(int id)
     {
         var surveys = await _surveyStore.GetSurveysByUserId(id);

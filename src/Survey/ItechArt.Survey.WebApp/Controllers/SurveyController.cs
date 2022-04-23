@@ -28,9 +28,12 @@ public class SurveyController : Controller
 
 
     [HttpGet]
-    public IActionResult CreatingASurvey()
+    public async Task<IActionResult> SurveySettings(int id)
     {
-        return View();
+        var survey = await _surveyService.GetSurveyById(id);
+        var surveyViewModel = _mapper.Map<SurveyViewModel>(survey);
+
+        return View(surveyViewModel);
     }
 
     [HttpGet]

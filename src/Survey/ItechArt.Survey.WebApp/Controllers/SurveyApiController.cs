@@ -2,6 +2,8 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
+using ItechArt.Survey.WebApp.ViewModels;
+using ItechArt.Survey.WebApp.ViewModels.SurveyEnums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,9 +24,9 @@ public class SurveyApiController : ControllerBase
         _httpContextAccessor = httpContextAccessor;
     }
 
-    [Route("{title}")]
+    [Route("{title}/{param}")]
     [HttpPost]
-    public async Task<IActionResult> Create(string title)
+    public async Task<IActionResult> Create(string title, int param)
     {
         var userId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         var survey = new DomainModel.SurveyModel.Survey
@@ -32,7 +34,8 @@ public class SurveyApiController : ControllerBase
             Title = title,
             CreationDate = DateTime.Now,
             LastUpdateDate = DateTime.Now,
-            CreatorId = userId
+            CreatorId = userId,
+            IsAnonymous = param == (int)SurveyTypeEnum.IsAnonymous
         };
 
         var result = await _surveyService.CreateSurvey(survey);
