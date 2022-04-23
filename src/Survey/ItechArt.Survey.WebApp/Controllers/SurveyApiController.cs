@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItechArt.Survey.WebApp.Controllers;
@@ -9,18 +12,30 @@ namespace ItechArt.Survey.WebApp.Controllers;
 public class SurveyApiController : ControllerBase
 {
     private ISurveyService _surveyService;
+    private IHttpContextAccessor _httpContextAccessor;
 
-
-    public SurveyApiController(ISurveyService surveyService)
+    public SurveyApiController(
+        ISurveyService surveyService,
+        IHttpContextAccessor httpContextAccessor)
     {
         _surveyService = surveyService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [Route("{title}")]
     [HttpPost]
     public async Task<IActionResult> Create(string title)
     {
-        var result = await _surveyService.CreateSurvey(title);
+        var userId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var survey = new DomainModel.SurveyModel.Survey
+        {
+            Title = title,
+            CreationDate = DateTime.Now,
+            LastUpdateDate = DateTime.Now,
+            CreatorId = userId
+        };
+
+        var result = await _surveyService.CreateSurvey(survey);
         if (!result.IsSuccessful)
         {
             return BadRequest();

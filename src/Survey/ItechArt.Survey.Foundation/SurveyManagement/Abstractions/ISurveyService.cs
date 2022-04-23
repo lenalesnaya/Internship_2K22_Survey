@@ -6,7 +6,7 @@ namespace ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 
 public interface ISurveyService
 {
-    Task<OperationResult<SurveyManagementErrors>> CreateSurvey(string title);
+    Task<OperationResult<SurveyManagementErrors>> CreateSurvey(DomainModel.SurveyModel.Survey survey);
 
     Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveyByUserId(int id);
 

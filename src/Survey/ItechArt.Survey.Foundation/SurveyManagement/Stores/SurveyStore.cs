@@ -23,17 +23,9 @@ public class SurveyStore : ISurveyStore
     }
 
 
-    public async Task<OperationResult<SurveyManagementErrors>> CreateAsync(string title)
+    public async Task<OperationResult<SurveyManagementErrors>> CreateAsync(DomainModel.SurveyModel.Survey survey)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
-        var userId = Int32.Parse( _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var survey = new DomainModel.SurveyModel.Survey
-        {
-            Title = title,
-            CreationDate = DateTime.Now,
-            LastUpdateDate = DateTime.Now,
-            CreatorId = userId
-        };
         repository.Add(survey);
         await _unitOfWork.SaveChangesAsync();
 

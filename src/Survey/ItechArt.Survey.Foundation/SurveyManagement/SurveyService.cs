@@ -19,9 +19,9 @@ public class SurveyService : ISurveyService
         _logger = logger;
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> CreateSurvey(string title)
+    public async Task<OperationResult<SurveyManagementErrors>> CreateSurvey(DomainModel.SurveyModel.Survey survey)
     {
-        var creatingResult = await _surveyStore.CreateAsync(title);
+        var creatingResult = await _surveyStore.CreateAsync(survey);
         if (!creatingResult.IsSuccessful)
         {
             _logger.LogWarning($"Creating is failed: {creatingResult.Error}.");
