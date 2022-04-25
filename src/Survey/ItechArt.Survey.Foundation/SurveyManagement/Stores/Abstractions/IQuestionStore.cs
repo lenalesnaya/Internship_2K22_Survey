@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ItechArt.Common;
 using ItechArt.Survey.DomainModel.SurveyModel.Questions;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
@@ -17,5 +18,8 @@ public interface IQuestionStore
         where TypeOfQuestion : Question;
 
     Task<TypeOfQuestion> FindByIdAsync<TypeOfQuestion>(long questionId)
+        where TypeOfQuestion : Question;
+
+    Task<IList<TypeOfQuestion>> FindOneTypeQuestionsBySurveyIdAsync<TypeOfQuestion>(long id)
         where TypeOfQuestion : Question;
 }

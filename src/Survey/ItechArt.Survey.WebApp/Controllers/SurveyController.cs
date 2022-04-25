@@ -41,7 +41,7 @@ public class SurveyController : Controller
     {
         var userId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         var surveysViewModels = (await _surveyService
-            .GetAllSurveyByUserId(userId))
+            .GetAllSurveysByUserId(userId))
                 .Select(dbModel => _mapper.Map<SurveyViewModel>(dbModel))
                 .ToList();
 

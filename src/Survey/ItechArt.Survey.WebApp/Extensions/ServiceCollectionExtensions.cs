@@ -20,6 +20,8 @@ using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement;
 using ItechArt.Survey.Foundation.UserManagement.Validation;
 using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
+using ItechArt.Survey.Foundation.SurveyManagement.Validation.Abstractions;
+using ItechArt.Survey.Foundation.SurveyManagement.Validation;
 
 namespace ItechArt.Survey.WebApp.Extensions;
 
@@ -44,7 +46,10 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddSurveyService(this IServiceCollection service)
     {
         service.AddScoped<ISurveyStore, SurveyStore>();
+        service.AddScoped<IQuestionStore, QuestionStore>();
+        service.AddScoped<IAnswerStore, AnswerStore>();
         service.AddScoped<ISurveyService, SurveyService>();
+        service.AddScoped<ISurveyValidator, SurveyValidator>();
 
         return service;
     } 
