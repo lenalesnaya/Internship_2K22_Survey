@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
-using ItechArt.Survey.WebApp.ViewModels;
 using ItechArt.Survey.WebApp.ViewModels.SurveyEnums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +12,8 @@ namespace ItechArt.Survey.WebApp.Controllers;
 [ApiController]
 public class SurveyApiController : ControllerBase
 {
-    private ISurveyService _surveyService;
-    private IHttpContextAccessor _httpContextAccessor;
+    private readonly ISurveyService _surveyService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public SurveyApiController(
         ISurveyService surveyService,
@@ -38,7 +37,7 @@ public class SurveyApiController : ControllerBase
             IsAnonymous = param == (int)SurveyTypeEnum.IsAnonymous
         };
 
-        var result = await _surveyService.CreateSurvey(survey);
+        var result = await _surveyService.CreateSurveyAsync(survey);
         if (!result.IsSuccessful)
         {
             return BadRequest();
@@ -51,7 +50,7 @@ public class SurveyApiController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Delete(long id)
     {
-        var result = await _surveyService.DeleteSurveyById(id);
+        var result = await _surveyService.DeleteSurveyByIdAsync(id);
         if (!result.IsSuccessful)
         {
             return BadRequest();

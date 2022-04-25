@@ -33,9 +33,17 @@ public class SurveyService : ISurveyService
         _answerStore = answerStore;
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> CreateSurvey(string title, int creatorId)
+    public async Task<OperationResult<SurveyManagementErrors>> CreateSurveyAsync(DomainModel.SurveyModel.Survey survey)
     {
-        var creationResult = await _surveyStore.CreateAsync(title, creatorId);
+        var validationResult = _surveyValidator.Validate(survey);
+        if (!validationResult.IsSuccessful)
+        {
+            _logger.LogWarning($"Validation is failed : {validationResult.Error.GetValueOrDefault()}.");
+
+            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(validationResult.Error.GetValueOrDefault());
+        }
+
+        var creationResult = await _surveyStore.CreateAsync(survey);
         if (!creationResult.IsSuccessful)
         {
             _logger.LogWarning($"Creation is failed: {creationResult.Error.GetValueOrDefault()}.");
@@ -46,7 +54,7 @@ public class SurveyService : ISurveyService
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> EditSurvey(DomainModel.SurveyModel.Survey survey)
+    public async Task<OperationResult<SurveyManagementErrors>> EditSurveyAsync(DomainModel.SurveyModel.Survey survey)
     {
         var validationResult = _surveyValidator.Validate(survey);
         if (!validationResult.IsSuccessful)
@@ -67,7 +75,7 @@ public class SurveyService : ISurveyService
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> DeleteSurvey(DomainModel.SurveyModel.Survey survey)
+    public async Task<OperationResult<SurveyManagementErrors>> DeleteSurveyAsync(DomainModel.SurveyModel.Survey survey)
     {
         var deletengResult = await _surveyStore.DeleteAsync(survey);
         if (!deletengResult.IsSuccessful)
@@ -75,6 +83,19 @@ public class SurveyService : ISurveyService
             _logger.LogWarning($"Deleting is failed: {deletengResult.Error.GetValueOrDefault()}.");
 
             return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(deletengResult.Error.GetValueOrDefault());
+        }
+
+        return OperationResult<SurveyManagementErrors>.CreateSuccessful();
+    }
+
+    public async Task<OperationResult<SurveyManagementErrors>> DeleteSurveyByIdAsync(long surveyId)
+    {
+        var deletengResult = await _surveyStore.DeleteByIdAsync(surveyId);
+        if (!deletengResult.IsSuccessful)
+        {
+            _logger.LogWarning($"Deleting is failed: {deletengResult.Error.GetValueOrDefault()}.");
+
+            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(SurveyManagementErrors.SurveyDeletingIsFailed);
         }
 
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
@@ -94,14 +115,14 @@ public class SurveyService : ISurveyService
         return surveysCollection;
     }
 
-    public async Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveysByUserId(int userId)
+    public async Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveysByUserIdAsync(int userId)
     {
         var surveys = await _surveyStore.FindSurveysByUserIdAsync(userId);
 
         return surveys;
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> CreateQuestion<TypeOfQuestion>(TypeOfQuestion question)
+    public async Task<OperationResult<SurveyManagementErrors>> CreateQuestionAsync<TypeOfQuestion>(TypeOfQuestion question)
         where TypeOfQuestion : Question
     {
         var validationResult = _surveyValidator.ValidateQuestion(question);
@@ -123,7 +144,7 @@ public class SurveyService : ISurveyService
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> EditQuestion<TypeOfQuestion>(TypeOfQuestion question)
+    public async Task<OperationResult<SurveyManagementErrors>> EditQuestionAsync<TypeOfQuestion>(TypeOfQuestion question)
         where TypeOfQuestion : Question
     {
         var validationResult = _surveyValidator.ValidateQuestion(question);
@@ -145,7 +166,7 @@ public class SurveyService : ISurveyService
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> DeleteQuestion<TypeOfQuestion>(TypeOfQuestion question)
+    public async Task<OperationResult<SurveyManagementErrors>> DeleteQuestionAsync<TypeOfQuestion>(TypeOfQuestion question)
         where TypeOfQuestion : Question
     {
         var deletengResult = await _questionStore.DeleteAsync(question);
@@ -175,7 +196,7 @@ public class SurveyService : ISurveyService
         return questions;
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> CreateAnswerVariant(AnswerVariant answer)
+    public async Task<OperationResult<SurveyManagementErrors>> CreateAnswerVariantAsync(AnswerVariant answer)
     {
         var validationResult = _surveyValidator.Validate(answer);
         if (!validationResult.IsSuccessful)
@@ -196,7 +217,7 @@ public class SurveyService : ISurveyService
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> EditAnswerVariant(AnswerVariant answer)
+    public async Task<OperationResult<SurveyManagementErrors>> EditAnswerVariantAsync(AnswerVariant answer)
     {
         var validationResult = _surveyValidator.Validate(answer);
         if (!validationResult.IsSuccessful)
@@ -217,7 +238,7 @@ public class SurveyService : ISurveyService
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> DeleteAnswerVariant(AnswerVariant answer)
+    public async Task<OperationResult<SurveyManagementErrors>> DeleteAnswerVariantAsync(AnswerVariant answer)
     {
         var deletengResult = await _answerStore.DeleteAsync(answer);
         if (!deletengResult.IsSuccessful)
