@@ -5,29 +5,33 @@ using ItechArt.Survey.Foundation.SurveyManagement.Stores.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace ItechArt.Survey.Foundation.SurveyManagement.Stores;
 
 public class SurveyStore : ISurveyStore
 {
     private readonly IUnitOfWork _unitOfWork;
-    private IHttpContextAccessor _httpContextAccessor;
 
-    public SurveyStore(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+
+    public SurveyStore(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _httpContextAccessor = httpContextAccessor;
     }
 
 
     public async Task<OperationResult<SurveyManagementErrors>> CreateAsync(DomainModel.SurveyModel.Survey survey)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
-        repository.Add(survey);
-        await _unitOfWork.SaveChangesAsync();
+        try
+        {
+            repository.Add(survey);
+            await _unitOfWork.SaveChangesAsync();
+        }
+        catch
+        {
+            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(SurveyManagementErrors.SurveyCreationIsFailed);
+        }
 
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
@@ -36,8 +40,16 @@ public class SurveyStore : ISurveyStore
     {
         var surveyRepository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
         survey.LastUpdateDate = DateTime.Now;
-        surveyRepository.Update(survey);
-        await _unitOfWork.SaveChangesAsync();
+
+        try
+        {
+            surveyRepository.Update(survey);
+            await _unitOfWork.SaveChangesAsync();
+        }
+        catch
+        {
+            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(SurveyManagementErrors.SurveyUpdatingIsFailed);
+        }
 
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
@@ -45,18 +57,34 @@ public class SurveyStore : ISurveyStore
     public async Task<OperationResult<SurveyManagementErrors>> DeleteAsync(DomainModel.SurveyModel.Survey survey)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
-        repository.Remove(survey);
-        await _unitOfWork.SaveChangesAsync();
+
+        try
+        {
+            repository.Remove(survey);
+            await _unitOfWork.SaveChangesAsync();
+        }
+        catch
+        {
+            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(SurveyManagementErrors.SurveyDeletingIsFailed);
+        }
 
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
 
-    public async Task<OperationResult<SurveyManagementErrors>> DeleteByIdAsync(long id)
+    public async Task<OperationResult<SurveyManagementErrors>> DeleteByIdAsync(long surveyId)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
-        var survey = await FindByIdAsync(id);
-        repository.Remove(survey);
-        await _unitOfWork.SaveChangesAsync();
+        var survey = await FindByIdAsync(surveyId);
+
+        try
+        {
+            repository.Remove(survey);
+            await _unitOfWork.SaveChangesAsync();
+        }
+        catch
+        {
+            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(SurveyManagementErrors.SurveyDeletingIsFailed);
+        }
 
         return OperationResult<SurveyManagementErrors>.CreateSuccessful();
     }
@@ -84,10 +112,10 @@ public class SurveyStore : ISurveyStore
         return Task.FromResult(quantityOfQuestions);
     }
 
-    public async Task<IList<DomainModel.SurveyModel.Survey>> GetSurveysByUserId(int id)
+    public async Task<IList<DomainModel.SurveyModel.Survey>> FindSurveysByUserIdAsync(int userId)
     {
         var surveyRepository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
-        var surveys = await surveyRepository.GetWhereAsync(s => s.CreatorId == id);
+        var surveys = await surveyRepository.GetWhereAsync(s => s.CreatorId == userId);
 
         return surveys.ToList();
     }

@@ -13,7 +13,7 @@ public interface ISurveyStore
 
     Task<OperationResult<SurveyManagementErrors>> DeleteAsync(DomainModel.SurveyModel.Survey survey);
 
-    Task<OperationResult<SurveyManagementErrors>> DeleteByIdAsync(long id);
+    Task<OperationResult<SurveyManagementErrors>> DeleteByIdAsync(long surveyId);
 
     Task<DomainModel.SurveyModel.Survey> FindByIdAsync(long surveyId);
 
@@ -21,5 +21,5 @@ public interface ISurveyStore
 
     Task<int> GetQuantityOfQuestionsAsync(DomainModel.SurveyModel.Survey survey);
 
-    Task<IList<DomainModel.SurveyModel.Survey>> GetSurveysByUserId(int id);
+    Task<IList<DomainModel.SurveyModel.Survey>> FindSurveysByUserIdAsync(int userId);
 }

@@ -2,6 +2,21 @@
 
 public enum SurveyManagementErrors
 {
-    CreationIsFailed,
-    DeletionIsFailed
+    SurveyCreationIsFailed,
+    SurveyUpdatingIsFailed,
+    SurveyDeletingIsFailed,
+    QuestionCreationIsFailed,
+    QuestionUpdatingIsFailed,
+    QuestionDeletingIsFailed,
+    AnswerVariantCreationIsFailed,
+    AnswerVariantUpdatingIsFailed,
+    AnswerVariantDeletingIsFailed,
+    TitleIsRequired,
+    InvalidTitleLength,
+    QuestionTextIsRequired,
+    InvalidQuestionTextLength,
+    AnswerVariantTextIsRequired,
+    InvalidAnswerVariantTextLength,
+    InvalidScaleMaxValue,
+    InvalidAmountOfStars
 }

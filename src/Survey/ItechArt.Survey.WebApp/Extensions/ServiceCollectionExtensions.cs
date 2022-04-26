@@ -20,6 +20,8 @@ using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement;
 using ItechArt.Survey.Foundation.UserManagement.Validation;
 using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
+using ItechArt.Survey.Foundation.SurveyManagement.Validation.Abstractions;
+using ItechArt.Survey.Foundation.SurveyManagement.Validation;
 
 namespace ItechArt.Survey.WebApp.Extensions;
 
@@ -44,9 +46,11 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddSurveyService(this IServiceCollection service)
     {
         service.AddScoped<ISurveyStore, SurveyStore>();
-        service.AddScoped<ISurveyService, SurveyService>();
         service.AddScoped<IQuestionStore, QuestionStore>();
+        service.AddScoped<IAnswerStore, AnswerStore>();
+        service.AddScoped<ISurveyService, SurveyService>();
         service.AddScoped<IQuestionService, QuestionService>();
+        service.AddScoped<ISurveyValidator, SurveyValidator>();
 
         return service;
     } 
@@ -70,7 +74,7 @@ public static class ServiceCollectionExtensions
             {
                 options.User.AllowedUserNameCharacters =
                     "0123456789_ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-                    "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß";
+                    "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
             })

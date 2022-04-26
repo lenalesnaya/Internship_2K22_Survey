@@ -2,7 +2,8 @@
 
 public class StarRatingAnswerQuestion : Question
 {
-    public const int StarsMaxQuantity = 20;
+    public const int StarsMinAmount = 2;
+    public const int StarsMaxAmount = 20;
 
 
     public int AmountOfStars { get; set; }
