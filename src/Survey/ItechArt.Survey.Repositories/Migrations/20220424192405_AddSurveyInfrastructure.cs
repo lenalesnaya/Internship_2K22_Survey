@@ -43,7 +43,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CanChooseManyAnswers = table.Column<bool>(type: "bit", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -63,7 +63,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -85,7 +85,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ScaleMinValue = table.Column<int>(type: "int", nullable: false),
                     ScaleMaxValue = table.Column<int>(type: "int", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -106,7 +106,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AmountOfStars = table.Column<int>(type: "int", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -126,7 +126,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     SurveyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -146,7 +146,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     QuestionId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -165,7 +165,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: -1,
                 column: "PasswordHash",
-                value: "AQAAAAEAACcQAAAAEMN9cPkirO4Bmrt8Gf/NKtSBPBN3FoDnteZ+5O7xmVxHoAGM1bXQXFAmMR5WvbJfwg==");
+                value: "AQAAAAEAACcQAAAAEEVgJ3hbmcv//WnOcWQrqil0S2vvAS4pUfXAKCNQgSYZ2/Idk3JV8pR8kyphbeloiw==");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AnswerVariant_QuestionId",

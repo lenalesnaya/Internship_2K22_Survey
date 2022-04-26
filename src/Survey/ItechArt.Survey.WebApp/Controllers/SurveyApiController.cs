@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
+using ItechArt.Survey.DomainModel.SurveyModel.Questions;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels;
 using ItechArt.Survey.WebApp.ViewModels.SurveyEnums;
+using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Questions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,14 +17,20 @@ namespace ItechArt.Survey.WebApp.Controllers;
 public class SurveyApiController : ControllerBase
 {
     private ISurveyService _surveyService;
+    private IQuestionService _questionService;
     private IHttpContextAccessor _httpContextAccessor;
+    private IMapper _mapper;
 
     public SurveyApiController(
         ISurveyService surveyService,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IQuestionService questionService,
+        IMapper mapper)
     {
         _surveyService = surveyService;
         _httpContextAccessor = httpContextAccessor;
+        _questionService = questionService;
+        _mapper = mapper;
     }
 
     [Route("{title}/{param}")]
@@ -58,5 +67,19 @@ public class SurveyApiController : ControllerBase
         }
 
         return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddQuestionWithAnswerVariants([FromBody] QuestionViewModel questionViewModel)
+    {
+        var question = _mapper.Map<AnswerVariantsQuestion>(questionViewModel);
+
+        var result = await _questionService.CreateQuestion(question);
+        if (!result.IsSuccessful)
+        {
+            return BadRequest();
+        }
+
+        return Ok();
     }
 }

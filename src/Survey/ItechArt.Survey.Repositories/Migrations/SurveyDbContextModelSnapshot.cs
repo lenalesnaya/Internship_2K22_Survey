@@ -33,7 +33,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("QuestionId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -42,7 +42,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("AnswerVariant", (string)null);
+                    b.ToTable("AnswerVariant");
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.AnswerVariantsQuestion", b =>
@@ -59,7 +59,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -68,7 +68,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("AnswerVariantsQuestion", (string)null);
+                    b.ToTable("AnswerVariantsQuestion");
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.FileAnswerQuestion", b =>
@@ -82,7 +82,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -91,7 +91,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("FileAnswerQuestion", (string)null);
+                    b.ToTable("FileAnswerQuestion");
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.ScaleAnswerQuestion", b =>
@@ -111,7 +111,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -120,7 +120,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("ScaleAnswerQuestion", (string)null);
+                    b.ToTable("ScaleAnswerQuestion");
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.StarRatingAnswerQuestion", b =>
@@ -137,7 +137,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -146,7 +146,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("StarRatingAnswerQuestion", (string)null);
+                    b.ToTable("StarRatingAnswerQuestion");
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.TextAnswerQuestion", b =>
@@ -160,7 +160,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -169,7 +169,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("TextAnswerQuestion", (string)null);
+                    b.ToTable("TextAnswerQuestion");
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Survey", b =>
@@ -183,6 +183,9 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsAnonymous")
                         .HasColumnType("bit");
 
@@ -194,14 +197,11 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Survey", (string)null);
+                    b.ToTable("Survey");
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.UserModel.Role", b =>
@@ -233,7 +233,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.HasIndex("NormalizedName")
                         .IsUnique();
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
 
                     b.HasData(
                         new
@@ -328,7 +328,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
 
                     b.HasData(
                         new
@@ -341,7 +341,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.RU",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMN9cPkirO4Bmrt8Gf/NKtSBPBN3FoDnteZ+5O7xmVxHoAGM1bXQXFAmMR5WvbJfwg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEVgJ3hbmcv//WnOcWQrqil0S2vvAS4pUfXAKCNQgSYZ2/Idk3JV8pR8kyphbeloiw==",
                             PhoneNumberConfirmed = false,
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
@@ -361,7 +361,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("UserRole");
 
                     b.HasData(
                         new

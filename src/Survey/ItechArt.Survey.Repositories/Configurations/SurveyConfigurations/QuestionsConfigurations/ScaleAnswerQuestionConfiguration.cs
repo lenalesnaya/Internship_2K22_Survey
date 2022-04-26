@@ -9,7 +9,7 @@ public class ScaleAnswerQuestionConfiguration : IEntityTypeConfiguration<ScaleAn
     public void Configure(EntityTypeBuilder<ScaleAnswerQuestion> builder)
     {
         builder
-            .Property(q => q.Text)
+            .Property(q => q.Title)
             .HasMaxLength(Question.TextMaxLength)
             .IsRequired();
         builder

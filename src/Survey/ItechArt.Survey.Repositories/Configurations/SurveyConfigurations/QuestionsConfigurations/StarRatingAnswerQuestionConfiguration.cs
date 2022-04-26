@@ -9,7 +9,7 @@ public class StarRatingAnswerQuestionConfiguration : IEntityTypeConfiguration<St
     public void Configure(EntityTypeBuilder<StarRatingAnswerQuestion> builder)
     {
         builder
-            .Property(q => q.Text)
+            .Property(q => q.Title)
             .HasMaxLength(Question.TextMaxLength)
             .IsRequired();
         builder

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItechArt.Survey.Repositories.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    [Migration("20220420172532_AddSurveyInfrastructure")]
+    [Migration("20220424192405_AddSurveyInfrastructure")]
     partial class AddSurveyInfrastructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("QuestionId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -61,7 +61,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -84,7 +84,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -113,7 +113,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -139,7 +139,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -162,7 +162,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<long>("SurveyId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -185,6 +185,9 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsAnonymous")
                         .HasColumnType("bit");
 
@@ -196,12 +199,9 @@ namespace ItechArt.Survey.Repositories.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<int>("СreatorId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("СreatorId");
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Survey");
                 });
@@ -343,7 +343,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.RU",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMN9cPkirO4Bmrt8Gf/NKtSBPBN3FoDnteZ+5O7xmVxHoAGM1bXQXFAmMR5WvbJfwg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEVgJ3hbmcv//WnOcWQrqil0S2vvAS4pUfXAKCNQgSYZ2/Idk3JV8pR8kyphbeloiw==",
                             PhoneNumberConfirmed = false,
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
@@ -448,7 +448,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                 {
                     b.HasOne("ItechArt.Survey.DomainModel.UserModel.User", "Сreator")
                         .WithMany("Surveys")
-                        .HasForeignKey("СreatorId")
+                        .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

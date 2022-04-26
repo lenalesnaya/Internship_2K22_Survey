@@ -11,6 +11,5 @@ public class SurveyViewModel
 
     public bool IsAnonymous { get; set; }
 
-    // public IList<QuestionViewModel> Questions { get; set; }
-    public IList<FileAnswerQuestionViewModel> Questions { get; set; }
+    public IList<QuestionViewModel> Questions { get; set; }
 }

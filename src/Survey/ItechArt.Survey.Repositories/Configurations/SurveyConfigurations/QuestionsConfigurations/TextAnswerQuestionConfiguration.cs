@@ -9,7 +9,7 @@ public class TextAnswerQuestionConfiguration : IEntityTypeConfiguration<TextAnsw
     public void Configure(EntityTypeBuilder<TextAnswerQuestion> builder)
     {
         builder
-            .Property(q => q.Text)
+            .Property(q => q.Title)
             .HasMaxLength(Question.TextMaxLength)
             .IsRequired();
         builder

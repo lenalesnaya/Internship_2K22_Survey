@@ -45,6 +45,8 @@ public static class ServiceCollectionExtensions
     {
         service.AddScoped<ISurveyStore, SurveyStore>();
         service.AddScoped<ISurveyService, SurveyService>();
+        service.AddScoped<IQuestionStore, QuestionStore>();
+        service.AddScoped<IQuestionService, QuestionService>();
 
         return service;
     } 

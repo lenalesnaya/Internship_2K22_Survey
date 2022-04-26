@@ -9,7 +9,7 @@ public class FileAnswerQuestionConfiguration : IEntityTypeConfiguration<FileAnsw
     public void Configure(EntityTypeBuilder<FileAnswerQuestion> builder)
     {
         builder
-            .Property(q => q.Text)
+            .Property(q => q.Title)
             .HasMaxLength(Question.TextMaxLength)
             .IsRequired();
         builder
