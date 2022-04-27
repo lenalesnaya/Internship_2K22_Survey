@@ -11,5 +11,5 @@ public class AnswerVariantsQuestion : Question
     public bool CanChooseManyAnswers { get; set; }
 
 
-    public ICollection<AnswerVariant> AnswerVariants { get; set; }
+    public virtual ICollection<AnswerVariant> AnswerVariants { get; set; }
 }

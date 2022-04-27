@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItechArt.Survey.DomainModel.SurveyModel.Questions;
+using ItechArt.Survey.Foundation.QuestionManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels.SurveyEnums;
 using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Questions;
@@ -69,7 +70,7 @@ public class SurveyApiController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddQuestionWithAnswerVariants([FromBody] QuestionViewModel questionViewModel)
+    public async Task<IActionResult> AddQuestionWithAnswerVariants([FromBody] AnswerVariantsQuestionViewModel questionViewModel)
     {
         var question = _mapper.Map<AnswerVariantsQuestion>(questionViewModel);
 

@@ -6,6 +6,7 @@ using ItechArt.Survey.Foundation.SurveyManagement.Stores.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ItechArt.Repositories;
 
 namespace ItechArt.Survey.Foundation.SurveyManagement.Stores;
 
@@ -86,7 +87,8 @@ public class QuestionStore : IQuestionStore
         where TypeOfQuestion : Question
     {
         var questionsRepository = _unitOfWork.GetRepository<TypeOfQuestion>();
-        var questions = await questionsRepository.GetWhereAsync(q => q.SurveyId == surveyId);
+        var questions = await questionsRepository.GetWhereAsync(
+            q => q.SurveyId == surveyId);
 
         return questions.ToList();
     }

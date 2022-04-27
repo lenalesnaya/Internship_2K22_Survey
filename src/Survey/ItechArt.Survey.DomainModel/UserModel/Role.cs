@@ -11,5 +11,5 @@ public class Role : IdentityRole<int>
     public const string Administrator = "Administrator";
 
 
-    public ICollection<UserRole> UserRoles { get; set; }
+    public virtual ICollection<UserRole> UserRoles { get; set; }
 }

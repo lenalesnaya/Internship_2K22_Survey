@@ -12,5 +12,5 @@ public class Question
     public long SurveyId { get; set; }
 
 
-    public Survey Survey { get; set; }
+    public virtual Survey Survey { get; set; }
 }

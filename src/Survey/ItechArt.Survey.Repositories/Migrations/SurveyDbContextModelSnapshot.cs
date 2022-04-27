@@ -42,7 +42,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("AnswerVariant");
+                    b.ToTable("AnswerVariant", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.AnswerVariantsQuestion", b =>
@@ -68,7 +68,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("AnswerVariantsQuestion");
+                    b.ToTable("AnswerVariantsQuestion", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.FileAnswerQuestion", b =>
@@ -91,7 +91,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("FileAnswerQuestion");
+                    b.ToTable("FileAnswerQuestion", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.ScaleAnswerQuestion", b =>
@@ -120,7 +120,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("ScaleAnswerQuestion");
+                    b.ToTable("ScaleAnswerQuestion", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.StarRatingAnswerQuestion", b =>
@@ -146,7 +146,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("StarRatingAnswerQuestion");
+                    b.ToTable("StarRatingAnswerQuestion", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.TextAnswerQuestion", b =>
@@ -169,7 +169,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("TextAnswerQuestion");
+                    b.ToTable("TextAnswerQuestion", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Survey", b =>
@@ -201,7 +201,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Survey");
+                    b.ToTable("Survey", (string)null);
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.UserModel.Role", b =>
@@ -233,7 +233,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.HasIndex("NormalizedName")
                         .IsUnique();
 
-                    b.ToTable("Role");
+                    b.ToTable("Role", (string)null);
 
                     b.HasData(
                         new
@@ -331,7 +331,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
 
                     b.HasData(
                         new
@@ -364,7 +364,7 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRole", (string)null);
 
                     b.HasData(
                         new

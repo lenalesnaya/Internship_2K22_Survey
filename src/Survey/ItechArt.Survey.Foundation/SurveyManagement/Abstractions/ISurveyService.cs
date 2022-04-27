@@ -21,29 +21,4 @@ public interface ISurveyService
     Task<IList<DomainModel.SurveyModel.Survey>> GetSurveysByTitleAsync(string title);
 
     Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveysByUserIdAsync(int userId);
-
-    Task<OperationResult<SurveyManagementErrors>> CreateQuestionAsync<TypeOfQuestion>(TypeOfQuestion question)
-        where TypeOfQuestion : Question;
-
-    Task<OperationResult<SurveyManagementErrors>> EditQuestionAsync<TypeOfQuestion>(TypeOfQuestion question)
-        where TypeOfQuestion : Question;
-
-    Task<OperationResult<SurveyManagementErrors>> DeleteQuestionAsync<TypeOfQuestion>(TypeOfQuestion question)
-        where TypeOfQuestion : Question;
-
-    Task<TypeOfQuestion> GetQuestionByIdAsync<TypeOfQuestion>(long questionId)
-        where TypeOfQuestion : Question;
-
-    Task<IList<TypeOfQuestion>> GetOneTypeQuestionsBySurveyIdAsync<TypeOfQuestion>(long surveyId)
-        where TypeOfQuestion : Question;
-
-    Task<OperationResult<SurveyManagementErrors>> CreateAnswerVariantAsync(AnswerVariant answer);
-
-    Task<OperationResult<SurveyManagementErrors>> EditAnswerVariantAsync(AnswerVariant answer);
-
-    Task<OperationResult<SurveyManagementErrors>> DeleteAnswerVariantAsync(AnswerVariant answer);
-
-    Task<AnswerVariant> GetAnswerVariantByIdAsync(long answerId);
-
-    Task<IList<AnswerVariant>> GetAnswerVariantsByQuestionAsync(AnswerVariantsQuestion question);
 }

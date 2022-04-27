@@ -19,7 +19,7 @@ public class User : IdentityUser<int>
     public string AvatarFilePath { get; set; }
 
 
-    public ICollection<UserRole> UserRoles { get; set; }
+    public virtual ICollection<UserRole> UserRoles { get; set; }
 
-    public ICollection<SurveyModel.Survey> Surveys { get; set; }
+    public virtual ICollection<SurveyModel.Survey> Surveys { get; set; }
 }

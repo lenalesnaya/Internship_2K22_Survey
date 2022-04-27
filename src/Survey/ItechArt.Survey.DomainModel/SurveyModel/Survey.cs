@@ -23,15 +23,15 @@ public class Survey
     public int CreatorId { get; set; }
 
 
-    public User Сreator { get; set; }
+    public virtual User Сreator { get; set; }
 
-    public ICollection<AnswerVariantsQuestion> AnswerVariantsQuestions { get; set; }
+    public virtual ICollection<AnswerVariantsQuestion> AnswerVariantsQuestions { get; set; }
 
-    public ICollection<FileAnswerQuestion> FileAnswerQuestions { get; set; }
+    public virtual ICollection<FileAnswerQuestion> FileAnswerQuestions { get; set; }
 
-    public ICollection<ScaleAnswerQuestion> ScaleAnswerQuestions { get; set; }
+    public virtual ICollection<ScaleAnswerQuestion> ScaleAnswerQuestions { get; set; }
 
-    public ICollection<StarRatingAnswerQuestion> StarRatingAnswerQuestions { get; set; }
+    public virtual ICollection<StarRatingAnswerQuestion> StarRatingAnswerQuestions { get; set; }
 
-    public ICollection<TextAnswerQuestion> TextAnswerQuestions { get; set; }
+    public virtual ICollection<TextAnswerQuestion> TextAnswerQuestions { get; set; }
 }

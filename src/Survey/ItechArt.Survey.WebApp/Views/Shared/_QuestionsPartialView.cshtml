@@ -1,0 +1,10 @@
+﻿@model IList<ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Questions.AnswerVariantsQuestionViewModel>
+
+@foreach (var question in Model)
+{
+  <div class="m-1">
+    <span>@question.Title</span>
+  </div>
+  @Html.PartialAsync("_AnswerVariantPartialView", question.AnswerVariants)
+}
+

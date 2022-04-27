@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ItechArt.Repositories;
 
 namespace ItechArt.Survey.Foundation.SurveyManagement.Stores;
 
@@ -92,8 +93,9 @@ public class SurveyStore : ISurveyStore
     public async Task<DomainModel.SurveyModel.Survey> FindByIdAsync(long surveyId)
     {
         var repository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
+        var survey = await repository.GetSingleOrDefaultAsync(s => s.Id == surveyId);
 
-        return await repository.GetSingleOrDefaultAsync(s => s.Id == surveyId);
+        return survey;
     }
 
     public async Task<IList<DomainModel.SurveyModel.Survey>> FindByTitleAsync(string surveyTitle)

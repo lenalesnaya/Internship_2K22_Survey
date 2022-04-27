@@ -10,14 +10,14 @@ public class QuestionViewModelProfile : Profile
 {
     public QuestionViewModelProfile()
     {
-        CreateMap<QuestionViewModel, AnswerVariantsQuestion>()
+        CreateMap<AnswerVariantsQuestionViewModel, AnswerVariantsQuestion>()
             .ForMember(d => d.AnswerVariants,
                 opt =>
-                    opt.MapFrom(s => s.Answers.Select(el =>
+                    opt.MapFrom(s => s.AnswerVariants.Select(el =>
                         new AnswerVariant
                         {
-                            Title = el
+                            Title = el.Title
                         }
-                    )));
+                    ))).ReverseMap();
     }
 }

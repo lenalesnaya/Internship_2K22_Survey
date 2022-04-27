@@ -5,6 +5,7 @@ using ItechArt.Common.Logging.Abstractions;
 using ItechArt.Common.Logging.Extensions;
 using ItechArt.Survey.DomainModel.SurveyModel.Answers;
 using ItechArt.Survey.DomainModel.SurveyModel.Questions;
+using ItechArt.Survey.Foundation.QuestionManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Stores.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Validation.Abstractions;
@@ -14,23 +15,20 @@ namespace ItechArt.Survey.Foundation.SurveyManagement;
 public class SurveyService : ISurveyService
 {
     private readonly ISurveyStore _surveyStore;
-    private readonly IQuestionStore _questionStore;
-    private readonly IAnswerStore _answerStore;
     private readonly ILogger _logger;
     private readonly ISurveyValidator _surveyValidator;
+    private readonly IQuestionService _questionService;
 
     public SurveyService(
         ISurveyStore surveyStore,
         ILogger logger,
-        IQuestionStore questionStore,
         ISurveyValidator surveyValidator,
-        IAnswerStore answerStore)
+        IQuestionService questionService)
     {
         _surveyStore = surveyStore;
         _logger = logger;
-        _questionStore = questionStore;
         _surveyValidator = surveyValidator;
-        _answerStore = answerStore;
+        _questionService = questionService;
     }
 
     public async Task<OperationResult<SurveyManagementErrors>> CreateSurveyAsync(DomainModel.SurveyModel.Survey survey)
@@ -120,148 +118,5 @@ public class SurveyService : ISurveyService
         var surveys = await _surveyStore.FindSurveysByUserIdAsync(userId);
 
         return surveys;
-    }
-
-    public async Task<OperationResult<SurveyManagementErrors>> CreateQuestionAsync<TypeOfQuestion>(TypeOfQuestion question)
-        where TypeOfQuestion : Question
-    {
-        var validationResult = _surveyValidator.ValidateQuestion(question);
-        if (!validationResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Validation is failed : {validationResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(validationResult.Error.GetValueOrDefault());
-        }
-
-        var creationResult = await _questionStore.CreateAsync(question);
-        if (!creationResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Creation is failed: {creationResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(creationResult.Error.GetValueOrDefault());
-        }
-
-        return OperationResult<SurveyManagementErrors>.CreateSuccessful();
-    }
-
-    public async Task<OperationResult<SurveyManagementErrors>> EditQuestionAsync<TypeOfQuestion>(TypeOfQuestion question)
-        where TypeOfQuestion : Question
-    {
-        var validationResult = _surveyValidator.ValidateQuestion(question);
-        if (!validationResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Validation is failed : {validationResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(validationResult.Error.GetValueOrDefault());
-        }
-
-        var updatingResult = await _questionStore.UpdateAsync(question);
-        if (!updatingResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Updating is failed: {updatingResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(updatingResult.Error.GetValueOrDefault());
-        }
-
-        return OperationResult<SurveyManagementErrors>.CreateSuccessful();
-    }
-
-    public async Task<OperationResult<SurveyManagementErrors>> DeleteQuestionAsync<TypeOfQuestion>(TypeOfQuestion question)
-        where TypeOfQuestion : Question
-    {
-        var deletengResult = await _questionStore.DeleteAsync(question);
-        if (!deletengResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Deleting is failed: {deletengResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(deletengResult.Error.GetValueOrDefault());
-        }
-
-        return OperationResult<SurveyManagementErrors>.CreateSuccessful();
-    }
-
-    public async Task<TypeOfQuestion> GetQuestionByIdAsync<TypeOfQuestion>(long questionId)
-        where TypeOfQuestion : Question
-    {
-        var question = await _questionStore.FindByIdAsync<TypeOfQuestion>(questionId);
-
-        return question;
-    }
-
-    public async Task<IList<TypeOfQuestion>> GetOneTypeQuestionsBySurveyIdAsync<TypeOfQuestion>(long surveyId)
-    where TypeOfQuestion : Question
-    {
-        var questions = await _questionStore.FindOneTypeQuestionsBySurveyIdAsync<TypeOfQuestion>(surveyId);
-
-        return questions;
-    }
-
-    public async Task<OperationResult<SurveyManagementErrors>> CreateAnswerVariantAsync(AnswerVariant answer)
-    {
-        var validationResult = _surveyValidator.Validate(answer);
-        if (!validationResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Validation is failed : {validationResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(validationResult.Error.GetValueOrDefault());
-        }
-
-        var creationResult = await _answerStore.CreateAsync(answer);
-        if (!creationResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Creation is failed: {creationResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(creationResult.Error.GetValueOrDefault());
-        }
-
-        return OperationResult<SurveyManagementErrors>.CreateSuccessful();
-    }
-
-    public async Task<OperationResult<SurveyManagementErrors>> EditAnswerVariantAsync(AnswerVariant answer)
-    {
-        var validationResult = _surveyValidator.Validate(answer);
-        if (!validationResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Validation is failed : {validationResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(validationResult.Error.GetValueOrDefault());
-        }
-
-        var updatingResult = await _answerStore.UpdateAsync(answer);
-        if (!updatingResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Updating is failed: {updatingResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(updatingResult.Error.GetValueOrDefault());
-        }
-
-        return OperationResult<SurveyManagementErrors>.CreateSuccessful();
-    }
-
-    public async Task<OperationResult<SurveyManagementErrors>> DeleteAnswerVariantAsync(AnswerVariant answer)
-    {
-        var deletengResult = await _answerStore.DeleteAsync(answer);
-        if (!deletengResult.IsSuccessful)
-        {
-            _logger.LogWarning($"Deleting is failed: {deletengResult.Error.GetValueOrDefault()}.");
-
-            return OperationResult<SurveyManagementErrors>.CreateUnsuccessful(deletengResult.Error.GetValueOrDefault());
-        }
-
-        return OperationResult<SurveyManagementErrors>.CreateSuccessful();
-    }
-
-    public async Task<AnswerVariant> GetAnswerVariantByIdAsync(long answerId)
-    {
-        var answer = await _answerStore.FindByIdAsync(answerId);
-
-        return answer;
-    }
-
-    public async Task<IList<AnswerVariant>> GetAnswerVariantsByQuestionAsync(AnswerVariantsQuestion question)
-    {
-        var answers = await _answerStore.FindAnswerVariantsByQuestionAsync(question);
-
-        return answers;
     }
 }

@@ -101,7 +101,7 @@ function saveQuestion(id){
     const data = {
         title: text,
         surveyId: id,
-        answers: answers,
+        answerVariants: answers,
     };
     var request = $.ajax({
         contentType: 'application/json',

@@ -1,5 +1,8 @@
 ﻿namespace ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Questions;
 
-public class TextAnswerQuestionViewModel : QuestionViewModel
+public class TextAnswerQuestionViewModel
 {
+    public string Title { get; set; }
+
+    public long SurveyId { get; set; }
 }

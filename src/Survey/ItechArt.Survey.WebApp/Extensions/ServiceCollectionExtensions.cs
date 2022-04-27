@@ -12,6 +12,8 @@ using UserStore = ItechArt.Survey.Foundation.UserManagement.Stores.UserStore;
 using RoleStore = ItechArt.Survey.Foundation.UserManagement.Stores.RoleStore;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
 using System.Text.RegularExpressions;
+using ItechArt.Survey.Foundation.QuestionManagement;
+using ItechArt.Survey.Foundation.QuestionManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Stores;
@@ -45,11 +47,17 @@ public static class ServiceCollectionExtensions
             .AddScoped<IUserService, UserService>()
             .AddScoped<IUserValidator, UserValidator>();
 
-    public static IServiceCollection AddSurveyService(this IServiceCollection service)
+    public static IServiceCollection AddStores(this IServiceCollection service)
     {
         service.AddScoped<ISurveyStore, SurveyStore>();
         service.AddScoped<IQuestionStore, QuestionStore>();
         service.AddScoped<IAnswerStore, AnswerStore>();
+
+        return service;
+    } 
+    
+    public static IServiceCollection AddServices(this IServiceCollection service)
+    {
         service.AddScoped<ISurveyService, SurveyService>();
         service.AddScoped<IQuestionService, QuestionService>();
         service.AddScoped<ISurveyValidator, SurveyValidator>();
@@ -63,7 +71,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<SurveyDbContext>(options
-            => options.UseSqlServer(configuration.GetConnectionString("SurveyItechArt")));
+            => options
+                .UseLazyLoadingProxies()
+                .UseSqlServer(configuration.GetConnectionString("SurveyItechArt")));
         services.AddScoped<IUnitOfWork, UnitOfWork<SurveyDbContext>>();
 
         return services;

@@ -14,5 +14,5 @@ public class AnswerVariant
     public long QuestionId { get; set; }
 
 
-    public AnswerVariantsQuestion Question { get; set; }
+    public virtual AnswerVariantsQuestion Question { get; set; }
 }
