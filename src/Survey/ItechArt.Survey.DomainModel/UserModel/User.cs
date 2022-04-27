@@ -16,6 +16,8 @@ public class User : IdentityUser<int>
 
     public DateTime RegistrationDate { get; set; }
 
+    public string AvatarFilePath { get; set; }
+
 
     public ICollection<UserRole> UserRoles { get; set; }
 

@@ -25,12 +25,12 @@ public class SurveyValidator : ISurveyValidator
 
     public ValidationResult<SurveyManagementErrors> Validate(AnswerVariant answer)
     {
-        if (answer.Text == null)
+        if (answer.Title == null)
         {
             return ValidationResult<SurveyManagementErrors>.CreateUnsuccessful(SurveyManagementErrors.AnswerVariantTextIsRequired);
         }
 
-        if (answer.Text.Length > AnswerVariant.TextMaxLength)
+        if (answer.Title.Length > AnswerVariant.TextMaxLength)
         {
             return ValidationResult<SurveyManagementErrors>.CreateUnsuccessful(SurveyManagementErrors.InvalidAnswerVariantTextLength);
         }
@@ -42,7 +42,7 @@ public class SurveyValidator : ISurveyValidator
     public ValidationResult<SurveyManagementErrors> ValidateQuestion<TypeOfQuestion>(TypeOfQuestion question)
         where TypeOfQuestion : Question
     {
-        var textError = ValidateQuestionText(question.Text);
+        var textError = ValidateQuestionText(question.Title);
         if (textError.HasValue)
         {
             return ValidationResult<SurveyManagementErrors>.CreateUnsuccessful(textError.Value);

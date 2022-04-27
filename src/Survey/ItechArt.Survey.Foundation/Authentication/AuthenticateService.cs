@@ -5,6 +5,7 @@ using ItechArt.Common.Logging.Abstractions;
 using ItechArt.Common.Logging.Extensions;
 using ItechArt.Survey.DomainModel.UserModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
+using ItechArt.Survey.Foundation.Authentication.Configuration;
 using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
 using Microsoft.AspNetCore.Identity;
 
@@ -63,6 +64,10 @@ public class AuthenticateService : IAuthenticateService
         }
 
         user.RegistrationDate = DateTime.Now;
+        if (user.AvatarFilePath == null)
+            user.AvatarFilePath = RegistrationOptions.DefaultAvatarFolderPath +
+                RegistrationOptions.DefaultAvatarFileName;
+
         var creationResult = await _userManager.CreateAsync(user, password);
         if (!creationResult.Succeeded)
         {

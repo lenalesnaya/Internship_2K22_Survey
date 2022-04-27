@@ -12,5 +12,7 @@ public class UserViewModel
 
     public DateTime RegistrationDate { get; set; }
 
+    public string AvatarFilePath { get; set; }
+
     public int AmountOfSurveys { get; set; }
 }

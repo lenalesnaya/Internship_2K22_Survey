@@ -30,7 +30,7 @@ public class SurveyController : Controller
     [HttpGet]
     public async Task<IActionResult> SurveySettings(int id)
     {
-        var survey = await _surveyService.GetSurveyById(id);
+        var survey = await _surveyService.GetSurveyByIdAsync(id);
         var surveyViewModel = _mapper.Map<SurveyViewModel>(survey);
 
         return View(surveyViewModel);
@@ -41,7 +41,7 @@ public class SurveyController : Controller
     {
         var userId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         var surveysViewModels = (await _surveyService
-            .GetAllSurveysByUserId(userId))
+            .GetAllSurveysByUserIdAsync(userId))
                 .Select(dbModel => _mapper.Map<SurveyViewModel>(dbModel))
                 .ToList();
 

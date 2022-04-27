@@ -17,4 +17,8 @@ public class RegistrationOptions
     public int PasswordMaxLength { get; set; }
 
     public Regex PasswordPattern { get; set; }
+
+    public static string DefaultAvatarFolderPath { get; set; }
+
+    public static string DefaultAvatarFileName { get; set; }
 }
