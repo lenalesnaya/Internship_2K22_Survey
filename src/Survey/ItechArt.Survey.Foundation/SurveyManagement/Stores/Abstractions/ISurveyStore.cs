@@ -22,4 +22,6 @@ public interface ISurveyStore
     Task<int> GetQuantityOfQuestionsAsync(DomainModel.SurveyModel.Survey survey);
 
     Task<IList<DomainModel.SurveyModel.Survey>> FindSurveysByUserIdAsync(int userId);
+
+    Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveys();
 }

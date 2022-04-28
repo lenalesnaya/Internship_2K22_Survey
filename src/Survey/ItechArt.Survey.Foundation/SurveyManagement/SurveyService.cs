@@ -17,18 +17,15 @@ public class SurveyService : ISurveyService
     private readonly ISurveyStore _surveyStore;
     private readonly ILogger _logger;
     private readonly ISurveyValidator _surveyValidator;
-    private readonly IQuestionService _questionService;
 
     public SurveyService(
         ISurveyStore surveyStore,
         ILogger logger,
-        ISurveyValidator surveyValidator,
-        IQuestionService questionService)
+        ISurveyValidator surveyValidator)
     {
         _surveyStore = surveyStore;
         _logger = logger;
         _surveyValidator = surveyValidator;
-        _questionService = questionService;
     }
 
     public async Task<OperationResult<SurveyManagementErrors>> CreateSurveyAsync(DomainModel.SurveyModel.Survey survey)
@@ -116,6 +113,13 @@ public class SurveyService : ISurveyService
     public async Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveysByUserIdAsync(int userId)
     {
         var surveys = await _surveyStore.FindSurveysByUserIdAsync(userId);
+
+        return surveys;
+    }
+
+    public Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveys()
+    {
+        var surveys = _surveyStore.GetAllSurveys();
 
         return surveys;
     }

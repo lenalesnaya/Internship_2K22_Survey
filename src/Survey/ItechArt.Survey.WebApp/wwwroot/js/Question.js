@@ -97,11 +97,11 @@ function questionWithScale() {
 
 function saveQuestion(id){
     const text = $("[id=InputQuestionTitle]").val();
-    var answers = $("input[id=InputAnswer]").map( (i,el) => $(el).val()).get();
+    var answer = $("input[id=InputAnswer]").map( (i,el) => $(el).val()).get();
     const data = {
         title: text,
         surveyId: id,
-        answerVariants: answers,
+        answer,
     };
     var request = $.ajax({
         contentType: 'application/json',

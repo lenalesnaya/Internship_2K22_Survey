@@ -21,4 +21,6 @@ public interface ISurveyService
     Task<IList<DomainModel.SurveyModel.Survey>> GetSurveysByTitleAsync(string title);
 
     Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveysByUserIdAsync(int userId);
+
+    Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveys();
 }

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ItechArt.Repositories;
 
 namespace ItechArt.Survey.Foundation.SurveyManagement.Stores;
 
@@ -118,6 +117,14 @@ public class SurveyStore : ISurveyStore
     {
         var surveyRepository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
         var surveys = await surveyRepository.GetWhereAsync(s => s.CreatorId == userId);
+
+        return surveys.ToList();
+    }
+
+    public async Task<IList<DomainModel.SurveyModel.Survey>> GetAllSurveys()
+    {
+        var surveyRepository = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
+        var surveys = await surveyRepository.GetAllAsync();
 
         return surveys.ToList();
     }
