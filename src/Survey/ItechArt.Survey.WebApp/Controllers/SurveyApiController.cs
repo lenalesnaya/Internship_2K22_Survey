@@ -2,10 +2,15 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using ItechArt.Common;
+using ItechArt.Survey.DomainModel.SurveyModel.Answers;
 using ItechArt.Survey.DomainModel.SurveyModel.Questions;
+using ItechArt.Survey.Foundation.AnswerManagement.Abstrations;
 using ItechArt.Survey.Foundation.QuestionManagement.Abstractions;
+using ItechArt.Survey.Foundation.SelectedAnswerManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels.SurveyEnums;
+using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Answers;
 using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Questions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +23,7 @@ public class SurveyApiController : ControllerBase
 {
     private ISurveyService _surveyService;
     private IQuestionService _questionService;
+    private ISelectedAnswerService _selectedAnswerService;
     private IHttpContextAccessor _httpContextAccessor;
     private IMapper _mapper;
 
@@ -25,12 +31,14 @@ public class SurveyApiController : ControllerBase
         ISurveyService surveyService,
         IHttpContextAccessor httpContextAccessor,
         IQuestionService questionService,
-        IMapper mapper)
+        IMapper mapper,
+        ISelectedAnswerService selectedAnswerService)
     {
         _surveyService = surveyService;
         _httpContextAccessor = httpContextAccessor;
         _questionService = questionService;
         _mapper = mapper;
+        _selectedAnswerService = selectedAnswerService;
     }
 
     [Route("{title}/{param}")]
@@ -81,5 +89,13 @@ public class SurveyApiController : ControllerBase
         }
 
         return Ok();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddSelectedAnswer([FromBody] SelectedAnswerViewModel selectedAnswerViewModel)
+    {
+        var answer = _mapper.Map<SelectedAnswer>(selectedAnswerViewModel);
+        var result = await _selectedAnswerService.AddSelectedAnswers(answer);
+        
     }
 }

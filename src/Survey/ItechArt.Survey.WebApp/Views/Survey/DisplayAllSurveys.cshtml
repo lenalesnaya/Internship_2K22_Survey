@@ -5,6 +5,7 @@
 @section Style{
     <link rel="stylesheet" href="~/css/ArrowRotate.css">
 }
+
 @section Script
 {
     <script src="~/js/Survey.js"></script>
@@ -33,8 +34,8 @@
                         <td>
                             @Html.Hidden("id", survey.Id)
                             <a asp-action="TakeASurvey" asp-controller="Survey" asp-route-id=@survey.Id>
-                                <label for="editSurvey" style="cursor: pointer">
-                                    <button type="submit" id="editSurvey">Take this survey</button>
+                                <label for="@survey.Id" style="cursor: pointer">
+                                    <button class="btn btn-outline-dark" type="submit" id="@survey.Id">Take this survey</button>
                                 </label>
                             </a>
                         </td>

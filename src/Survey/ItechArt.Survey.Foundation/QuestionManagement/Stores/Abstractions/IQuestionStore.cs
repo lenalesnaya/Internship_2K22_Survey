@@ -4,7 +4,7 @@ using ItechArt.Common;
 using ItechArt.Survey.DomainModel.SurveyModel.Questions;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 
-namespace ItechArt.Survey.Foundation.SurveyManagement.Stores.Abstractions;
+namespace ItechArt.Survey.Foundation.QuestionManagement.Stores.Abstractions;
 
 public interface IQuestionStore
 {

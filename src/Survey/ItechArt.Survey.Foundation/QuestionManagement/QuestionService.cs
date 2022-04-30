@@ -5,6 +5,7 @@ using ItechArt.Common.Logging.Abstractions;
 using ItechArt.Common.Logging.Extensions;
 using ItechArt.Survey.DomainModel.SurveyModel.Questions;
 using ItechArt.Survey.Foundation.QuestionManagement.Abstractions;
+using ItechArt.Survey.Foundation.QuestionManagement.Stores.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Stores.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Validation.Abstractions;

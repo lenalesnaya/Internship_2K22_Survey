@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ItechArt.Survey.Repositories.Configurations.SurveyConfigurations.AnswersConfigurations;
+namespace ItechArt.Survey.Repositories.Configurations.AnswersConfigurations;
 
 public class AnswerVariantConfiguration : IEntityTypeConfiguration<AnswerVariant>
 {

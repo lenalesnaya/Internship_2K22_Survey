@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using ItechArt.Survey.DomainModel.SurveyModel.Answers;
 
 namespace ItechArt.Survey.DomainModel.UserModel;
 
@@ -22,4 +23,6 @@ public class User : IdentityUser<int>
     public virtual ICollection<UserRole> UserRoles { get; set; }
 
     public virtual ICollection<SurveyModel.Survey> Surveys { get; set; }
+
+    public virtual ICollection<SelectedAnswer> SelectedAnswers { get; set; }
 }

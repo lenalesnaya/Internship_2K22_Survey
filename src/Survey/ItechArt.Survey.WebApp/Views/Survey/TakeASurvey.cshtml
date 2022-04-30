@@ -1,3 +1,51 @@
 ﻿@model ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.SurveyViewModel
 
-<div>Hello</div>
+@section Script
+{
+  <script src="~/js/TakeASurvey.js"></script>
+}
+<div class="container">
+  <div class="row">
+    <div class="col">
+    </div>
+    <div class="col-6">
+      <div>Title: <span>@Model.Title</span></div>
+      <div class="m-5">
+        @foreach (var question in Model.AnswerVariantsQuestions)
+        {
+          <div>@question.Title</div>
+          if (question.CanChooseManyAnswers)
+          {
+            @foreach (var answer in question.AnswerVariants)
+            {
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="@answer.Id">
+                <label class="form-check-label" for="@answer.Id">
+                  <span>@answer.Title</span>
+                </label>
+              </div>
+            }
+          }
+          else
+          {
+            @foreach (var answer in question.AnswerVariants)
+            {
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="@answer.Id">
+                <label class="form-check-label" for="@answer.Id">
+                  <span>@answer.Title</span>
+                </label>
+              </div>
+            }
+          }
+        }
+      </div>
+      <div class="mt-5">
+        <button type="button" class="btn btn-primary" onclick="takeASurvey()">Take a survey</button>
+      </div>
+    </div>
+    <div class="col">
+    </div> 
+  </div>
+</div>
+

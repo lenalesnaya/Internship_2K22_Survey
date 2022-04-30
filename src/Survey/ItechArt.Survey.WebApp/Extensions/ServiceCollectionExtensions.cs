@@ -12,8 +12,13 @@ using UserStore = ItechArt.Survey.Foundation.UserManagement.Stores.UserStore;
 using RoleStore = ItechArt.Survey.Foundation.UserManagement.Stores.RoleStore;
 using ItechArt.Survey.Foundation.Authentication.Configuration;
 using System.Text.RegularExpressions;
+using ItechArt.Survey.Foundation.AnswerManagement;
+using ItechArt.Survey.Foundation.AnswerManagement.Abstrations;
 using ItechArt.Survey.Foundation.QuestionManagement;
 using ItechArt.Survey.Foundation.QuestionManagement.Abstractions;
+using ItechArt.Survey.Foundation.QuestionManagement.Stores.Abstractions;
+using ItechArt.Survey.Foundation.SelectedAnswerManagement;
+using ItechArt.Survey.Foundation.SelectedAnswerManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Stores;
@@ -61,6 +66,7 @@ public static class ServiceCollectionExtensions
         service.AddScoped<ISurveyService, SurveyService>();
         service.AddScoped<IQuestionService, QuestionService>();
         service.AddScoped<ISurveyValidator, SurveyValidator>();
+        service.AddScoped<ISelectedAnswerService, SelectedAnswerService>();
 
         return service;
     } 

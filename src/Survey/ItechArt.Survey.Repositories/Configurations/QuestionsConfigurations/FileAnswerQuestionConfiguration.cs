@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ItechArt.Survey.Repositories.Configurations.SurveyConfigurations.QuestionsConfigurations;
+namespace ItechArt.Survey.Repositories.Configurations.QuestionsConfigurations;
 
-public class TextAnswerQuestionConfiguration : IEntityTypeConfiguration<TextAnswerQuestion>
+public class FileAnswerQuestionConfiguration : IEntityTypeConfiguration<FileAnswerQuestion>
 {
-    public void Configure(EntityTypeBuilder<TextAnswerQuestion> builder)
+    public void Configure(EntityTypeBuilder<FileAnswerQuestion> builder)
     {
         builder
             .Property(q => q.Title)
@@ -14,7 +14,7 @@ public class TextAnswerQuestionConfiguration : IEntityTypeConfiguration<TextAnsw
             .IsRequired();
         builder
             .HasOne(q => q.Survey)
-            .WithMany(s => s.TextAnswerQuestions)
+            .WithMany(s => s.FileAnswerQuestions)
             .HasForeignKey(q => q.SurveyId)
             .IsRequired();
     }

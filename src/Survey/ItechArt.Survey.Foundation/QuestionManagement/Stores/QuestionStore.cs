@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ItechArt.Repositories;
+using ItechArt.Survey.Foundation.QuestionManagement.Stores.Abstractions;
 
 namespace ItechArt.Survey.Foundation.SurveyManagement.Stores;
 
