@@ -6,7 +6,14 @@
 <div class="container d-flex justify-content-left">
     <div class="row w-50">
         <div class="col-sm-6">
-            <img src=@Model.User.AvatarFilePath class="img-thumbnail avatar">
+            @if (Model.AvatarData != null)
+            {
+                <img src="data:image/*;base64,{@Model.AvatarData}" class="img-thumbnail avatar">
+            }
+            else
+            {
+                <img src=@Model.User.AvatarFilePath class="img-thumbnail avatar">
+            }
              <div>
                  <form asp-action="SetAvatar" asp-controller="Account" method="post" enctype="multipart/form-data">
                      <input type="file" Accept="image/*" name="uploadedFile" value="Choose new avatar"/><br>

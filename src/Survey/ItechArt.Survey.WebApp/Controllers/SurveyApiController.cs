@@ -23,7 +23,7 @@ public class SurveyApiController : ControllerBase
 {
     private ISurveyService _surveyService;
     private IQuestionService _questionService;
-    private ISelectedAnswerService _selectedAnswerService;
+    //private ISelectedAnswerService _selectedAnswerService;
     private IHttpContextAccessor _httpContextAccessor;
     private IMapper _mapper;
 
@@ -31,14 +31,15 @@ public class SurveyApiController : ControllerBase
         ISurveyService surveyService,
         IHttpContextAccessor httpContextAccessor,
         IQuestionService questionService,
-        IMapper mapper,
-        ISelectedAnswerService selectedAnswerService)
+        IMapper mapper
+        //ISelectedAnswerService selectedAnswerService
+        )
     {
         _surveyService = surveyService;
         _httpContextAccessor = httpContextAccessor;
         _questionService = questionService;
         _mapper = mapper;
-        _selectedAnswerService = selectedAnswerService;
+        //_selectedAnswerService = selectedAnswerService;
     }
 
     [Route("{title}/{param}")]
@@ -91,11 +92,11 @@ public class SurveyApiController : ControllerBase
         return Ok();
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddSelectedAnswer([FromBody] SelectedAnswerViewModel selectedAnswerViewModel)
-    {
-        var answer = _mapper.Map<SelectedAnswer>(selectedAnswerViewModel);
-        var result = await _selectedAnswerService.AddSelectedAnswers(answer);
+    //[HttpPost]
+    //public async Task<IActionResult> AddSelectedAnswer([FromBody] SelectedAnswerViewModel selectedAnswerViewModel)
+    //{
+    //    var answer = _mapper.Map<SelectedAnswer>(selectedAnswerViewModel);
+    //    var result = await _selectedAnswerService.AddSelectedAnswers(answer);
         
-    }
+    //}
 }

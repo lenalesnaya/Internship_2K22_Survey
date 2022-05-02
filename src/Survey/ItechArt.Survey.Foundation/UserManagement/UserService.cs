@@ -70,10 +70,10 @@ public class UserService : IUserService
         return OperationResult<UserProfileErrors>.CreateSuccessful();
     }
 
-    public async Task<OperationResult<UserProfileErrors>> SetDefaultAvatarAsync(string userId)
+    public async Task<OperationResult<UserProfileErrors>> DeleteAvatarAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
-        user.AvatarFilePath = RegistrationOptions.DefaultAvatarFolderPath + RegistrationOptions.DefaultAvatarFileName;
+        user.AvatarFilePath = null;
 
         var result = await _userManager.UpdateAsync(user);
         if (!result.Succeeded)

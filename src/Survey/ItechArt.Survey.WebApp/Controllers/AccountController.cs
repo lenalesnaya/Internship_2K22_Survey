@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,9 +6,9 @@ using ItechArt.Survey.DomainModel.UserModel;
 using ItechArt.Survey.Foundation.Authentication.Abstractions;
 using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using ItechArt.Survey.WebApp.Constants;
+using ItechArt.Survey.WebApp.GoogleDriveManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels.UserViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,19 +19,19 @@ public class AccountController : Controller
     private readonly IAuthenticateService _authenticateService;
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
-    private readonly IWebHostEnvironment _appEnvironment;
+    private readonly IGoogleDriveManager _googleDriveManager;
 
 
     public AccountController(
         IAuthenticateService authenticateService,
         IMapper mapper,
         IUserService userService,
-       IWebHostEnvironment appEnvironment)
+        IGoogleDriveManager googleDriveManager)
     {
         _authenticateService = authenticateService;
         _mapper = mapper;
         _userService = userService;
-        _appEnvironment = appEnvironment;
+        _googleDriveManager = googleDriveManager;
     }
 
 
@@ -62,18 +61,20 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SetAvatar(IFormFile uploadedFile)
+    public async Task<IActionResult> SetAvatar(IFormFile uploadedFile) // придумать, как удалить файл предыдущ. аватара с гугл диска (если он был)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (uploadedFile != null)
         {
-            string path = RegistrationOptionsConstants.DefaultAvatarFolderPath + uploadedFile.FileName;
-            using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-            {
-                await uploadedFile.CopyToAsync(fileStream);
-            }
+            _googleDriveManager.Authorize();
 
-            var avatarSettingResult = await _userService.SetAvatarAsync(userId, path);
+            using var fileStream = uploadedFile.OpenReadStream();
+            byte[] bytes = new byte[uploadedFile.Length];
+            fileStream.Read(bytes, 0, (int)uploadedFile.Length);
+
+            _googleDriveManager.FileCreate(userId + uploadedFile.FileName, bytes, out string imageId);
+
+            var avatarSettingResult = await _userService.SetAvatarAsync(userId, imageId);
             if (!avatarSettingResult.IsSuccessful)
             {
                 var errorMessage = GetErrorMessage(avatarSettingResult.Error.GetValueOrDefault());
@@ -87,10 +88,10 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteAvatar()
+    public async Task<IActionResult> DeleteAvatar() // узнать, как удалить файл с гугл диска и добавить сюда вызов этого метода
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var avatarSettingResult = await _userService.SetDefaultAvatarAsync(userId);
+        var avatarSettingResult = await _userService.DeleteAvatarAsync(userId);
         if (!avatarSettingResult.IsSuccessful)
         {
             var errorMessage = GetErrorMessage(avatarSettingResult.Error.GetValueOrDefault());
@@ -108,13 +109,20 @@ public class AccountController : Controller
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userService.GetUserByIdAsync(userId);
-        if (user.AvatarFilePath == null)
-            user.AvatarFilePath = RegistrationOptionsConstants.DefaultAvatarFolderPath +
-                RegistrationOptionsConstants.DefaultAvatarFileName;
+
+        byte[] avatarData;
+        if (user.AvatarFilePath != null)
+            avatarData = GetAvatarData(user.AvatarFilePath);
+        else
+        {
+            avatarData = null;
+            user.AvatarFilePath = RegistrationOptionsConstants.DefaultAvatarFilePath;
+        }
 
         var profileViewModel = new ProfileViewModel
         {
-            User = _mapper.Map<UserViewModel>(user)
+            User = _mapper.Map<UserViewModel>(user),
+            AvatarData = avatarData
         };
 
         return View(profileViewModel);
@@ -167,6 +175,14 @@ public class AccountController : Controller
         return Json(emailIsClear);
     }
 
+
+    private byte[] GetAvatarData(string avatarFilePath)
+    {
+        _googleDriveManager.Authorize();
+        var imageBytes = _googleDriveManager.ReadFile(avatarFilePath);
+
+        return imageBytes;
+    }
 
     private static string GetErrorMessage(UserRegistrationErrors error)
     {

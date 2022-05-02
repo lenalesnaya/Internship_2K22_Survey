@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.57.0.2663" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.0-preview.3.22175.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
   </ItemGroup>
@@ -17,6 +18,12 @@
     <ProjectReference Include="..\ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj" />
     <ProjectReference Include="..\ItechArt.Survey.Foundation\ItechArt.Survey.Foundation.csproj" />
     <ProjectReference Include="..\ItechArt.Survey.Repositories\ItechArt.Survey.Repositories.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="client_secret.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
