@@ -15,11 +15,11 @@ function checkRadioButtons() {
     $('#questionForm').click(function () {
         var response = $("input[type=radio]:checked").val();
         switch (response) {
-            case 'oneAnswerVariant':
+            case '0':
                 hideQuestion()
                 questionOneAnswersVariantGeneration();
                 break;
-            case 'someAnswersVariant':
+            case '1':
                 hideQuestion();
                 questionWithSomeAnswersVariantGeneration();
                 break;
@@ -45,24 +45,25 @@ function checkRadioButtons() {
 
 function questionOneAnswersVariantGeneration() {
     var response = $("input[type=radio]:checked").val();
-    if (response === 'oneAnswerVariant') {
+    if (response === '0') {
+        $('.question-body')
+            .append($('<div class="question-body-jq">\n' +
+                '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
+                '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
+                '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
+                '                    </div>'))
+    }
+}
+
+function questionWithSomeAnswersVariantGeneration(){
+    var response = $("input[type=radio]:checked").val();
+    if (response === '1') {
         $('.question-body').append($('<div class="question-body-jq">\n' +
             '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
             '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
             '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
             '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
             '                    </div>'))
-    }
-}
-
-function questionWithSomeAnswersVariantGeneration(){
-    var response = $("input[type=radio]:checked").val();
-    if (response === 'someAnswersVariant'){
-       $('.question-body').append($('<div class="question-body-jq">\n' +
-           '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
-           '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
-           '                      <input type="text" class="inp form-control w-50" placeholder="Enter answer" id="InputAnswer"/>\n' +
-           '                    </div>'))
     }
 }
 
@@ -97,10 +98,12 @@ function questionWithScale() {
 
 function saveQuestion(id){
     const text = $("[id=InputQuestionTitle]").val();
+    const canChooseManyAnswers = !!Number($("[name=radio]:checked").val());
     var answerVariants = $("input[id=InputAnswer]").map( (i,el) => ({
         title: $(el).val(),
     })).get();
     const data = {
+        canChooseManyAnswers,
         title: text,
         surveyId: id,
         answerVariants,

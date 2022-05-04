@@ -12,6 +12,4 @@ public class AnswerVariantsQuestion : Question
 
 
     public virtual ICollection<AnswerVariant> AnswerVariants { get; set; }
-
-    public virtual ICollection<SelectedAnswer> SelectedAnswers { get; set; }
 }

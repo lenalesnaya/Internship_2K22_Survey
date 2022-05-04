@@ -5,6 +5,8 @@ namespace ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Questions;
 
 public class AnswerVariantsQuestionViewModel
 {
+    public long Id { get; set; }
+
     public bool CanChooseManyAnswers { get; set; }
 
     public string Title { get; set; }

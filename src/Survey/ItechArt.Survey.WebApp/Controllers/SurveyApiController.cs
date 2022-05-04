@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using ItechArt.Common;
 using ItechArt.Survey.DomainModel.SurveyModel.Answers;
 using ItechArt.Survey.DomainModel.SurveyModel.Questions;
-using ItechArt.Survey.Foundation.AnswerManagement.Abstrations;
 using ItechArt.Survey.Foundation.QuestionManagement.Abstractions;
-using ItechArt.Survey.Foundation.SelectedAnswerManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
+using ItechArt.Survey.Foundation.UserAnswerManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels.SurveyEnums;
 using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Answers;
 using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Questions;
@@ -23,7 +23,7 @@ public class SurveyApiController : ControllerBase
 {
     private ISurveyService _surveyService;
     private IQuestionService _questionService;
-    private ISelectedAnswerService _selectedAnswerService;
+    private IUserAnswerService _userAnswerService;
     private IHttpContextAccessor _httpContextAccessor;
     private IMapper _mapper;
 
@@ -32,13 +32,13 @@ public class SurveyApiController : ControllerBase
         IHttpContextAccessor httpContextAccessor,
         IQuestionService questionService,
         IMapper mapper,
-        ISelectedAnswerService selectedAnswerService)
+        IUserAnswerService userAnswerService)
     {
         _surveyService = surveyService;
         _httpContextAccessor = httpContextAccessor;
         _questionService = questionService;
         _mapper = mapper;
-        _selectedAnswerService = selectedAnswerService;
+        _userAnswerService = userAnswerService;
     }
 
     [Route("{title}/{param}")]
@@ -92,10 +92,20 @@ public class SurveyApiController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddSelectedAnswer([FromBody] SelectedAnswerViewModel selectedAnswerViewModel)
+    public async Task<IActionResult> AddUserAnswer([FromBody] UserAnswerViewModel userAnswerViewModel)
     {
-        var answer = _mapper.Map<SelectedAnswer>(selectedAnswerViewModel);
-        var result = await _selectedAnswerService.AddSelectedAnswers(answer);
-        
+        var userId = Int32.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var answers = _mapper.Map<IList<UserAnswer>>(userAnswerViewModel.UserAnswers);
+        foreach (var answer in answers)
+        {
+            answer.UserId = userId;
+        }
+        var result = await _userAnswerService.AddAnswers(answers);
+        if (!result.IsSuccessful)
+        {
+            return BadRequest();
+        }
+
+        return Ok();
     }
 }

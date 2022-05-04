@@ -19,10 +19,9 @@ public class User : IdentityUser<int>
 
     public string AvatarFilePath { get; set; }
 
+    public virtual IList<UserAnswer> UserAnswers { get; set; }
 
     public virtual ICollection<UserRole> UserRoles { get; set; }
 
     public virtual ICollection<SurveyModel.Survey> Surveys { get; set; }
-
-    public virtual ICollection<SelectedAnswer> SelectedAnswers { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using ItechArt.Survey.DomainModel.SurveyModel.Questions;
+﻿using System.Collections.Generic;
+using ItechArt.Survey.DomainModel.SurveyModel.Questions;
 
 namespace ItechArt.Survey.DomainModel.SurveyModel.Answers;
 
@@ -15,4 +16,6 @@ public class AnswerVariant
 
 
     public virtual AnswerVariantsQuestion Question { get; set; }
+
+    public virtual IList<UserAnswer> UserAnswers { get; set; }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItechArt.Survey.Repositories.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    [Migration("20220428185345_AddSelectedAnswer")]
-    partial class AddSelectedAnswer
+    [Migration("20220503170248_AddUserAnswer")]
+    partial class AddUserAnswer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,7 +47,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.ToTable("AnswerVariant");
                 });
 
-            modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Answers.SelectedAnswer", b =>
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Answers.UserAnswer", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,24 +55,19 @@ namespace ItechArt.Survey.Repositories.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<long?>("AnswerVariantId")
+                    b.Property<long>("AnswerVariantId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("AnswerVariantsQuestionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AnswerVariantId");
 
-                    b.HasIndex("AnswerVariantsQuestionId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("SelectedAnswer");
+                    b.ToTable("UserAnswer");
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.AnswerVariantsQuestion", b =>
@@ -374,7 +369,7 @@ namespace ItechArt.Survey.Repositories.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.RU",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAELq20q3fGYaxH96swbY5mmU8/wsJnsHTByPrc3DRJCTYpsDCGYIHHAjFvFYn0nH4Og==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL9G0xvpZ2d0ou4YB9D5W6ShltwRBSRJQDoZrG8/rTHTKNIJm7TZRovKpcgos/HPvg==",
                             PhoneNumberConfirmed = false,
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
@@ -420,19 +415,19 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Answers.SelectedAnswer", b =>
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Answers.UserAnswer", b =>
                 {
                     b.HasOne("ItechArt.Survey.DomainModel.SurveyModel.Answers.AnswerVariant", "AnswerVariant")
-                        .WithMany()
-                        .HasForeignKey("AnswerVariantId");
-
-                    b.HasOne("ItechArt.Survey.DomainModel.SurveyModel.Questions.AnswerVariantsQuestion", null)
-                        .WithMany("SelectedAnswers")
-                        .HasForeignKey("AnswerVariantsQuestionId");
+                        .WithMany("UserAnswers")
+                        .HasForeignKey("AnswerVariantId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ItechArt.Survey.DomainModel.UserModel.User", "User")
-                        .WithMany("SelectedAnswers")
-                        .HasForeignKey("UserId");
+                        .WithMany("UserAnswers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("AnswerVariant");
 
@@ -524,11 +519,14 @@ namespace ItechArt.Survey.Repositories.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Answers.AnswerVariant", b =>
+                {
+                    b.Navigation("UserAnswers");
+                });
+
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Questions.AnswerVariantsQuestion", b =>
                 {
                     b.Navigation("AnswerVariants");
-
-                    b.Navigation("SelectedAnswers");
                 });
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.SurveyModel.Survey", b =>
@@ -551,9 +549,9 @@ namespace ItechArt.Survey.Repositories.Migrations
 
             modelBuilder.Entity("ItechArt.Survey.DomainModel.UserModel.User", b =>
                 {
-                    b.Navigation("SelectedAnswers");
-
                     b.Navigation("Surveys");
+
+                    b.Navigation("UserAnswers");
 
                     b.Navigation("UserRoles");
                 });

@@ -4,38 +4,34 @@
 
 namespace ItechArt.Survey.Repositories.Migrations
 {
-    public partial class AddSelectedAnswer : Migration
+    public partial class AddUserAnswer : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "SelectedAnswer",
+                name: "UserAnswer",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AnswerVariantId = table.Column<long>(type: "bigint", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    AnswerVariantsQuestionId = table.Column<long>(type: "bigint", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AnswerVariantId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SelectedAnswer", x => x.Id);
+                    table.PrimaryKey("PK_UserAnswer", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SelectedAnswer_AnswerVariant_AnswerVariantId",
+                        name: "FK_UserAnswer_AnswerVariant_AnswerVariantId",
                         column: x => x.AnswerVariantId,
                         principalTable: "AnswerVariant",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SelectedAnswer_AnswerVariantsQuestion_AnswerVariantsQuestionId",
-                        column: x => x.AnswerVariantsQuestionId,
-                        principalTable: "AnswerVariantsQuestion",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_SelectedAnswer_User_UserId",
+                        name: "FK_UserAnswer_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.UpdateData(
@@ -43,28 +39,23 @@ namespace ItechArt.Survey.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: -1,
                 column: "PasswordHash",
-                value: "AQAAAAEAACcQAAAAELq20q3fGYaxH96swbY5mmU8/wsJnsHTByPrc3DRJCTYpsDCGYIHHAjFvFYn0nH4Og==");
+                value: "AQAAAAEAACcQAAAAEL9G0xvpZ2d0ou4YB9D5W6ShltwRBSRJQDoZrG8/rTHTKNIJm7TZRovKpcgos/HPvg==");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SelectedAnswer_AnswerVariantId",
-                table: "SelectedAnswer",
+                name: "IX_UserAnswer_AnswerVariantId",
+                table: "UserAnswer",
                 column: "AnswerVariantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SelectedAnswer_AnswerVariantsQuestionId",
-                table: "SelectedAnswer",
-                column: "AnswerVariantsQuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SelectedAnswer_UserId",
-                table: "SelectedAnswer",
+                name: "IX_UserAnswer_UserId",
+                table: "UserAnswer",
                 column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SelectedAnswer");
+                name: "UserAnswer");
 
             migrationBuilder.UpdateData(
                 table: "User",

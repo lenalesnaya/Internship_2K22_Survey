@@ -19,7 +19,7 @@
             @foreach (var answer in question.AnswerVariants)
             {
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="@answer.Id">
+                <input class="form-check-input" type="checkbox" value="@answer.Id" name="@question.Id" id="@answer.Id" data-answer="answer">
                 <label class="form-check-label" for="@answer.Id">
                   <span>@answer.Title</span>
                 </label>
@@ -31,7 +31,7 @@
             @foreach (var answer in question.AnswerVariants)
             {
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="@answer.Id">
+                <input class="form-check-input" type="radio" value="@answer.Id" name="@question.Id" id="@answer.Id" data-answer="answer">
                 <label class="form-check-label" for="@answer.Id">
                   <span>@answer.Title</span>
                 </label>
@@ -41,6 +41,7 @@
         }
       </div>
       <div class="mt-5">
+        <a asp-action="DisplayAllUserSurveys" asp-controller="Survey"></a>
         <button type="button" class="btn btn-primary" onclick="takeASurvey()">Take a survey</button>
       </div>
     </div>

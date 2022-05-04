@@ -17,8 +17,6 @@ using ItechArt.Survey.Foundation.AnswerManagement.Abstrations;
 using ItechArt.Survey.Foundation.QuestionManagement;
 using ItechArt.Survey.Foundation.QuestionManagement.Abstractions;
 using ItechArt.Survey.Foundation.QuestionManagement.Stores.Abstractions;
-using ItechArt.Survey.Foundation.SelectedAnswerManagement;
-using ItechArt.Survey.Foundation.SelectedAnswerManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Stores;
@@ -29,6 +27,10 @@ using ItechArt.Survey.Foundation.UserManagement.Validation;
 using ItechArt.Survey.Foundation.UserManagement.Validation.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Validation.Abstractions;
 using ItechArt.Survey.Foundation.SurveyManagement.Validation;
+using ItechArt.Survey.Foundation.UserAnswerManagement;
+using ItechArt.Survey.Foundation.UserAnswerManagement.Abstractions;
+using ItechArt.Survey.Foundation.UserAnswerManagement.Stores;
+using ItechArt.Survey.Foundation.UserAnswerManagement.Stores.Abstractions;
 
 namespace ItechArt.Survey.WebApp.Extensions;
 
@@ -57,6 +59,7 @@ public static class ServiceCollectionExtensions
         service.AddScoped<ISurveyStore, SurveyStore>();
         service.AddScoped<IQuestionStore, QuestionStore>();
         service.AddScoped<IAnswerStore, AnswerStore>();
+        service.AddScoped<IUserAnswerStores, UserAnswerStore>();
 
         return service;
     } 
@@ -66,7 +69,7 @@ public static class ServiceCollectionExtensions
         service.AddScoped<ISurveyService, SurveyService>();
         service.AddScoped<IQuestionService, QuestionService>();
         service.AddScoped<ISurveyValidator, SurveyValidator>();
-        service.AddScoped<ISelectedAnswerService, SelectedAnswerService>();
+        service.AddScoped<IUserAnswerService, UserAnswerService>();
 
         return service;
     } 
