@@ -31,8 +31,7 @@ using ItechArt.Survey.Foundation.UserAnswerManagement;
 using ItechArt.Survey.Foundation.UserAnswerManagement.Abstractions;
 using ItechArt.Survey.Foundation.UserAnswerManagement.Stores;
 using ItechArt.Survey.Foundation.UserAnswerManagement.Stores.Abstractions;
-using ItechArt.Survey.WebApp.GoogleDriveManagement;
-using ItechArt.Survey.WebApp.GoogleDriveManagement.Abstractions;
+
 
 namespace ItechArt.Survey.WebApp.Extensions;
 
@@ -50,6 +49,8 @@ public static class ServiceCollectionExtensions
                 options.PasswordMinLength = Constants.RegistrationOptionsConstants.PasswordMinLength;
                 options.PasswordMaxLength = Constants.RegistrationOptionsConstants.PasswordMaxLength;
                 options.PasswordPattern = new Regex(Constants.RegistrationOptionsConstants.PasswordPattern);
+                RegistrationOptions.DefaultAvatarFolderPath = Constants.RegistrationOptionsConstants.DefaultAvatarFolderPath;
+                RegistrationOptions.DefaultAvatarFileName = Constants.RegistrationOptionsConstants.DefaultAvatarFileName;
             })
             .AddScoped<IUserService, UserService>()
             .AddScoped<IUserValidator, UserValidator>();
@@ -69,9 +70,6 @@ public static class ServiceCollectionExtensions
         service.AddScoped<ISurveyService, SurveyService>();
         service.AddScoped<IQuestionService, QuestionService>();
         service.AddScoped<ISurveyValidator, SurveyValidator>();
-        service.AddScoped<IUserAnswerService, UserAnswerService>();
-        service.AddScoped<IGoogleDriveManager, GoogleDriveManager>();
-        //service.AddScoped<ISelectedAnswerService, SelectedAnswerService>();
 
         return service;
     } 

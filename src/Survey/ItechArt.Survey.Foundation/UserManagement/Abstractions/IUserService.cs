@@ -17,7 +17,7 @@ public interface IUserService
 
     Task<OperationResult<UserProfileErrors>> SetAvatarAsync(string userId, string avatarFilePath);
 
-    Task<OperationResult<UserProfileErrors>> DeleteAvatarAsync(string userId);
+    Task<OperationResult<UserProfileErrors>> SetDefaultAvatarAsync(string userId);
 
     Task<OperationResult<UserDeletionErrors>> DeleteUserAsync(int id);
 }

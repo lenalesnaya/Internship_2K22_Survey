@@ -32,7 +32,8 @@ public class SurveyApiController : ControllerBase
         IHttpContextAccessor httpContextAccessor,
         IQuestionService questionService,
         IMapper mapper,
-        IUserAnswerService userAnswerService)
+        IUserAnswerService userAnswerService
+        )
     {
         _surveyService = surveyService;
         _httpContextAccessor = httpContextAccessor;
@@ -40,7 +41,6 @@ public class SurveyApiController : ControllerBase
         _mapper = mapper;
         _userAnswerService = userAnswerService;
     }
-
     [Route("{title}/{param}")]
     [HttpPost]
     public async Task<IActionResult> Create(string title, int param)
@@ -108,4 +108,5 @@ public class SurveyApiController : ControllerBase
 
         return Ok();
     }
+
 }
