@@ -49,8 +49,6 @@ public static class ServiceCollectionExtensions
                 options.PasswordMinLength = Constants.RegistrationOptionsConstants.PasswordMinLength;
                 options.PasswordMaxLength = Constants.RegistrationOptionsConstants.PasswordMaxLength;
                 options.PasswordPattern = new Regex(Constants.RegistrationOptionsConstants.PasswordPattern);
-                RegistrationOptions.DefaultAvatarFolderPath = Constants.RegistrationOptionsConstants.DefaultAvatarFolderPath;
-                RegistrationOptions.DefaultAvatarFileName = Constants.RegistrationOptionsConstants.DefaultAvatarFileName;
             })
             .AddScoped<IUserService, UserService>()
             .AddScoped<IUserValidator, UserValidator>();

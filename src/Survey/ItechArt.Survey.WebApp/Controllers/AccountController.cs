@@ -64,10 +64,17 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> SetAvatar(IFormFile uploadedFile)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (uploadedFile != null)
         {
-            string path = RegistrationOptionsConstants.DefaultAvatarFolderPath + uploadedFile.FileName;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userService.GetUserByIdAsync(userId);
+            DeleteAvatarFromDisk(user.AvatarFilePath);
+
+            string path = RegistrationOptionsConstants.AvatarsFolderPath +
+                userId +
+                "avatar" +
+                uploadedFile.GetHashCode() +
+                uploadedFile.FileName;
             using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
             {
                 await uploadedFile.CopyToAsync(fileStream);
@@ -90,7 +97,10 @@ public class AccountController : Controller
     public async Task<IActionResult> DeleteAvatar()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var avatarSettingResult = await _userService.SetDefaultAvatarAsync(userId);
+        var user = await _userService.GetUserByIdAsync(userId);
+        DeleteAvatarFromDisk(user.AvatarFilePath);
+
+        var avatarSettingResult = await _userService.DeleteAvatarAsync(userId);
         if (!avatarSettingResult.IsSuccessful)
         {
             var errorMessage = GetErrorMessage(avatarSettingResult.Error.GetValueOrDefault());
@@ -167,6 +177,17 @@ public class AccountController : Controller
         return Json(emailIsClear);
     }
 
+    private void DeleteAvatarFromDisk(string avatarFilePath)
+    {
+        if (avatarFilePath != null)
+        {
+            FileInfo fileInfo = new(_appEnvironment.WebRootPath + avatarFilePath);
+            if (fileInfo.Exists)
+            {
+                fileInfo.Delete();
+            }
+        }
+    }
 
     private static string GetErrorMessage(UserRegistrationErrors error)
     {

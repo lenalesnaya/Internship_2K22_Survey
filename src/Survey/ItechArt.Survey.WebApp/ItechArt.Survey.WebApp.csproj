@@ -19,4 +19,8 @@
     <ProjectReference Include="..\ItechArt.Survey.Repositories\ItechArt.Survey.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\avatars\" />
+  </ItemGroup>
+
 </Project>

@@ -64,9 +64,6 @@ public class AuthenticateService : IAuthenticateService
         }
 
         user.RegistrationDate = DateTime.Now;
-        if (user.AvatarFilePath == null)
-            user.AvatarFilePath = RegistrationOptions.DefaultAvatarFolderPath +
-                RegistrationOptions.DefaultAvatarFileName;
 
         var creationResult = await _userManager.CreateAsync(user, password);
         if (!creationResult.Succeeded)
