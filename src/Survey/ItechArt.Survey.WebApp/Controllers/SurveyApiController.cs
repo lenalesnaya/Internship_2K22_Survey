@@ -12,6 +12,7 @@ using ItechArt.Survey.Foundation.UserAnswerManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels.SurveyEnums;
 using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Answers;
 using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.Questions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,7 @@ namespace ItechArt.Survey.WebApp.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
+[Authorize]
 public class SurveyApiController : ControllerBase
 {
     private ISurveyService _surveyService;

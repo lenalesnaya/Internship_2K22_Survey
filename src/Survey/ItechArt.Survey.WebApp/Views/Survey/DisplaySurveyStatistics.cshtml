@@ -1,0 +1,13 @@
+﻿@using ItechArt.Survey.Foundation.AnswerManagement.Abstrations
+@model Dictionary<long, int>
+@inject IAnswerService _answerService;
+
+<div>
+    @foreach (var answerId in Model)
+    {
+        var title = (await _answerService.GetAnswerVariantByIdAsync(answerId.Key)).Title;
+        <div>
+            Asnwer:@title <span>@answerId.Value</span>
+        </div>
+    }
+</div>

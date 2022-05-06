@@ -68,6 +68,9 @@ public static class ServiceCollectionExtensions
         service.AddScoped<ISurveyService, SurveyService>();
         service.AddScoped<IQuestionService, QuestionService>();
         service.AddScoped<ISurveyValidator, SurveyValidator>();
+        service.AddScoped<IUserAnswerService, UserAnswerService>();
+        service.AddScoped<IGoogleDriveManager, GoogleDriveManager>();
+        service.AddScoped<IAnswerService, AnswerService>();
 
         return service;
     } 
