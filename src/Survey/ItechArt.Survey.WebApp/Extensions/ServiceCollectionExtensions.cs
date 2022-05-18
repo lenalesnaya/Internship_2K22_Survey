@@ -69,14 +69,13 @@ public static class ServiceCollectionExtensions
         service.AddScoped<IQuestionService, QuestionService>();
         service.AddScoped<ISurveyValidator, SurveyValidator>();
         service.AddScoped<IUserAnswerService, UserAnswerService>();
-        service.AddScoped<IGoogleDriveManager, GoogleDriveManager>();
         service.AddScoped<IAnswerService, AnswerService>();
 
         return service;
-    } 
+    }
 
         public static IServiceCollection AddServicesMapper(this IServiceCollection services)
-        => services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            => services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
     public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {

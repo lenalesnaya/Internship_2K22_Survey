@@ -13,6 +13,10 @@
 <div class="text-center display-4">
     Surveys
 </div>
+<div class="container">
+    <b>Search By : </b>
+    <input id="SearchBtn" placeholder="Search"/>
+</div>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="showPopup()">
     Creating a survey
 </button>
@@ -77,8 +81,8 @@
                 <tbody class="user-grid custom-scroll">
                 @foreach (var survey in Model)
                 {
-                    <tr id="survey" >
-                        <td>@survey.Title</td>
+                    <tr id="survey">
+                        <td class="survey-title">@survey.Title</td>
                         <td>
                             @Html.Hidden("id", survey.Id)
                             <label onclick="deleteSurvey(@survey.Id)" for="" style="cursor: pointer">
@@ -96,11 +100,16 @@
                                     </svg>
                                 </label>
                             </a>
-                            <a asp-controller="Survey" asp-action="DisplaySurveyStatistics" asp-route-id=@survey.Id>
+                            <a class="m-1" asp-controller="Survey" asp-action="DisplaySurveyStatistics" asp-route-id=@survey.Id>
                                 <label for="@survey.Id" style="cursor: pointer">
                                     <button class="btn btn-outline-dark" type="submit" id="@survey.Id">Statistic</button>
                                 </label>
                             </a>
+                            <div class="m-1">
+                                <a asp-controller="SurveyApi" asp-action="DownloadFile" asp-route-id="@survey.Id">
+                                    <input class="btn btn-secondary btn-sm" type="submit" value="Download info about survey">
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 }

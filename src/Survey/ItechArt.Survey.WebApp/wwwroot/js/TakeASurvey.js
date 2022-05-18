@@ -11,9 +11,5 @@ function takeASurvey(){
         method: 'post',
         data: JSON.stringify(data),
     });
-    request.done((result)=> {
-        if (result.isSuccessful){
-            location.reload();
-        }
-    });
+    request.done();
 }

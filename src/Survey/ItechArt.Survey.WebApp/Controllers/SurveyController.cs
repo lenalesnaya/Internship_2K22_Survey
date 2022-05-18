@@ -8,8 +8,9 @@ using ItechArt.Repositories.Abstractions;
 using ItechArt.Survey.DomainModel.SurveyModel.Answers;
 using ItechArt.Survey.Foundation.AnswerManagement.Abstrations;
 using ItechArt.Survey.Foundation.SurveyManagement.Abstractions;
-using ItechArt.Survey.Foundation.UserAnswerManagement.Abstractions;
+using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels;
+using ItechArt.Survey.WebApp.ViewModels.UserViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,19 +24,22 @@ public class SurveyController : Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAnswerService _answerService;
+    private readonly IUserService _userService;
 
     public SurveyController(
         ISurveyService surveyService,
         IMapper mapper,
         IHttpContextAccessor httpContextAccessor,
         IUnitOfWork unitOfWork,
-        IAnswerService answerService)
+        IAnswerService answerService,
+        IUserService userService)
     {
         _surveyService = surveyService;
         _mapper = mapper;
         _httpContextAccessor = httpContextAccessor; 
         _unitOfWork = unitOfWork;
         _answerService = answerService;
+        _userService = userService;
     }
 
 
@@ -99,19 +103,24 @@ public class SurveyController : Controller
             ua => ua.Key,
             ua => ua.Count());
 
-        // var answerTitleCount = new Dictionary<string, int>();
-        // foreach (var answerId in userAnswersIdCount)
-        // { 
-        //     var title = (await _answerService.GetAnswerVariantByIdAsync(answerId.Key)).Title;
-        //     answerTitleCount.Add(title,answerId.Value);
-        // }
-        
-        // var userAnswersCount = userAnswersIdCount
-        //     .Select( i => await _answerService.GetAnswerVariantByIdAsync(i.Key))
-        //     .ToDictionary(
-        //         a =>a.Result,
-        //         ua =>userAnswersIdCount.Values);
-
         return View(userAnswersIdCount);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> TheEndTakeASurvey()
+    {
+        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _userService.GetUserByIdAsync(userId);
+        var userViewModel = _mapper.Map<UserViewModel>(user);
+        return View(userViewModel);
+    }
+
+    public async Task<JsonResult> GetSearchingData(string searchValue)
+    {
+        var rep = _unitOfWork.GetRepository<DomainModel.SurveyModel.Survey>();
+        var stuList = (await rep.GetWhereAsync(x => x.Title.StartsWith(searchValue) || searchValue == null))
+            .ToList();
+
+        return Json(stuList);
     }
 }
