@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using ItechArt.Survey.DomainModel;
 using ItechArt.Survey.Foundation.UserManagement.Abstractions;
-using ItechArt.Survey.WebApp.ViewModels;
+using ItechArt.Survey.WebApp.ViewModels.UserViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,8 +12,8 @@ namespace ItechArt.Survey.WebApp.Controllers;
 [Authorize(Roles = "Administrator")]
 public class UserManagementController : Controller
 {
-    private IUserService _userService;
-    private IMapper _mapper;
+    private readonly IUserService _userService;
+    private readonly IMapper _mapper;
 
 
     public UserManagementController(

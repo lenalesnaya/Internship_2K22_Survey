@@ -25,8 +25,6 @@ function sortByRegDate(){
     console.log(new Date(user.data("regdate")));
     if (!regDateSortOrder){
         svg.addClass("rotate180deg");
-        
-        
         user.sort((a, b) => new Date($(a).data("regdate")) - new Date($(b).data("regdate")));
         regDateSortOrder = 1;
     }

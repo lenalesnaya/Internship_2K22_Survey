@@ -1,0 +1,132 @@
+﻿@model ItechArt.Survey.WebApp.ViewModels.SurveyViewModels.SurveyViewModel;
+
+@section Script
+{
+  <script src="~/js/Question.js"></script>
+}
+
+<div class="text-center m-5">
+    <h1 class="display-6">Edit your survey!</h1>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="showPopup()">
+          Add new questions
+      </button>
+      <div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Create a question</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hidePopup()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <table class="table table-bordered">
+                      <thead class="thead-dark">
+                      <tr>
+                        <span class="display-6">Survey type</span>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <div id="questionForm" onclick="checkRadioButtons()">
+                        <div class="form-check m-2">
+                          <input class="form-check-input" type="radio" name="radio" id="oneAnswerVariant" value="0" onclick="questionOneAnswersVariantGeneration()">
+                          <label class="form-check-label" for="oneAnswerVariant">
+                            Answer variant (one)
+                          </label>
+                        </div>
+                        <div class="form-check m-2">
+                          <input class="form-check-input" type="radio" name="radio" id="someAnswerVariant" value="1" onclick="questionWithSomeAnswersVariantGeneration()">
+                          <label class="form-check-label" for="someAnswerVariant">
+                            Answer variant (some)
+                          </label>
+                        </div>
+                        @* <div class="form-check m-2"> *@
+                        @*   <input class="form-check-input" type="radio" name="radio" id="exampleRadios3" value="text" onclick="questionWithText()"> *@
+                        @*   <label class="form-check-label" for="exampleRadios3"> *@
+                        @*     Title *@
+                        @*   </label> *@
+                        @* </div> *@
+                        @* <div class="form-check m-2"> *@
+                        @*   <input class="form-check-input" type="radio" name="radio" id="exampleRadios4" value="file" onclick="questionWithFile()"> *@
+                        @*   <label class="form-check-label" for="exampleRadios4"> *@
+                        @*     File *@
+                        @*   </label> *@
+                        @* </div> *@
+                        @* <div class="form-check m-2"> *@
+                        @*   <input class="form-check-input" type="radio" name="radio" id="exampleRadios5" value="starRating" onclick="questionWithStar()"> *@
+                        @*   <label class="form-check-label" for="exampleRadios5"> *@
+                        @*     Star rating *@
+                        @*   </label> *@
+                        @* </div> *@
+                        @* <div class="form-check m-2"> *@
+                        @*   <input class="form-check-input" type="radio" name="radio" id="exampleRadios6" value="scale" onclick="questionWithScale()"> *@
+                        @*   <label class="form-check-label" for="exampleRadios6"> *@
+                        @*     Scale *@
+                        @*   </label> *@
+                        @* </div> *@
+                      </div>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col">
+                    <div class="form-group mb-5">
+                      <label for="InputQuestionTitle">Question title: </label>
+                      <input class="form-control mb-2 mt-2" id="InputQuestionTitle" placeholder="Enter title">
+                    </div>
+                    @Html.Hidden("id", Model.Id)
+                    <div class="question-body">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="saveQuestion(@Model.Id)">Save question</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div>Title: <span>@Model.Title</span></div>
+      <div>Parameters:
+        @if (Model.IsAnonymous)
+        {
+          <span>
+            Anonymous
+          </span>
+        }
+        else
+        {
+          <span>Public</span>
+        }
+        <div>
+          <div>
+            @foreach (var question in Model.AnswerVariantsQuestions)
+            {
+              <div class="m-1">
+                <span>@question.Title</span>
+              </div>
+              @foreach (var answer in question.AnswerVariants)
+              {
+                <div>@answer.Title</div>
+              }
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+    </div> 
+  </div>
+</div>
+
+

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.DomainModel.UserModel;
+using ItechArt.Survey.WebApp.ViewModels.UserViewModels;
 
 namespace ItechArt.Survey.WebApp.ViewModels.Mapping;
 

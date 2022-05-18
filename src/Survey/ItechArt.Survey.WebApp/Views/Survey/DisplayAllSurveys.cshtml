@@ -1,0 +1,48 @@
+﻿@using ItechArt.Survey.WebApp.ViewModels.SurveyViewModels
+
+@model IList<SurveyViewModel>
+
+@section Style{
+    <link rel="stylesheet" href="~/css/ArrowRotate.css">
+}
+
+@section Script
+{
+    <script src="~/js/Survey.js"></script>
+}
+
+<div class="text-center display-4">
+    Surveys
+</div>
+<div>
+    <div class="m-5">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr class="price-sorting type-regular">
+                    <th scope="col">
+                        <span>Title</span>
+                    </th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="user-grid custom-scroll">
+                @foreach (var survey in Model)
+                {
+                    <tr id="survey" >
+                        <td>@survey.Title</td>
+                        <td>
+                            @Html.Hidden("id", survey.Id)
+                            <a asp-action="TakeASurvey" asp-controller="Survey" asp-route-id=@survey.Id>
+                                <label for="@survey.Id" style="cursor: pointer">
+                                    <button class="btn btn-outline-dark" type="submit" id="@survey.Id">Take this survey</button>
+                                </label>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

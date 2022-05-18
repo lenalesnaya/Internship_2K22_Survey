@@ -14,4 +14,9 @@
     <ProjectReference Include="..\ItechArt.Survey.DomainModel\ItechArt.Survey.DomainModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AnswerManagement\Validation" />
+    <Folder Include="QuestionManagement\Validation" />
+  </ItemGroup>
+
 </Project>

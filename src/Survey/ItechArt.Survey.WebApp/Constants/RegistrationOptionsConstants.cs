@@ -12,4 +12,7 @@ public static class RegistrationOptionsConstants
     public const int PasswordMinLength = 8;
     public const int PasswordMaxLength = 20;
     public const string PasswordPattern = @"^(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z])\S{0,}$";
+    public const string DefaultAvatarFolderPath = @"\images\";
+    public const string DefaultAvatarFileName = "DefaultAvatar.png";
+    public const string AvatarsFolderPath = @"\images\avatars\";
 }

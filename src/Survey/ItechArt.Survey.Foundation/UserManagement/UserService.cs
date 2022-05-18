@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ItechArt.Common;
-using ItechArt.Common.Logging;
 using ItechArt.Common.Logging.Abstractions;
 using ItechArt.Common.Logging.Extensions;
-using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.DomainModel.UserModel;
+using ItechArt.Survey.Foundation.Authentication.Configuration;
 using ItechArt.Survey.Foundation.UserManagement.Abstractions;
 using Microsoft.AspNetCore.Identity;
 
@@ -50,6 +49,41 @@ public class UserService : IUserService
         var users = await _userManager.GetUsersInRoleAsync(Role.User);
 
         return users;
+    }
+
+    public async Task<OperationResult<UserProfileErrors>> SetAvatarAsync(string userId, string avatarFilePath)
+    {
+        if (avatarFilePath != null)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            user.AvatarFilePath = avatarFilePath;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                _logger.LogWarning($"Avatar path updating is failed: {result.Errors.FirstOrDefault()}");
+
+                return OperationResult<UserProfileErrors>.CreateUnsuccessful(UserProfileErrors.AvatarSettingIsFailed);
+            }
+        }
+
+        return OperationResult<UserProfileErrors>.CreateSuccessful();
+    }
+
+    public async Task<OperationResult<UserProfileErrors>> DeleteAvatarAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        user.AvatarFilePath = null;
+
+        var result = await _userManager.UpdateAsync(user);
+        if (!result.Succeeded)
+        {
+            _logger.LogWarning($"Avatar path updating is failed: {result.Errors.FirstOrDefault()}");
+
+            return OperationResult<UserProfileErrors>.CreateUnsuccessful(UserProfileErrors.DefaultAvatarSettingIsFailed);
+        }
+
+        return OperationResult<UserProfileErrors>.CreateSuccessful();
     }
 
     public async Task<OperationResult<UserDeletionErrors>> DeleteUserAsync(int id)

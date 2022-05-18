@@ -1,21 +1,41 @@
-﻿@model ItechArt.Survey.WebApp.ViewModels.ProfileViewModel
+﻿@model ItechArt.Survey.WebApp.ViewModels.UserViewModels.ProfileViewModel
 
 <link rel="stylesheet" href="~/css/Profile.css">
-<div class ="container d-flex justify-content-left">
+<script src="~/js/CreatingSurvey.js"></script>
+
+<div class="container d-flex justify-content-left">
     <div class="row w-50">
         <div class="col-sm-6">
-            <img src="~/images/DefaultAvatar.png" class="img-thumbnail avatar">
+            <img src=@Model.User.AvatarFilePath class="img-thumbnail avatar">
+             <div>
+                 <form asp-action="SetAvatar" asp-controller="Account" method="post" enctype="multipart/form-data">
+                     <input type="file" Accept="image/*" name="uploadedFile" value="Choose new avatar"/><br>
+                     <input type="submit" class="btn btn-secondary btn-sm" value="Change avatar" />
+                 </form>
+                 <br>
+                 <form asp-action="DeleteAvatar" asp-controller="Account" method="post">
+                     <input type="submit" class="btn btn-secondary btn-sm" value="Delete avatar" />
+                 </form>
+            </div>
         </div>
         <div class="col">
             <div>
-                <h3>Username: </h3><p>@Model.User.UserName</p>
+                <h3>Username: </h3>
+                <p>@Model.User.UserName</p>
             </div>
             <div>
-                <h3>Email: </h3><p>@Model.User.Email</p>
+                <h3>Email: </h3>
+                <p>@Model.User.Email</p>
             </div>
+            <div>
+                <a asp-controller="Survey" asp-action="DisplayAllUserSurveys">
+                    <input class="btn btn-secondary btn-sm" type="submit" value="Display all surveys">
+                </a>
+            </div>
+            <br>
             <div>
                 <form asp-controller="Account" asp-action="LogOut" method="post">
-                    <input class="nav-link text-dark" type="submit" value="Log out">
+                    <input class="btn btn-secondary btn-sm" type="submit" value="Log out">
                 </form>
             </div>
         </div>

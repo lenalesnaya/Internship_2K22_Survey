@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ItechArt.Repositories;
 using ItechArt.Repositories.Abstractions;
-using ItechArt.Survey.DomainModel;
+using ItechArt.Survey.DomainModel.UserModel;
 using Microsoft.AspNetCore.Identity;
 
 namespace ItechArt.Survey.Foundation.UserManagement.Stores;
