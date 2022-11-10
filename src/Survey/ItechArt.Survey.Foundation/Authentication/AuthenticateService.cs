@@ -52,7 +52,7 @@ public class AuthenticateService : IAuthenticateService
             return OperationResult<User, UserRegistrationErrors>
                 .CreateUnsuccessful(UserRegistrationErrors.UserNameAlreadyExists);
         }
-        
+
         var userWithGivenEmail = await _userManager.FindByEmailAsync(user.Email);
         if (userWithGivenEmail != null)
         {

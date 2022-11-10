@@ -143,7 +143,7 @@ public class AccountController : Controller
         if (!authenticationResult.IsSuccessful)
         {
             var errorMessage = GetErrorMessage(authenticationResult.Error.GetValueOrDefault());
-            ModelState.AddModelError("", errorMessage);
+            ModelState.AddModelError("", errorMessage); 
 
             return View(model);
         }

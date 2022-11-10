@@ -5,7 +5,7 @@ using ItechArt.Survey.DomainModel.SurveyModel.Answers;
 
 namespace ItechArt.Survey.DomainModel.UserModel;
 
-public class User : IdentityUser<int>
+public class User : IdentityUser<long>
 {
     public const int UserNameMaxLength = 128;
     public const int EmailMaxLength = 128;

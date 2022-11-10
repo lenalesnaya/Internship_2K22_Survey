@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ItechArt.Survey.DomainModel.UserModel;
 
-public class Role : IdentityRole<int>
+public class Role : IdentityRole<long>
 {
     public const int NameMaxLength = 128;
 

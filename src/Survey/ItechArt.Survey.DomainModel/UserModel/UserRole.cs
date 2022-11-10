@@ -2,7 +2,7 @@
 
 namespace ItechArt.Survey.DomainModel.UserModel;
 
-public class UserRole : IdentityUserRole<int>
+public class UserRole : IdentityUserRole<long>
 {
     public virtual User User { get; set; }
 

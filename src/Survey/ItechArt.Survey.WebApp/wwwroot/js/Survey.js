@@ -1,4 +1,5 @@
 ﻿let defSurveysArray;
+
 $(document).ready(function () {
     defSurveysArray = $("[id=survey]");
     //$("input[id=SearchBtn]").addEventListener('change', (e)=> searchingByName(e));
@@ -17,7 +18,8 @@ $(document).ready(function () {
             $(el).removeClass('hide');
         });
 
-    })
+    });
+})
 
 function showPopup(){
     $("[id=MyModal]").modal('show');
@@ -68,6 +70,4 @@ function searchingByName(e) {
     filteredArraySurv.forEach(el => {
         $(el).removeClass('hide');
     });
-
-}
 }
