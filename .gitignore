@@ -295,6 +295,7 @@ FakesAssemblies/
 */.idea/**/encodings.xml
 */.idea/**/dataSources.local.xml
 
+*/.gitattributes
 
 *.suo
 *.user
